@@ -25,12 +25,13 @@ npm run lint
 
 ### DOTENV
 
-You will need credentials, that have proper access to [directus](https://directus.io). After that you just have to create a *.env.local* file in the project root and copy the folling lines into it.
+You will need credentials, that have proper access to [directus](https://directus.io). You will find an example configuration file in the project root. Just rename it like so:
 
 ```
-VUE_APP_USERNAME = "yourUsername"
-VUE_APP_PASSWORD = "yourPAssword"
+mv example.env.local .env.local
 ```
+
+After that, you just have to fill in your credentials and a valid api url
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
