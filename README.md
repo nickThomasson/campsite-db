@@ -1,6 +1,7 @@
 # campsite-db
 
-![CI](https://github.com/dpsg-dv-osnabrueck/campsite-db/workflows/CI/badge.svg)
+![CI Production](https://github.com/dpsg-dv-osnabrueck/campsite-db/workflows/CI%20Production/badge.svg)
+![CI Staging](https://github.com/dpsg-dv-osnabrueck/campsite-db/workflows/CI%20Staging/badge.svg)
 
 This repository contains the frontend code for the campsite db project of the DPSG DV Osnabrück. 
 It uses vue.js and vuetify as frontend framework. The Backend is provided by [directus](https://directus.io) headless cms.
