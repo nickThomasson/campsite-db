@@ -1,6 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export enum ROUTE {
-  BASE = "https://directus.dpsg-os.de/api",
   AUTH = "/auth/authenticate",
   COLLECTIONS = "/collections",
   ITEMS = "/items/"
@@ -20,7 +19,7 @@ const createBaseUrl = (collectionName: string) => {
   if (!collectionName) {
     return false;
   }
-  return `${ROUTE.BASE}${ROUTE.ITEMS}${collectionName}?`;
+  return `${process.env.VUE_APP_API_URL}${ROUTE.ITEMS}${collectionName}?`;
 };
 
 /**

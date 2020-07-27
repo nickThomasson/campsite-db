@@ -2,7 +2,7 @@ import axios from "axios";
 import { ROUTE, CREDENTIALS } from "@/helper/routes";
 
 const apiClient = axios.create({
-  baseURL: ROUTE.BASE,
+  baseURL: process.env.VUE_APP_API_URL,
   withCredentials: false, // This is the default
   headers: {
     Accept: "application/json",
