@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
-import { find } from "lodash";
+import { find, isEmpty } from "lodash";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
 
 export const state = {
   page: {},
   addresses: [],
-  campsiteAddresses: [],
+  houses: [],
   loadingStatus: Status.Init
 };
 
@@ -21,8 +21,8 @@ export const mutations = {
   SAVE_ADDRESSES(state: any, addresses: any) {
     state.addresses = addresses;
   },
-  SAVE_CAMPSITE_ADDRESSES(state: any, campsiteAddresses: any) {
-    state.campsiteAddresses = campsiteAddresses;
+  SAVE_HOUSES(state: any, houses: any) {
+    state.houses = houses;
   }
 };
 
@@ -72,14 +72,14 @@ export const actions = {
     });
   },
 
-  fetchPageCampsiteAddresses({ commit }: any, token: string) {
+  fetchPageHouses({ commit }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("campsite_address", false), token)
+        .fetchCollectionItems(getRequestUrl("house", false), token)
         .then((response: any) => {
           if (response.status === 200) {
-            commit("SAVE_CAMPSITE_ADDRESSES", response.data.data);
             resolve();
+            commit("SAVE_HOUSES", response.data.data);
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -87,8 +87,8 @@ export const actions = {
         })
         .catch((err: any) => {
           commit("CHANGE_STATUS", Status.Error);
-          reject();
           console.error(err);
+          reject();
         });
     });
   },
@@ -97,7 +97,7 @@ export const actions = {
     commit("CHANGE_STATUS", Status.Loading);
     dispatch("fetchPage", payload).then(() => {
       dispatch("fetchPageAddresses", payload.token).then(() => {
-        dispatch("fetchPageCampsiteAddresses", payload.token).then(() => {
+        dispatch("fetchHouses", payload.token).then(() => {
           commit("CHANGE_STATUS", Status.Ready);
         });
       });
@@ -113,12 +113,32 @@ export const getters = {
   mergedPageData: (state: any) => {
     const campsite = state.page;
     const addresses = state.addresses;
+    const houses = state.houses;
+    const houseIds = [];
+    const mergedPageData: any = {};
 
     if (campsite && addresses) {
       if ("adresse" in campsite) {
         const address = find(addresses, { id: campsite.adresse[0].address_id });
-        return { campsite, address };
+        for (const haus of campsite.haus) {
+          houseIds.push(haus.house_id);
+        }
+        mergedPageData["campsite"] = campsite;
+        mergedPageData["address"] = address;
       }
+      if ("haus" in campsite) {
+        if (!isEmpty(campsite.haus)) {
+          const getHouses = [];
+          for (const houseId of houseIds) {
+            const house = find(houses, { id: houseId });
+            getHouses.push(house);
+          }
+
+          mergedPageData["house"] = getHouses;
+        }
+      }
+
+      return mergedPageData;
     }
     return undefined;
   }

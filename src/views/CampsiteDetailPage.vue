@@ -19,6 +19,13 @@
           <h5>{{ address.stadt }}, {{ address.bundesland }}</h5>
         </v-col>
       </v-row>
+      <v-row v-if="houses">
+        <HouseCard
+          v-for="(house, index) in houses"
+          :key="index"
+          :house="house"
+        />
+      </v-row>
     </v-container>
   </v-app>
 </template>
@@ -28,12 +35,14 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 import Header from "@/components/Header.vue";
 import NotFound from "@/components/NotFound.vue";
+import HouseCard from "@/components/HouseCard.vue";
 
 export default {
   name: "CampsiteDetailPage",
   components: {
     Header,
-    NotFound
+    NotFound,
+    HouseCard
   },
   computed: {
     ...mapState(["detailPage", "authentication", "i18n"]),
@@ -46,6 +55,9 @@ export default {
     },
     address() {
       return this.mergedPageData ? this.mergedPageData.address : undefined;
+    },
+    houses() {
+      return this.mergedPageData ? this.mergedPageData.house : undefined;
     },
     campsiteId() {
       return this.$route.params.campsiteId;
