@@ -88,7 +88,7 @@
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col class="mb-4">
+            <v-col class="mb-4" v-if="houses">
               <h4>
                 {{
                   houses.length > 1
