@@ -1,11 +1,11 @@
 <template>
-  <v-col cols="6">
+  <v-col cols="12">
     <v-card class="mb-4">
       <v-card-title>
         {{ house.name }}
       </v-card-title>
       <v-card-text>
-        <v-row>
+        <v-row no-gutters>
           <v-col v-if="house.betten" cols="12">
             {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }} {{ house.betten }}
           </v-col>

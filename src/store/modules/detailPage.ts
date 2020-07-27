@@ -8,6 +8,7 @@ export const state = {
   page: {},
   addresses: [],
   houses: [],
+  gallery: [],
   loadingStatus: Status.Init
 };
 
@@ -23,6 +24,9 @@ export const mutations = {
   },
   SAVE_HOUSES(state: any, houses: any) {
     state.houses = houses;
+  },
+  SAVE_GALLERY(state: any, gallery: any) {
+    state.gallery = gallery;
   }
 };
 
@@ -93,12 +97,35 @@ export const actions = {
     });
   },
 
+  fetchPageGallery({ commit }: any, token: string) {
+    return new Promise((resolve, reject) => {
+      campsiteService
+        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
+        .then((response: any) => {
+          if (response.status === 200) {
+            resolve();
+            commit("SAVE_GALLERY", response.data.data);
+          } else {
+            commit("CHANGE_STATUS", Status.Error);
+            reject();
+          }
+        })
+        .catch((err: any) => {
+          commit("CHANGE_STATUS", Status.Error);
+          console.error(err);
+          reject();
+        });
+    });
+  },
+
   fetchPageData({ dispatch, commit }: any, payload: any) {
     commit("CHANGE_STATUS", Status.Loading);
     dispatch("fetchPage", payload).then(() => {
       dispatch("fetchPageAddresses", payload.token).then(() => {
         dispatch("fetchHouses", payload.token).then(() => {
-          commit("CHANGE_STATUS", Status.Ready);
+          dispatch("fetchPageGallery", payload.token).then(() => {
+            commit("CHANGE_STATUS", Status.Ready);
+          });
         });
       });
     });
@@ -141,5 +168,16 @@ export const getters = {
       return mergedPageData;
     }
     return undefined;
+  },
+  gallery: (state: any) => {
+    const gallery = [...state.gallery];
+    const pageGallery = gallery.filter(
+      item => item.campsite_id.id === state.page.id
+    );
+    const filteredItems = [];
+    for (const item of pageGallery) {
+      filteredItems.push(item.directus_files_id.data);
+    }
+    return filteredItems;
   }
 };
