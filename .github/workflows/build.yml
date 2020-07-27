@@ -38,7 +38,7 @@ jobs:
           echo ::set-env name=VUE_APP_API_URL::https://directus.dpsg-os.de/api
 
       - name: Build
-        run: echo npm run build
+        run: npm run build
 
       - name: Save dist folder
         uses: actions/upload-artifact@v2
