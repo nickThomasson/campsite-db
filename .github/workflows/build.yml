@@ -33,11 +33,11 @@ jobs:
       run: npm run lint
 
     - name: Building
-      run: |
-      echo "::set-env name=VUE_APP_USERNAME::vueapp@dpsg-os.de"
-      echo "::set-env name=VUE_APP_PASSWORD::a^-Cmb:^iXPiR2R6ab"
-      echo "::set-env name=VUE_APP_API_URL::https://directus.dpsg-os.de/api"
-      echo "npm run build"
+      - run: |
+        echo "::set-env name=VUE_APP_USERNAME::vueapp@dpsg-os.de"
+        echo "::set-env name=VUE_APP_PASSWORD::a^-Cmb:^iXPiR2R6ab"
+        echo "::set-env name=VUE_APP_API_URL::https://directus.dpsg-os.de/api"
+        echo "npm run build"
 
     - name: Save dist folder
     uses: actions/upload-artifact@v2
