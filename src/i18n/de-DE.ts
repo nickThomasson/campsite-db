@@ -1,5 +1,9 @@
 export enum LANG {
   CAMPSITE_SEARCH_TITLE = "Zeltplatz-Datenbank",
+  CAMPSITE_SEARCH_CARD_PERSON = "Personen: ",
+  CAMPSITE_SEARCH_CARD_KITCHEN = "Küche: ",
+  CAMPSITE_SEARCH_CARD_SANITARY = "Sanitäranlagen: ",
+  CAMPSITE_SEARCH_CARD_HOUSE = "Haus: ",
   CAMPSITE_FILTER_MENU_TITLE = "Ergebnisse filtern",
   CAMPSITE_NAVIGATION_STARTPAGE = "Startseite",
   CAMPSITE_NAVIGATION_WISHLIST = "Merkzettel",

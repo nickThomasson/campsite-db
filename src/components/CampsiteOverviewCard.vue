@@ -6,42 +6,44 @@
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
     >
-      <v-card-title>{{ result.campsite.name }}</v-card-title>
+      <v-card-title>
+        {{ result.campsite.name }}
+      </v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      {{ result.address.stadt }},
-      {{ result.address.bundesland }}
+      {{ result.address.stadt }}, {{ result.address.bundesland }}
     </v-card-subtitle>
     <v-card-text>
-      <v-rating
-        v-model="result.campsite.bewertung"
-        readonly
-        color="yellow darken-3"
-        background-color="grey darken-1"
-      ></v-rating>
-      <v-row>
-        <v-col cols="6">
-          <v-row no-gutters>
-            <v-col>
-              <ul>
-                <li>Personen: {{ result.campsite.personen }}</li>
-                <li>
-                  Küche:
-                  <v-icon>{{
-                    result.campsite.kueche ? "done" : "close"
-                  }}</v-icon>
-                </li>
-                <li>
-                  Sanitäranlagen:
-                  <v-icon>
-                    {{ result.campsite.sanitaeranlagen ? "done" : "close" }}
-                  </v-icon>
-                </li>
-                <li>Preis: {{ price(result.campsite.preis) }}</li>
-              </ul>
-            </v-col>
-          </v-row>
+      <v-row no-gutters>
+        <v-col>
+          <v-rating
+            v-model="result.campsite.bewertung"
+            readonly
+            color="yellow darken-3"
+            background-color="grey darken-1"
+            class="mb-4 mt-3"
+          ></v-rating>
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_PERSON }}
+          {{ result.campsite.personen }}
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
+          <v-icon>{{ result.campsite.kueche ? "done" : "close" }}</v-icon>
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
+          <v-icon>
+            {{ result.campsite.sanitaeranlagen ? "done" : "close" }}
+          </v-icon>
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_HOUSE }}
+          <v-icon>
+            {{ result.house ? "done" : "close" }}
+          </v-icon>
         </v-col>
       </v-row>
     </v-card-text>
@@ -76,7 +78,7 @@ export default {
     rating: 4.5
   }),
   computed: {
-    ...mapState(["wishlist"]),
+    ...mapState(["wishlist", "i18n"]),
     heartColor() {
       const isOnList = find(this.wishlist.wishlist, {
         id: this.result.campsite.id
