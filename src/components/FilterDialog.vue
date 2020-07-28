@@ -25,7 +25,7 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <CampsiteFilter :key="searchResults.filterKey" />
+              <CampsiteFilter :key="app.filterKey" />
             </v-col>
           </v-row>
         </v-container>
@@ -43,7 +43,7 @@ export default {
     CampsiteFilter
   },
   computed: {
-    ...mapState(["searchResults", "i18n"]),
+    ...mapState(["searchResults", "i18n", "app"]),
     ...mapGetters(["hasActiveFilter"])
   },
   methods: {

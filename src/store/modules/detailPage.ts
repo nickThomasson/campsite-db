@@ -8,14 +8,10 @@ export const state = {
   page: {},
   addresses: [],
   houses: [],
-  gallery: [],
-  loadingStatus: Status.Init
+  gallery: []
 };
 
 export const mutations = {
-  CHANGE_STATUS(state: any, status: any) {
-    state.loadingStatus = status;
-  },
   SAVE_PAGE(state: any, page: any) {
     state.page = page;
   },
@@ -55,75 +51,12 @@ export const actions = {
     });
   },
 
-  fetchPageAddresses({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(getRequestUrl("address", false), token)
-        .then((response: any) => {
-          if (response.status === 200) {
-            resolve();
-            commit("SAVE_ADDRESSES", response.data.data);
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
-  fetchPageHouses({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(getRequestUrl("house", false), token)
-        .then((response: any) => {
-          if (response.status === 200) {
-            resolve();
-            commit("SAVE_HOUSES", response.data.data);
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
-  fetchPageGallery({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
-        .then((response: any) => {
-          if (response.status === 200) {
-            resolve();
-            commit("SAVE_GALLERY", response.data.data);
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
   fetchPageData({ dispatch, commit }: any, payload: any) {
     commit("CHANGE_STATUS", Status.Loading);
     dispatch("fetchPage", payload).then(() => {
-      dispatch("fetchPageAddresses", payload.token).then(() => {
+      dispatch("fetchAddresses", payload.token).then(() => {
         dispatch("fetchHouses", payload.token).then(() => {
-          dispatch("fetchPageGallery", payload.token).then(() => {
+          dispatch("fetchGalleries", payload.token).then(() => {
             commit("CHANGE_STATUS", Status.Ready);
           });
         });

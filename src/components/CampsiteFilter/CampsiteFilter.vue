@@ -6,7 +6,7 @@
     <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
     <KitchenFilter />
     <SanitaryFilter />
-    <FilterReset :key="searchResults.resetKey" />
+    <FilterReset :key="app.resetKey" />
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
     FilterReset
   },
   computed: {
-    ...mapState(["searchResults", "i18n"])
+    ...mapState(["app", "i18n"])
   }
 };
 </script>
