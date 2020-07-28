@@ -19,8 +19,8 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             const { data } = response;
-            resolve();
             commit("SET_TOKEN", data.data.token);
+            resolve();
           }
         })
         .catch((err: any) => {
@@ -28,6 +28,19 @@ export const actions = {
           reject();
         });
     });
+  },
+  refreshToken({ commit }: any, token: string) {
+    campsiteService
+      .refresh(token)
+      .then((response: any) => {
+        if (response.status === 200) {
+          const { data } = response;
+          commit("SET_TOKEN", data.data.token);
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
   }
 };
 

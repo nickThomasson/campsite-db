@@ -36,8 +36,8 @@ export const actions = {
         )
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SAVE_PAGE", response.data.data[0]);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();

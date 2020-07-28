@@ -19,6 +19,11 @@ export default {
   authenticate() {
     return apiClient.post(ROUTE.AUTH, authData);
   },
+  refresh(token: string) {
+    return apiClient.post(ROUTE.REFRESH, {
+      token
+    });
+  },
   fetchCollectionItems(requestUrl: string, token: string) {
     return apiClient.get(requestUrl, {
       headers: {
