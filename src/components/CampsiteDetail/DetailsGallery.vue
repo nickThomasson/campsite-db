@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="4" v-for="(item, i) in gallery" :key="i">
+    <v-col cols="12" sm="6" md="4" xl="3" v-for="(item, i) in gallery" :key="i">
       <v-card>
         <v-img
           :src="item.thumbnails[4].url"
