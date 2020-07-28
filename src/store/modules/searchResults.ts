@@ -19,10 +19,6 @@ export const state = {
   results: [],
   addresses: [],
   personFilter: null,
-  filterKey: 1,
-  resetKey: 1,
-  loadingStatus: Status.Init,
-  filterMenu: false,
   campsiteCount: 0,
   houses: []
 };
@@ -43,17 +39,8 @@ export const mutations = {
   RESET_FILTER(state: any) {
     state.activeFilter = [];
   },
-  CHANGE_RESET_KEY(state: any, value: number) {
-    state.resetKey = value;
-  },
   REGISTER_ACTIVE_FILTER(state: any, activeFilter: Array<object>) {
     state.activeFilter = activeFilter;
-  },
-  CHANGE_FILTER_KEY(state: any, value: number) {
-    state.filterKey = value;
-  },
-  CHANGE_STATUS(state: any, status: any) {
-    state.loadingStatus = status;
   },
   SWITCH_FILTER_MENU(state: any) {
     state.filterMenu = !state.filterMenu;
@@ -160,6 +147,27 @@ export const actions = {
           if (response.status === 200) {
             resolve();
             commit("SAVE_HOUSES", response.data.data);
+          } else {
+            commit("CHANGE_STATUS", Status.Error);
+            reject();
+          }
+        })
+        .catch((err: any) => {
+          commit("CHANGE_STATUS", Status.Error);
+          console.error(err);
+          reject();
+        });
+    });
+  },
+
+  fetchGalleries({ commit }: any, token: string) {
+    return new Promise((resolve, reject) => {
+      campsiteService
+        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
+        .then((response: any) => {
+          if (response.status === 200) {
+            resolve();
+            commit("SAVE_GALLERY", response.data.data);
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -323,21 +331,8 @@ export const actions = {
     });
   },
 
-  changeStatus({ commit }: any) {
-    commit("CHANGE_STATUS", status);
-  },
-
   switchFilterMenu({ commit }: any) {
     commit("SWITCH_FILTER_MENU");
-  },
-
-  changeOffset({ commit, dispatch }: any, payload: any) {
-    return new Promise(resolve => {
-      commit("CHANGE_OFFSET", payload.pageOffset);
-      resolve();
-    }).then(() => {
-      dispatch("fetchData", payload.token);
-    });
   },
 
   changePage({ commit, dispatch }: any, payload: any) {

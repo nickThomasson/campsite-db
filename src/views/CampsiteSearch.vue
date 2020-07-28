@@ -4,10 +4,10 @@
     <v-progress-linear
       indeterminate
       color="accent"
-      v-if="searchResults.loadingStatus === status.Loading"
+      v-if="app.loadingStatus === status.Loading"
     ></v-progress-linear>
     <v-container class="mt-6">
-      <v-row v-if="searchResults.loadingStatus === status.Ready">
+      <v-row v-if="app.loadingStatus === status.Ready">
         <v-col
           cols="12"
           sm="12"
@@ -21,7 +21,7 @@
           order-xl="1"
           class="d-none d-md-flex"
         >
-          <CampsiteFilter :key="searchResults.filterKey" />
+          <CampsiteFilter :key="app.filterKey" />
         </v-col>
         <v-col
           cols="12"
@@ -34,7 +34,7 @@
           order-md="2"
           order-lg="2"
           order-xl="2"
-          v-if="searchResults.loadingStatus === status.Ready"
+          v-if="app.loadingStatus === status.Ready"
         >
           <SearchResults />
         </v-col>
@@ -77,7 +77,7 @@ export default {
     Header
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "i18n"]),
+    ...mapState(["authentication", "searchResults", "i18n", "app"]),
     ...mapGetters(["mergedResults"]),
     status() {
       return Status;

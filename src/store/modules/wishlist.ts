@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any, no-debugger */
 import { wishlistItem } from "@/helper/wishlistItem";
 import { find, isEmpty } from "lodash";
+import { readFromStorage } from "@/helper/localStorage";
 export const state = {
   wishlist: []
 };
@@ -16,6 +17,9 @@ export const mutations = {
   },
   DELETE_FROM_WISHLIST(state: any, wishlist: any) {
     state.wishlist = wishlist;
+  },
+  INITIALIZE_WISHLIST(state: any, cachedStore: any) {
+    state.wishlist = cachedStore.wishlist;
   }
 };
 
@@ -36,6 +40,12 @@ export const actions = {
     const item: any = find(state.wishlist, { id });
     const newlist = state.wishlist.filter((value: any) => value.id !== item.id);
     commit("DELETE_FROM_WISHLIST", newlist);
+  },
+  initializeWishlist({ commit }: any) {
+    const storage = readFromStorage("wishlist");
+    if (storage) {
+      commit("INITIALIZE_WISHLIST", storage);
+    }
   }
 };
 

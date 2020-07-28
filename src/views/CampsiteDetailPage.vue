@@ -4,12 +4,10 @@
     <v-progress-linear
       indeterminate
       color="accent"
-      v-if="detailPage.loadingStatus === status.Loading"
+      v-if="app.loadingStatus === status.Loading"
     ></v-progress-linear>
     <NotFound v-if="!detailPage.page" />
-    <v-container
-      v-if="detailPage.loadingStatus === status.Ready && mergedPageData"
-    >
+    <v-container v-if="app.loadingStatus === status.Ready && mergedPageData">
       <v-row>
         <v-col cols="12" class="text-right">
           <v-btn color="primary" dense @click="goBack">{{
@@ -125,7 +123,13 @@ export default {
     HouseCard
   },
   computed: {
-    ...mapState(["detailPage", "authentication", "i18n"]),
+    ...mapState([
+      "detailPage",
+      "searchResults",
+      "authentication",
+      "i18n",
+      "app"
+    ]),
     ...mapGetters(["mergedPageData", "gallery"]),
     status() {
       return Status;
@@ -147,7 +151,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchPageData", "authenticateClient", "changePageStatus"]),
+    ...mapActions([
+      "fetchPageData",
+      "authenticateClient",
+      "changePageStatus",
+      "initializeState"
+    ]),
     goBack() {
       this.$router.push({
         name: "CampsiteSearch"
@@ -158,6 +167,7 @@ export default {
     }
   },
   mounted() {
+    this.initializeState();
     this.changePageStatus(Status.Init);
     this.authenticateClient().then(() => {
       this.fetchPageData({

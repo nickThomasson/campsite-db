@@ -40,7 +40,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["changeOffset", "changePage"]),
+    ...mapActions(["changePage"]),
     changePageNumber(pageNumber) {
       const factor = pageNumber - 1;
       this.changePage({
