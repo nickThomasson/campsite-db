@@ -42,9 +42,6 @@ export const mutations = {
   REGISTER_ACTIVE_FILTER(state: any, activeFilter: Array<object>) {
     state.activeFilter = activeFilter;
   },
-  SWITCH_FILTER_MENU(state: any) {
-    state.filterMenu = !state.filterMenu;
-  },
   SET_CAMPSITE_COUNT(state: any, count: any) {
     state.campsiteCount = count;
   },
@@ -329,10 +326,6 @@ export const actions = {
         });
       });
     });
-  },
-
-  switchFilterMenu({ commit }: any) {
-    commit("SWITCH_FILTER_MENU");
   },
 
   changePage({ commit, dispatch }: any, payload: any) {

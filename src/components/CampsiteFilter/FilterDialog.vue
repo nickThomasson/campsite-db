@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-dialog
-      v-model="searchResults.filterMenu"
+      v-model="app.filterMenu"
       fullscreen
       hide-overlay
       transition="dialog-bottom-transition"
@@ -43,7 +43,7 @@ export default {
     CampsiteFilter
   },
   computed: {
-    ...mapState(["searchResults", "i18n", "app"]),
+    ...mapState(["i18n", "app"]),
     ...mapGetters(["hasActiveFilter"])
   },
   methods: {
