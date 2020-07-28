@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="houses > 1 ? 6 : 12">
+  <v-col :cols="12" :md="houses > 1 ? 6 : 12">
     <v-card class="mb-4">
       <v-card-title> {{ house.name }} </v-card-title>
       <v-card-text>
