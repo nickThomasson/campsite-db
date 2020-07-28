@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 export enum ROUTE {
   AUTH = "/auth/authenticate",
+  REFRESH = "/auth/refresh",
   COLLECTIONS = "/collections",
   ITEMS = "/items/"
 }

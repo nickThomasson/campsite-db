@@ -145,8 +145,8 @@ export const actions = {
         .fetchCollectionItems(getRequestUrl("house", false), token)
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SAVE_HOUSES", response.data.data);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -166,8 +166,8 @@ export const actions = {
         .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SAVE_GALLERY", response.data.data);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();

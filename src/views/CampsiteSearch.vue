@@ -83,28 +83,22 @@ export default {
       return Status;
     }
   },
-  mounted() {
+  created() {
     this.changeStatus(Status.Init);
     this.authenticateClient().then(() => {
       this.fetchData(this.authentication.token);
     });
-    setInterval(() => {
-      this.authenticateClient();
-    }, 60000);
   },
   methods: {
     ...mapActions([
-      "authenticateClient",
-      "fetchData",
       "changeStatus",
-      "switchFilterMenu"
+      "switchFilterMenu",
+      "fetchData",
+      "authenticateClient"
     ]),
     price(number) {
       return transformCurrency(number);
     }
-  },
-  beforeDestory() {
-    clearInterval();
   }
 };
 </script>

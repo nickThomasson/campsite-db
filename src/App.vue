@@ -9,14 +9,19 @@ import { mapState, mapActions } from "vuex";
 export default Vue.extend({
   name: "App",
   computed: {
-    ...mapState(["i18n"])
+    ...mapState(["i18n", "authentication"])
   },
   methods: {
-    ...mapActions(["initializeWishlist"])
+    ...mapActions(["initializeWishlist", "refreshToken"])
   },
   created() {
     this.initializeWishlist();
+    setInterval(() => {
+      this.refreshToken(this.authentication.token);
+    }, 1140000);
+  },
+  beforeDestroy() {
+    clearInterval();
   }
 });
 </script>
-<style lang="scss"></style>

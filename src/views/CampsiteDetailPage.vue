@@ -89,7 +89,7 @@ export default {
   methods: {
     ...mapActions(["fetchPageData", "authenticateClient", "changePageStatus"])
   },
-  mounted() {
+  created() {
     this.changePageStatus(Status.Init);
     this.authenticateClient().then(() => {
       this.fetchPageData({
