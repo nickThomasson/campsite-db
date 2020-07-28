@@ -14,9 +14,6 @@ export default Vue.extend({
   methods: {
     ...mapActions(["initializeWishlist"])
   },
-  mounted() {
-    document.title = this.i18n.CAMPSITE_APP_TITLE;
-  },
   created() {
     this.initializeWishlist();
   }
