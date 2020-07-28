@@ -11,7 +11,7 @@
           class="font-weight-black"
           align-self="center"
         >
-          {{ item.title }}
+          <span @click="goTo(item.id)" class="clickable">{{ item.title }}</span>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="auto" align-self="center"
           >{{ item.county }}, {{ item.street }} {{ item.housenumber }},

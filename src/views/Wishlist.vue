@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header :pageTitle="i18n.CAMPSITE_WISHLIST_TITLE" />
-    <v-container>
+    <v-container class="mt-8">
       <WishlistItem
         v-for="(item, index) of wishlist.wishlist"
         :key="index"
