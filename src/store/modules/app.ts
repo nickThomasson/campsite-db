@@ -17,12 +17,18 @@ export const mutations = {
   },
   CHANGE_RESET_KEY(state: any, value: number) {
     state.resetKey = value;
+  },
+  SWITCH_FILTER_MENU(state: any) {
+    state.filterMenu = !state.filterMenu;
   }
 };
 
 export const actions = {
   changeStatus({ commit }: any, status: any) {
     commit("CHANGE_STATUS", status);
+  },
+  switchFilterMenu({ commit }: any) {
+    commit("SWITCH_FILTER_MENU");
   }
 };
 
