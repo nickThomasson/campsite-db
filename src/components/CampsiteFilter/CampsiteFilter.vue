@@ -12,7 +12,7 @@
 
 <script>
 import { mapState } from "vuex";
-import FilterReset from "@/components/FilterReset.vue";
+import FilterReset from "@/components/CampsiteFilter/partials/FilterReset.vue";
 import CountyFilter from "@/components/CampsiteFilter/partials/CountyFilter";
 import CityFilter from "@/components/CampsiteFilter/partials/CityFilter";
 import PersonFilter from "@/components/CampsiteFilter/partials/PersonFilter";

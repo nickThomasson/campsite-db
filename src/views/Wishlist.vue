@@ -1,15 +1,13 @@
 <template>
   <v-app>
-    <Header />
+    <Header :pageTitle="i18n.CAMPSITE_WISHLIST_TITLE" />
     <v-container>
+      <WishlistItem
+        v-for="(item, index) of wishlist.wishlist"
+        :key="index"
+        :item="item"
+      />
       <v-card>
-        <v-card-text v-if="wishlist.wishlist.length > 0">
-          <WishlistItem
-            v-for="(item, index) of wishlist.wishlist"
-            :key="index"
-            :item="item"
-          />
-        </v-card-text>
         <v-card-text v-if="wishlist.wishlist.length === 0" class="text-center">
           <h2 class="mt-6 mb-6">
             Es befinden sich keine Zeltplätze auf deinem Merkzettel
@@ -31,7 +29,7 @@ export default {
     WishlistItem
   },
   computed: {
-    ...mapState(["wishlist"])
+    ...mapState(["wishlist", "i18n"])
   }
 };
 </script>
