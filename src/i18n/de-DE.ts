@@ -8,6 +8,7 @@ export enum LANG {
   CAMPSITE_NAVIGATION_STARTPAGE = "Startseite",
   CAMPSITE_NAVIGATION_WISHLIST = "Merkzettel",
   CAMPSITE_NAVIGATION_TITLE = "Navigation",
+  CAMPSITE_APP_TITLE = "Zeltplatz-Datenbank",
   CAMPSITE_APP_SAVE = "Speichern",
   CAMPSITE_APP_RESET = "Zurücksetzen",
   CAMPSITE_APP_BACK = "Zurück",
