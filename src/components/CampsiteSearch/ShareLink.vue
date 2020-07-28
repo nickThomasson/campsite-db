@@ -22,14 +22,24 @@
                 readonly
                 :value="url"
                 hide-details
+                @click="copyLink"
+                id="share-url"
+                class="mb-2"
+                :append-icon="copyPaste ? 'mdi-check-circle' : false"
               ></v-text-field>
+              <div
+                class="shareHint text-center"
+                :class="{ visible: copyPaste }"
+              >
+                {{ i18n.CAMPSITE_SHARE_COPY_NOTIFICATION }}
+              </div>
             </v-col>
           </v-row>
         </v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" @click="dialog = false">
+          <v-btn text color="primary" @click="dialog = false">
             <v-icon>close</v-icon>
             {{ i18n.CAMPSITE_APP_CLOSE }}
           </v-btn>
@@ -48,7 +58,8 @@ export default {
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      copyPaste: false
     };
   },
   computed: {
@@ -56,6 +67,37 @@ export default {
     url() {
       return `${window.location.origin}/#/${this.campsiteId}`;
     }
+  },
+  methods: {
+    copyLink() {
+      /* Get the text field */
+      const copyText = document.getElementById("share-url");
+
+      /* Select the text field */
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+      /* Copy the text inside the text field */
+      document.execCommand("copy");
+
+      this.copyPaste = true;
+    }
+  },
+  updated() {
+    if (!this.dialog) {
+      this.copyPaste = false;
+    }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.shareHint {
+  opacity: 0;
+  transition: 0.1s;
+}
+.visible {
+  opacity: 1;
+  transition: 0.1s;
+}
+</style>

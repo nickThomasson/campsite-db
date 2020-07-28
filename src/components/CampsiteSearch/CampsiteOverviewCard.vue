@@ -62,7 +62,7 @@
 
 <script>
 import { transformCurrency } from "@/helper/currency";
-import ShareLink from "@/components/ShareLink.vue";
+import ShareLink from "@/components/CampsiteSearch/ShareLink.vue";
 import { mapActions, mapState } from "vuex";
 import { find, isEmpty } from "lodash";
 

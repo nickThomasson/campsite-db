@@ -62,10 +62,10 @@
 import { mapActions, mapState, mapGetters } from "vuex";
 import { transformCurrency } from "@/helper/currency";
 import CampsiteFilter from "@/components/CampsiteFilter/CampsiteFilter.vue";
-import SearchResults from "@/components/SearchResults.vue";
+import SearchResults from "@/components/CampsiteSearch/SearchResults.vue";
 import { Status } from "@/helper/status";
-import FilterDialog from "@/components/FilterDialog.vue";
-import Pagination from "@/components/Pagination.vue";
+import FilterDialog from "@/components/CampsiteSearch/FilterDialog.vue";
+import Pagination from "@/components/CampsiteSearch/Pagination.vue";
 import Header from "@/components/Header.vue";
 export default {
   name: "CampsiteSearch",

@@ -7,7 +7,9 @@
       <v-toolbar dark color="primary">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>{{ i18n.CAMPSITE_SEARCH_TITLE }} </v-toolbar-title>
+        <v-toolbar-title class="clickable" @click="startPage"
+          >{{ i18n.CAMPSITE_SEARCH_TITLE }} {{ getPageTitle }}
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -43,6 +45,12 @@ export default {
   components: {
     Navigation
   },
+  props: {
+    pageTitle: {
+      type: String,
+      default: undefined
+    }
+  },
   data() {
     return {
       drawer: null
@@ -52,12 +60,20 @@ export default {
     ...mapState(["i18n", "wishlist"]),
     logo() {
       return logo;
+    },
+    getPageTitle() {
+      return this.pageTitle && `- ${this.pageTitle}`;
     }
   },
   methods: {
     wishlistNav() {
       this.$router.push({
         name: "Wishlist"
+      });
+    },
+    startPage() {
+      this.$router.push({
+        name: "CampsiteSearch"
       });
     }
   }

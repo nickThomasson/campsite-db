@@ -2,8 +2,8 @@
   <v-row v-if="mergedResults">
     <v-col
       xl="4"
-      lg="4"
-      md="6"
+      lg="6"
+      md="12"
       sm="12"
       cols="12"
       v-for="(result, index) in mergedResults"
@@ -18,7 +18,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { transformCurrency } from "@/helper/currency";
-import CampsiteOverviewCard from "@/components/CampsiteOverviewCard.vue";
+import CampsiteOverviewCard from "@/components/CampsiteSearch/CampsiteOverviewCard.vue";
 
 export default {
   name: "SearchResults",
