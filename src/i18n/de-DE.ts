@@ -39,5 +39,6 @@ export enum LANG {
   CAMPSITE_DETAIL_INFO_HOUSE_TITLE = "Haus",
   CAMPSITE_DETAIL_INFO_HOUSES_TITLE = "Häuser",
   CAMPSITE_DETAIL_GALLERY_TITLE = "Bildergalerie",
-  CAMPSITE_WISHLIST_TITLE = "Merkzettel"
+  CAMPSITE_WISHLIST_TITLE = "Merkzettel",
+  CAMPSITE_ERROR = "Es hab ein Problem beim Verbindungsaufbau"
 }
