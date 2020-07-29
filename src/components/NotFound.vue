@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "NotFound",
   computed: {
-    ...mapState(["i18n"])
+    ...mapGetters(["i18n"])
   },
   methods: {
     goBack() {

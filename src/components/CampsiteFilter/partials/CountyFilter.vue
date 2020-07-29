@@ -23,8 +23,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "i18n"]),
-    ...mapGetters(["counties", "mergedResults"]),
+    ...mapState(["authentication", "searchResults"]),
+    ...mapGetters(["counties", "mergedResults", "i18n"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
         filterName: "countyFilter"

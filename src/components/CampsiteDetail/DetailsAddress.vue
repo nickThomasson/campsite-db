@@ -44,14 +44,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DetailsAddress",
 
   computed: {
-    ...mapState(["i18n"]),
-    ...mapGetters(["mergedPageData"]),
+    ...mapGetters(["mergedPageData", "i18n"]),
     address() {
       return this.mergedPageData ? this.mergedPageData.address : undefined;
     }

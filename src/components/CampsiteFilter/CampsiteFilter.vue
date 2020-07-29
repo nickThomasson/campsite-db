@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import FilterReset from "@/components/CampsiteFilter/partials/FilterReset.vue";
 import CountyFilter from "@/components/CampsiteFilter/partials/CountyFilter";
 import CityFilter from "@/components/CampsiteFilter/partials/CityFilter";
@@ -29,7 +29,8 @@ export default {
     FilterReset
   },
   computed: {
-    ...mapState(["app", "i18n"])
+    ...mapState(["app"]),
+    ...mapGetters(["i18n"])
   }
 };
 </script>

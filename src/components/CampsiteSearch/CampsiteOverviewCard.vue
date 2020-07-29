@@ -63,7 +63,7 @@
 <script>
 import { transformCurrency } from "@/helper/currency";
 import ShareLink from "@/components/CampsiteSearch/ShareLink.vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import { find, isEmpty } from "lodash";
 
 export default {
@@ -78,7 +78,8 @@ export default {
     rating: 4.5
   }),
   computed: {
-    ...mapState(["wishlist", "i18n"]),
+    ...mapState(["wishlist"]),
+    ...mapGetters(["i18n"]),
     heartColor() {
       const isOnList = find(this.wishlist.wishlist, {
         id: this.result.campsite.id

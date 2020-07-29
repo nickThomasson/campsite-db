@@ -77,8 +77,8 @@ export default {
     Header
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "i18n", "app"]),
-    ...mapGetters(["mergedResults"]),
+    ...mapState(["authentication", "searchResults", "app"]),
+    ...mapGetters(["mergedResults", "i18n"]),
     status() {
       return Status;
     }
@@ -86,7 +86,9 @@ export default {
   created() {
     this.changeStatus(Status.Init);
     this.authenticateClient().then(() => {
-      this.fetchData(this.authentication.token);
+      this.fetchTranslations(this.authentication.token).then(() => {
+        this.fetchData(this.authentication.token);
+      });
     });
   },
   methods: {
@@ -94,7 +96,8 @@ export default {
       "changeStatus",
       "switchFilterMenu",
       "fetchData",
-      "authenticateClient"
+      "authenticateClient",
+      "fetchTranslations"
     ]),
     price(number) {
       return transformCurrency(number);

@@ -20,15 +20,14 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import { transformCurrency } from "@/helper/currency";
 
 export default {
   name: "DetailsData",
 
   computed: {
-    ...mapState(["i18n"]),
-    ...mapGetters(["mergedPageData"]),
+    ...mapGetters(["mergedPageData", "i18n"]),
     page() {
       return this.mergedPageData ? this.mergedPageData.campsite : undefined;
     }

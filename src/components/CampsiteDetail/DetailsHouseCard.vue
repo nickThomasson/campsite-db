@@ -24,7 +24,7 @@
 
 <script>
 import { transformCurrency } from "@/helper/currency";
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "DetailsHouseCard",
   props: {
@@ -36,8 +36,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["i18n"]),
-    ...mapGetters(["mergedPageData"]),
+    ...mapGetters(["mergedPageData", "i18n"]),
     houses() {
       return this.mergedPageData.house.length;
     }

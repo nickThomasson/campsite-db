@@ -5,12 +5,13 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 export default {
   name: "Error",
   computed: {
-    ...mapState(["i18n", "app"]),
+    ...mapState(["app"]),
+    ...mapGetters(["i18n"]),
     status() {
       return Status;
     }

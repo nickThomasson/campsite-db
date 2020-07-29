@@ -25,7 +25,7 @@
                 @click="copyLink"
                 id="share-url"
                 class="mb-2"
-                :append-icon="copyPaste ? 'mdi-check-circle' : false"
+                :append-icon="copyPaste ? 'mdi-check-circle' : ''"
               ></v-text-field>
               <div
                 class="shareHint text-center"
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "ShareLink",
   props: {
@@ -63,7 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["i18n"]),
+    ...mapGetters(["i18n"]),
     url() {
       return `${window.location.origin}/#/${this.campsiteId}`;
     }

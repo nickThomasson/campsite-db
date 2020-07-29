@@ -20,13 +20,12 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "DetailsHeader",
   computed: {
-    ...mapGetters(["mergedPageData"]),
-    ...mapState(["i18n"]),
+    ...mapGetters(["mergedPageData", "i18n"]),
     page() {
       return this.mergedPageData ? this.mergedPageData.campsite : undefined;
     }

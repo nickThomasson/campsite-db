@@ -21,7 +21,7 @@
 <script>
 import Header from "@/components/Header.vue";
 import WishlistItem from "@/components/WishlistItem.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "Wishlist",
   components: {
@@ -29,7 +29,8 @@ export default {
     WishlistItem
   },
   computed: {
-    ...mapState(["wishlist", "i18n"])
+    ...mapState(["wishlist"]),
+    ...mapGetters(["i18n"])
   }
 };
 </script>
