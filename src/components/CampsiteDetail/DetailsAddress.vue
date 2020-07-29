@@ -3,12 +3,8 @@
     <v-card-title>{{ i18n.CAMPSITE_DETAIL_ADDRESS }}</v-card-title>
     <v-card-text>
       <v-row no-gutters>
-        <v-col v-if="address.strasse" cols="12"
-          >{{ address.strasse }} {{ address.hausnummer }}</v-col
-        >
-        <v-col v-if="address.plz" cols="12"
-          >{{ address.plz }} {{ address.stadt }}</v-col
-        >
+        <v-col cols="12">{{ address.strasse }} {{ address.hausnummer }}</v-col>
+        <v-col cols="12">{{ address.plz }} {{ address.stadt }}</v-col>
         <v-col v-if="address.landkreis" cols="12">{{
           address.landkreis
         }}</v-col>
@@ -29,8 +25,17 @@
             v-if="address.email"
             :href="`mailto:${address.email}`"
             target="_blank"
+            class="mr-2"
           >
             <v-icon>mail</v-icon>
+          </a>
+          <a
+            :href="
+              `https://www.google.de/maps/place/${address.strasse}+${address.hausnummer}+${address.plz}+${address.stadt}`
+            "
+            target="_blank"
+          >
+            <v-icon>location_on</v-icon>
           </a>
         </v-col>
       </v-row>
