@@ -9,7 +9,7 @@ import { mapState, mapActions } from "vuex";
 export default Vue.extend({
   name: "App",
   computed: {
-    ...mapState(["i18n", "authentication"])
+    ...mapState(["authentication"])
   },
   methods: {
     ...mapActions(["initializeWishlist", "refreshToken"])

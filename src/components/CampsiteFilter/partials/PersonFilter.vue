@@ -16,8 +16,8 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   name: "PersonFilter",
   computed: {
-    ...mapState(["searchResults", "authentication", "i18n"]),
-    ...mapGetters(["personCount"]),
+    ...mapState(["searchResults", "authentication"]),
+    ...mapGetters(["personCount", "i18n"]),
     persons: {
       get() {
         return this.personCount;

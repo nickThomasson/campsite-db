@@ -38,11 +38,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "Navigation",
   computed: {
-    ...mapState(["i18n"])
+    ...mapGetters(["i18n"])
   },
   data() {
     return {

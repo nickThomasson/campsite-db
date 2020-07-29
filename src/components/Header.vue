@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import Navigation from "@/components/Navigation.vue";
 import logo from "@/assets/logo.svg";
 import Error from "@/components/Error.vue";
@@ -60,7 +60,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["i18n", "wishlist"]),
+    ...mapState(["wishlist"]),
+    ...mapGetters(["i18n"]),
     logo() {
       return logo;
     },

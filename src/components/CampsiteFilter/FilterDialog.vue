@@ -43,8 +43,8 @@ export default {
     CampsiteFilter
   },
   computed: {
-    ...mapState(["i18n", "app"]),
-    ...mapGetters(["hasActiveFilter"])
+    ...mapState(["app"]),
+    ...mapGetters(["hasActiveFilter", "i18n"])
   },
   methods: {
     ...mapActions(["switchFilterMenu"])

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { find } from "lodash";
 
 export default {
@@ -18,7 +18,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "i18n"]),
+    ...mapState(["authentication", "searchResults"]),
+    ...mapGetters(["i18n"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
         filterName: "kitchenFilter"

@@ -71,8 +71,8 @@ export default {
     DetailsData
   },
   computed: {
-    ...mapState(["detailPage", "authentication", "i18n", "app"]),
-    ...mapGetters(["mergedPageData", "gallery"]),
+    ...mapState(["detailPage", "authentication", "app"]),
+    ...mapGetters(["mergedPageData", "gallery", "i18n"]),
     status() {
       return Status;
     },
@@ -87,14 +87,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchPageData", "authenticateClient", "changePageStatus"])
+    ...mapActions([
+      "fetchPageData",
+      "authenticateClient",
+      "changePageStatus",
+      "fetchTranslations"
+    ])
   },
   created() {
     this.changePageStatus(Status.Init);
     this.authenticateClient().then(() => {
-      this.fetchPageData({
-        token: this.authentication.token,
-        id: this.campsiteId
+      this.fetchTranslations(this.authentication.token).then(() => {
+        this.fetchPageData({
+          token: this.authentication.token,
+          id: this.campsiteId
+        });
       });
     });
   }

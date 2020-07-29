@@ -23,8 +23,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "i18n"]),
-    ...mapGetters(["cities", "mergedResults"]),
+    ...mapState(["authentication", "searchResults"]),
+    ...mapGetters(["cities", "mergedResults", "i18n"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
         filterName: "cityFilter"
