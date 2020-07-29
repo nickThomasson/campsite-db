@@ -8,7 +8,7 @@
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
         <v-toolbar-title class="clickable" @click="startPage"
-          >{{ i18n.CAMPSITE_SEARCH_TITLE }} {{ getPageTitle }}
+          >{{ i18n.CAMPSITE_APP_TITLE }} {{ getPageTitle }}
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -48,37 +48,39 @@ export default {
     Navigation,
     Error
   },
-  props: {
-    pageTitle: {
-      type: String,
-      default: undefined
-    }
-  },
   data() {
     return {
       drawer: null
     };
   },
   computed: {
-    ...mapState(["wishlist"]),
+    ...mapState(["wishlist", "app"]),
     ...mapGetters(["i18n"]),
     logo() {
       return logo;
     },
     getPageTitle() {
-      return this.pageTitle && `- ${this.pageTitle}`;
+      return this.app.activePage && `- ${this.app.activePage}`;
     }
   },
   methods: {
     wishlistNav() {
-      this.$router.push({
-        name: "Wishlist"
-      });
+      this.$router
+        .push({
+          name: "Wishlist"
+        })
+        .catch(() => {
+          console.log("Gleiche Seite ;-)");
+        });
     },
     startPage() {
-      this.$router.push({
-        name: "CampsiteSearch"
-      });
+      this.$router
+        .push({
+          name: "CampsiteSearch"
+        })
+        .catch(() => {
+          console.log("Gleiche Seite ;-)");
+        });
     }
   }
 };

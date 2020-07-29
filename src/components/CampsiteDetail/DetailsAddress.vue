@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4">
+  <v-card class="mb-4" v-if="address">
     <v-card-title>{{ i18n.CAMPSITE_DETAIL_ADDRESS }}</v-card-title>
     <v-card-text>
       <v-row no-gutters>
@@ -52,7 +52,7 @@ export default {
   computed: {
     ...mapGetters(["mergedPageData", "i18n"]),
     address() {
-      return this.mergedPageData ? this.mergedPageData.address : undefined;
+      return this.mergedPageData.address;
     }
   }
 };

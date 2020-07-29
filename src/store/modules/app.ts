@@ -5,7 +5,8 @@ export const state = {
   filterMenu: false,
   loadingStatus: Status.Init,
   filterKey: 1,
-  resetKey: 1
+  resetKey: 1,
+  activePage: ""
 };
 
 export const mutations = {
@@ -20,6 +21,9 @@ export const mutations = {
   },
   SWITCH_FILTER_MENU(state: any) {
     state.filterMenu = !state.filterMenu;
+  },
+  SET_ACTIVE_PAGE(state: any, activePage: string) {
+    state.activePage = activePage;
   }
 };
 
@@ -29,6 +33,9 @@ export const actions = {
   },
   switchFilterMenu({ commit }: any) {
     commit("SWITCH_FILTER_MENU");
+  },
+  setActivePage({ commit }: any, activePage: string) {
+    commit("SET_ACTIVE_PAGE", activePage);
   }
 };
 

@@ -29,7 +29,7 @@ export default {
   computed: {
     ...mapGetters(["mergedPageData", "i18n"]),
     page() {
-      return this.mergedPageData ? this.mergedPageData.campsite : undefined;
+      return this.mergedPageData.campsite;
     }
   },
   methods: {
