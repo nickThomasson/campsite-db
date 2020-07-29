@@ -2,7 +2,7 @@
 export const wishlistItem = (item: any) => {
   return {
     id: item["campsite"]["id"],
-    title: item["address"]["name"],
+    title: item["campsite"]["name"],
     zip: item["address"]["plz"],
     city: item["address"]["stadt"],
     county: item["address"]["bundesland"],
