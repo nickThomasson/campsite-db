@@ -68,8 +68,8 @@ export const actions = {
         )
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SAVE_RESULTS", response.data.data);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -100,8 +100,8 @@ export const actions = {
         )
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SET_CAMPSITE_COUNT", response.data.data.length);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -121,8 +121,8 @@ export const actions = {
         .fetchCollectionItems(getRequestUrl("address", false), token)
         .then((response: any) => {
           if (response.status === 200) {
-            resolve();
             commit("SAVE_ADDRESSES", response.data.data);
+            resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
             reject();
@@ -143,27 +143,6 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_HOUSES", response.data.data);
-            resolve();
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
-  fetchGalleries({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
-        .then((response: any) => {
-          if (response.status === 200) {
-            commit("SAVE_GALLERY", response.data.data);
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
@@ -316,13 +295,16 @@ export const actions = {
     });
   },
 
-  fetchData({ dispatch, commit }: any, token: string) {
-    commit("CHANGE_STATUS", Status.Loading);
-    dispatch("fetchCampsiteCount", token);
-    dispatch("fetchResults", token).then(() => {
-      dispatch("fetchAddresses", token).then(() => {
-        dispatch("fetchHouses", token).then(() => {
-          commit("CHANGE_STATUS", Status.Ready);
+  fetchData({ dispatch }: any, token: string) {
+    return new Promise(resolve => {
+      dispatch("fetchCampsiteCount", token);
+      dispatch("fetchResults", token).then(() => {
+        dispatch("fetchAddresses", token).then(() => {
+          dispatch("fetchHouses", token).then(() => {
+            dispatch("fetchGalleries", token).then(() => {
+              resolve();
+            });
+          });
         });
       });
     });

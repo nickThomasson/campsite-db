@@ -8,7 +8,8 @@ export const state = {
   page: {},
   addresses: [],
   houses: [],
-  gallery: []
+  gallery: [],
+  pageStatus: Status.Init
 };
 
 export const mutations = {
@@ -23,6 +24,9 @@ export const mutations = {
   },
   SAVE_GALLERY(state: any, gallery: any) {
     state.gallery = gallery;
+  },
+  CHANGE_PAGE_STATUS(state: any, status: any) {
+    state.pageStatus = status;
   }
 };
 
@@ -51,21 +55,35 @@ export const actions = {
     });
   },
 
-  fetchPageData({ dispatch, commit }: any, payload: any) {
-    commit("CHANGE_STATUS", Status.Loading);
-    dispatch("fetchPage", payload).then(() => {
-      dispatch("fetchAddresses", payload.token).then(() => {
-        dispatch("fetchHouses", payload.token).then(() => {
-          dispatch("fetchGalleries", payload.token).then(() => {
-            commit("CHANGE_STATUS", Status.Ready);
-          });
+  fetchGalleries({ commit }: any, token: string) {
+    return new Promise((resolve, reject) => {
+      campsiteService
+        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
+        .then((response: any) => {
+          if (response.status === 200) {
+            commit("SAVE_GALLERY", response.data.data);
+            resolve();
+          } else {
+            commit("CHANGE_STATUS", Status.Error);
+            reject();
+          }
+        })
+        .catch((err: any) => {
+          commit("CHANGE_STATUS", Status.Error);
+          console.error(err);
+          reject();
         });
-      });
     });
   },
 
-  changePageStatus({ commit }: any) {
-    commit("CHANGE_STATUS", status);
+  fetchPageData({ dispatch, commit }: any, payload: any) {
+    return new Promise(resolve => {
+      commit("CHANGE_PAGE_STATUS", Status.Loading);
+      dispatch("fetchPage", payload).then(() => {
+        resolve();
+        commit("CHANGE_PAGE_STATUS", Status.Ready);
+      });
+    });
   }
 };
 

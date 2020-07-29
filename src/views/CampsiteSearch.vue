@@ -1,46 +1,38 @@
 <template>
-  <v-app>
-    <Header />
-    <v-progress-linear
-      indeterminate
-      color="accent"
-      v-if="app.loadingStatus === status.Loading"
-    ></v-progress-linear>
-    <v-container class="mt-6">
-      <v-row v-if="app.loadingStatus === status.Ready">
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="3"
-          xl="2"
-          order="2"
-          order-sm="2"
-          order-md="1"
-          order-lg="1"
-          order-xl="1"
-          class="d-none d-md-flex"
-        >
-          <CampsiteFilter :key="app.filterKey" />
-        </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="8"
-          lg="9"
-          xl="10"
-          order="1"
-          order-sm="1"
-          order-md="2"
-          order-lg="2"
-          order-xl="2"
-          v-if="app.loadingStatus === status.Ready"
-        >
-          <SearchResults />
-        </v-col>
-        <Pagination />
-      </v-row>
-    </v-container>
+  <v-container class="mt-6">
+    <v-row v-if="app.loadingStatus === status.Ready">
+      <v-col
+        cols="12"
+        sm="12"
+        md="4"
+        lg="3"
+        xl="2"
+        order="2"
+        order-sm="2"
+        order-md="1"
+        order-lg="1"
+        order-xl="1"
+        class="d-none d-md-flex"
+      >
+        <CampsiteFilter :key="app.filterKey" />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="12"
+        md="8"
+        lg="9"
+        xl="10"
+        order="1"
+        order-sm="1"
+        order-md="2"
+        order-lg="2"
+        order-xl="2"
+        v-if="app.loadingStatus === status.Ready"
+      >
+        <SearchResults />
+      </v-col>
+      <Pagination />
+    </v-row>
     <v-btn
       color="primary"
       fab
@@ -55,7 +47,7 @@
       <v-icon>tune</v-icon>
     </v-btn>
     <FilterDialog />
-  </v-app>
+  </v-container>
 </template>
 
 <script>
@@ -66,42 +58,32 @@ import SearchResults from "@/components/CampsiteSearch/SearchResults.vue";
 import { Status } from "@/helper/status";
 import FilterDialog from "@/components/CampsiteFilter/FilterDialog.vue";
 import Pagination from "@/components/CampsiteSearch/Pagination.vue";
-import Header from "@/components/Header.vue";
 export default {
   name: "CampsiteSearch",
   components: {
     CampsiteFilter,
     SearchResults,
     FilterDialog,
-    Pagination,
-    Header
+    Pagination
   },
   computed: {
-    ...mapState(["authentication", "searchResults", "app"]),
-    ...mapGetters(["mergedResults", "i18n"]),
+    ...mapState(["searchResults", "app"]),
+    ...mapGetters(["i18n"]),
     status() {
       return Status;
     }
   },
-  created() {
-    this.changeStatus(Status.Init);
-    this.authenticateClient().then(() => {
-      this.fetchTranslations(this.authentication.token).then(() => {
-        this.fetchData(this.authentication.token);
-      });
-    });
-  },
   methods: {
-    ...mapActions([
-      "changeStatus",
-      "switchFilterMenu",
-      "fetchData",
-      "authenticateClient",
-      "fetchTranslations"
-    ]),
+    ...mapActions(["switchFilterMenu", "setActivePage"]),
     price(number) {
       return transformCurrency(number);
     }
+  },
+  updated() {
+    this.setActivePage(this.i18n.CAMPSITE_SEARCH_TITLE);
+  },
+  mounted() {
+    this.setActivePage(this.i18n.CAMPSITE_SEARCH_TITLE);
   }
 };
 </script>
