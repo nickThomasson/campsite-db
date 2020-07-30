@@ -10,7 +10,7 @@ import { combinedCampsiteModel } from "@/helper/campsiteModel";
 export const state = {
   collectionName: "campsite",
   itemId: "",
-  limit: -1,
+  limit: 4,
   offset: 0,
   sort: "id",
   status: "published",
@@ -257,6 +257,22 @@ export const actions = {
     });
   },
 
+  registerCountyFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[id][in]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter(
+          "countyFilter",
+          payload.rawValue !== null ? true : false,
+          filterContent,
+          payload.rawValue
+        )
+      );
+      resolve();
+    });
+  },
+
   registerCityFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
       const filterContent = `&filter[id][in]=${payload.value}`;
@@ -294,6 +310,12 @@ export const actions = {
 
     if (payload.type === "stateFilter") {
       dispatch("registerStateFilter", payload).then(() => {
+        dispatch("fetchResults", payload.token);
+      });
+    }
+
+    if (payload.type === "countyFilter") {
+      dispatch("registerCountyFilter", payload).then(() => {
         dispatch("fetchResults", payload.token);
       });
     }
@@ -354,6 +376,9 @@ export const getters = {
   },
   states: (state: any) => {
     return renderItems(state.addresses, "bundesland");
+  },
+  counties: (state: any, getters: any) => {
+    return renderAddressItems(getters.campsites, "county");
   },
   cities: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "city");

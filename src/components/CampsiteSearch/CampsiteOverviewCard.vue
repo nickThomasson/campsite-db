@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-img
+      v-if="campsite.previewImage"
       class="white--text align-end"
       :src="campsite.previewImage.data.thumbnails[2].url"
       height="200px"
