@@ -7,6 +7,8 @@
     <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
     <KitchenFilter />
     <SanitaryFilter />
+    <h3 class="mb-4 mt-6">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
+    <PageSize />
     <FilterReset :key="app.resetKey" />
   </div>
 </template>
@@ -20,6 +22,7 @@ import CityFilter from "@/components/CampsiteFilter/partials/CityFilter";
 import PersonFilter from "@/components/CampsiteFilter/partials/PersonFilter";
 import KitchenFilter from "@/components/CampsiteFilter/partials/KitchenFilter";
 import SanitaryFilter from "@/components/CampsiteFilter/partials/SanitaryFilter";
+import PageSize from "@/components/CampsiteFilter/partials/PageSize.vue";
 export default {
   name: "CampsiteFilter",
   components: {
@@ -29,6 +32,7 @@ export default {
     PersonFilter,
     KitchenFilter,
     SanitaryFilter,
+    PageSize,
     FilterReset
   },
   computed: {

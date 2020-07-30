@@ -1,11 +1,15 @@
 <template>
   <v-card>
     <v-img
-      v-if="campsite.previewImage"
       class="white--text align-end"
-      :src="campsite.previewImage.data.thumbnails[2].url"
+      :src="
+        campsite.previewImage
+          ? campsite.previewImage.data.thumbnails[2].url
+          : placeholderImg
+      "
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
+      :alt="campsite.name"
     >
       <v-card-title>
         {{ campsite.name }}
@@ -66,6 +70,7 @@ import { transformCurrency } from "@/helper/currency";
 import ShareLink from "@/components/CampsiteSearch/ShareLink.vue";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { find, isEmpty } from "lodash";
+import placeholder from "@/assets/img/placeholder.png";
 
 export default {
   name: "CampsiteOverviewCard",
@@ -75,9 +80,6 @@ export default {
   components: {
     ShareLink
   },
-  data: () => ({
-    rating: 4.5
-  }),
   computed: {
     ...mapState(["wishlist"]),
     ...mapGetters(["i18n"]),
@@ -86,6 +88,9 @@ export default {
         id: this.campsite.id
       });
       return !isEmpty(isOnList) ? "accent" : "";
+    },
+    placeholderImg() {
+      return placeholder;
     }
   },
   methods: {
