@@ -27,7 +27,7 @@
           </a>
           <a
             :href="
-              `https://www.google.de/maps/place/${address.street}+${address.houseNumnber}+${address.zip}+${address.city}`
+              `https://www.google.de/maps/place/${address.street}+${address.houseNumber}+${address.zip}+${address.city}`
             "
             target="_blank"
           >
