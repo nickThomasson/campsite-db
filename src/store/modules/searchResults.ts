@@ -10,7 +10,7 @@ import { combinedCampsiteModel } from "@/helper/campsiteModel";
 export const state = {
   collectionName: "campsite",
   itemId: "",
-  limit: -1,
+  limit: 10,
   offset: 0,
   sort: "id",
   status: "published",
@@ -37,6 +37,9 @@ export const mutations = {
   },
   SET_PERSON_COUNT(state: any, count: number) {
     state.personFilter = count;
+  },
+  SET_PAGE_LIMIT(state: any, count: number) {
+    state.limit = count;
   },
   RESET_FILTER(state: any) {
     state.activeFilter = [];
@@ -257,6 +260,22 @@ export const actions = {
     });
   },
 
+  registerCountyFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[id][in]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter(
+          "countyFilter",
+          payload.rawValue !== null ? true : false,
+          filterContent,
+          payload.rawValue
+        )
+      );
+      resolve();
+    });
+  },
+
   registerCityFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
       const filterContent = `&filter[id][in]=${payload.value}`;
@@ -298,6 +317,12 @@ export const actions = {
       });
     }
 
+    if (payload.type === "countyFilter") {
+      dispatch("registerCountyFilter", payload).then(() => {
+        dispatch("fetchResults", payload.token);
+      });
+    }
+
     if (payload.type === "cityFilter") {
       dispatch("registerCityFilter", payload).then(() => {
         dispatch("fetchResults", payload.token);
@@ -310,14 +335,30 @@ export const actions = {
   resetFilter({ commit }: any) {
     return new Promise(resolve => {
       commit("RESET_FILTER");
+      commit("CHANGE_OFFSET", 0);
       commit("CHANGE_FILTER_KEY", random(5, true));
       resolve();
     });
   },
 
-  applyReset({ dispatch }: any, token: string) {
+  applyReset({ dispatch, commit }: any, token: string) {
     dispatch("resetFilter").then(() => {
+      commit("CHANGE_OFFSET", 0);
       dispatch("fetchData", token);
+    });
+  },
+
+  changePageLimit({ commit }: any, limit: any) {
+    return new Promise(resolve => {
+      commit("SET_PAGE_LIMIT", limit);
+      commit("CHANGE_OFFSET", 0);
+      resolve();
+    });
+  },
+
+  applyPageLimit({ dispatch }: any, limit: any) {
+    dispatch("changePageLimit", limit.value).then(() => {
+      dispatch("fetchResults", limit.token);
     });
   },
 
@@ -354,6 +395,9 @@ export const getters = {
   },
   states: (state: any) => {
     return renderItems(state.addresses, "bundesland");
+  },
+  counties: (state: any, getters: any) => {
+    return renderAddressItems(getters.campsites, "county");
   },
   cities: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "city");

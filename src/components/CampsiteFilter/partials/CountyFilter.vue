@@ -1,12 +1,12 @@
 <template>
   <v-col cols="auto">
-    <h3>{{ i18n.CAMPSITE_FILTER_TITLE_STATE }}</h3>
+    <h3>{{ i18n.CAMPSITE_FILTER_TITLE_COUNTY }}</h3>
     <v-combobox
-      v-model="selectedState"
-      :items="states"
-      :label="i18n.CAMPSITE_FILTER_LABEL_STATE"
+      v-model="selectedCounty"
+      :items="counties"
+      :label="i18n.CAMPSITE_FILTER_LABEL_COUNTY"
       clearable
-      @change="setStateFilter(selectedState)"
+      @change="setCountyFilter(selectedCounty)"
     ></v-combobox>
   </v-col>
 </template>
@@ -16,37 +16,37 @@ import { mapState, mapGetters, mapActions } from "vuex";
 import { find } from "lodash";
 
 export default {
-  name: "StateFilter",
+  name: "CountyFilter",
   data() {
     return {
-      selectedState: null
+      selectedCounty: null
     };
   },
   computed: {
     ...mapState(["authentication", "searchResults"]),
-    ...mapGetters(["states", "i18n", "campsites"]),
+    ...mapGetters(["counties", "i18n", "campsites"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
-        filterName: "stateFilter"
+        filterName: "countyFilter"
       });
       return storeValue !== undefined ? storeValue.rawValue : undefined;
     }
   },
   methods: {
     ...mapActions(["applyFilter"]),
-    setStateFilter(value) {
+    setCountyFilter(value) {
       this.applyFilter({
-        type: "stateFilter",
+        type: "countyFilter",
         value: this.findCampIdByState(value),
         token: this.authentication.token,
-        rawValue: this.selectedState
+        rawValue: this.selectedCounty
       });
     },
     findCampIdByState(value) {
       const campsiteIds = [];
       if (value) {
         const campsitesFilter = this.campsites.filter(
-          item => item.address.state === value
+          item => item.address.county === value
         );
         for (const campsite of campsitesFilter) {
           campsiteIds.push(campsite.id);
@@ -57,7 +57,7 @@ export default {
   },
   mounted() {
     if (this.storeValue) {
-      this.selectedState = this.storeValue;
+      this.selectedCounty = this.storeValue;
     }
   }
 };
