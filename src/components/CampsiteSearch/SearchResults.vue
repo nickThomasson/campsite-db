@@ -1,23 +1,22 @@
 <template>
-  <v-row v-if="mergedResults">
+  <v-row v-if="campsites">
     <v-col
       xl="4"
       lg="6"
       md="12"
       sm="12"
       cols="12"
-      v-for="(result, index) in mergedResults"
+      v-for="(campsite, index) in campsites"
       :key="index"
       class="mb-4"
     >
-      <CampsiteOverviewCard :result="result" />
+      <CampsiteOverviewCard :campsite="campsite" />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import { transformCurrency } from "@/helper/currency";
+import { mapGetters } from "vuex";
 import CampsiteOverviewCard from "@/components/CampsiteSearch/CampsiteOverviewCard.vue";
 
 export default {
@@ -26,13 +25,7 @@ export default {
     CampsiteOverviewCard
   },
   computed: {
-    ...mapState(["searchResults"]),
-    ...mapGetters(["mergedResults"])
-  },
-  methods: {
-    price(number) {
-      return transformCurrency(number);
-    }
+    ...mapGetters(["campsites"])
   }
 };
 </script>

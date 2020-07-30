@@ -15,12 +15,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "DetailsGallery",
   computed: {
-    ...mapGetters(["gallery"])
+    ...mapState(["detailPage"]),
+    gallery() {
+      return this.detailPage.page.gallery;
+    }
   }
 };
 </script>

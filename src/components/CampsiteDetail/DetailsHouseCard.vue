@@ -4,17 +4,17 @@
       <v-card-title> {{ house.name }} </v-card-title>
       <v-card-text>
         <v-row no-gutters>
-          <v-col v-if="house.betten" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }} {{ house.betten }}
+          <v-col v-if="house.beds" cols="12">
+            {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }} {{ house.bes }}
           </v-col>
-          <v-col v-if="house.seminarraeume" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_ROOMS }} {{ house.seminarraeume }}
+          <v-col v-if="house.rooms" cols="12">
+            {{ i18n.CAMPSITE_DETAIL_HOUSE_ROOMS }} {{ house.rooms }}
           </v-col>
-          <v-col v-if="house.preis" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_PRICE }} {{ price(house.preis) }}
+          <v-col v-if="house.price" cols="12">
+            {{ i18n.CAMPSITE_DETAIL_HOUSE_PRICE }} {{ price(house.price) }}
           </v-col>
-          <v-col v-if="house.bemerkungen" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_INFO }} {{ house.bemerkungen }}
+          <v-col v-if="house.annotations" cols="12">
+            {{ i18n.CAMPSITE_DETAIL_HOUSE_INFO }} {{ house.annotations }}
           </v-col>
         </v-row>
       </v-card-text>
@@ -24,7 +24,7 @@
 
 <script>
 import { transformCurrency } from "@/helper/currency";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "DetailsHouseCard",
   props: {
@@ -36,9 +36,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["mergedPageData", "i18n"]),
+    ...mapState(["detailPage"]),
+    ...mapGetters(["i18n"]),
     houses() {
-      return this.mergedPageData.house.length;
+      return this.detailPage.page.house.length;
     }
   }
 };

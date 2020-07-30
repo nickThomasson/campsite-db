@@ -4,15 +4,15 @@
     <v-card-text>
       <v-row no-gutters>
         <v-col cols="12"
-          >{{ i18n.CAMPSITE_DETAIL_HOUSE_PRICE }} {{ price(page.preis) }}</v-col
+          >{{ i18n.CAMPSITE_DETAIL_HOUSE_PRICE }} {{ price(page.price) }}</v-col
         >
         <v-col cols="12"
           >{{ i18n.CAMPSITE_DETAIL_INFO_KITCHEN }}
-          {{ page.kueche ? "Ja" : "Nein" }}</v-col
+          {{ page.kitchen ? "Ja" : "Nein" }}</v-col
         >
         <v-col cols="12"
           >{{ i18n.CAMPSITE_DETAIL_INFO_SANITARY }}
-          {{ page.sanitaeranlagen ? "Ja" : "Nein" }}</v-col
+          {{ page.sanitary ? "Ja" : "Nein" }}</v-col
         >
       </v-row>
     </v-card-text>
@@ -20,16 +20,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { transformCurrency } from "@/helper/currency";
 
 export default {
   name: "DetailsData",
 
   computed: {
-    ...mapGetters(["mergedPageData", "i18n"]),
+    ...mapState(["detailPage"]),
+    ...mapGetters(["i18n"]),
     page() {
-      return this.mergedPageData.campsite;
+      return this.detailPage.page;
     }
   },
   methods: {

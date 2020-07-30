@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     ...mapState(["searchResults", "app"]),
-    ...mapGetters(["i18n"]),
+    ...mapGetters(["i18n", "campsites"]),
     status() {
       return Status;
     }

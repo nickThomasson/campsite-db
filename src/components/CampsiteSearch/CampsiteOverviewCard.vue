@@ -2,23 +2,23 @@
   <v-card>
     <v-img
       class="white--text align-end"
-      :src="result.campsite.vorschaubild.data.thumbnails[2].url"
+      :src="campsite.previewImage.data.thumbnails[2].url"
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
     >
       <v-card-title>
-        {{ result.campsite.name }}
+        {{ campsite.name }}
       </v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      {{ result.address.stadt }}, {{ result.address.bundesland }}
+      {{ campsite.address.city }}, {{ campsite.address.state }}
     </v-card-subtitle>
     <v-card-text>
       <v-row no-gutters>
         <v-col>
           <v-rating
-            v-model="result.campsite.bewertung"
+            v-model="campsite.rating"
             readonly
             color="yellow darken-3"
             background-color="grey darken-1"
@@ -27,35 +27,35 @@
         </v-col>
         <v-col cols="12">
           {{ i18n.CAMPSITE_SEARCH_CARD_PERSON }}
-          {{ result.campsite.personen }}
+          {{ campsite.persons }}
         </v-col>
         <v-col cols="12">
           {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
-          <v-icon>{{ result.campsite.kueche ? "done" : "close" }}</v-icon>
+          <v-icon>{{ campsite.kitchen ? "done" : "close" }}</v-icon>
         </v-col>
         <v-col cols="12">
           {{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
           <v-icon>
-            {{ result.campsite.sanitaeranlagen ? "done" : "close" }}
+            {{ campsite.sanitary ? "done" : "close" }}
           </v-icon>
         </v-col>
         <v-col cols="12">
           {{ i18n.CAMPSITE_SEARCH_CARD_HOUSE }}
           <v-icon>
-            {{ result.house ? "done" : "close" }}
+            {{ campsite.house ? "done" : "close" }}
           </v-icon>
         </v-col>
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="primary" @click="goTo(result.campsite.id)">
+      <v-btn text color="primary" @click="goTo(campsite.id)">
         Details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon @click="addToWishList(result)">
+      <v-btn icon @click="addToWishList(campsite)">
         <v-icon :color="heartColor">mdi-heart</v-icon>
       </v-btn>
-      <ShareLink :campsiteId="result.campsite.id" />
+      <ShareLink :campsiteId="campsite.id" />
     </v-card-actions>
   </v-card>
 </template>
@@ -69,7 +69,7 @@ import { find, isEmpty } from "lodash";
 export default {
   name: "CampsiteOverviewCard",
   props: {
-    result: Object
+    campsite: Object
   },
   components: {
     ShareLink
@@ -82,7 +82,7 @@ export default {
     ...mapGetters(["i18n"]),
     heartColor() {
       const isOnList = find(this.wishlist.wishlist, {
-        id: this.result.campsite.id
+        id: this.campsite.id
       });
       return !isEmpty(isOnList) ? "accent" : "";
     }
