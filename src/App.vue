@@ -15,7 +15,6 @@ import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 import Header from "@/components/Header.vue";
-import { isEmpty } from "lodash";
 
 export default Vue.extend({
   name: "App",
@@ -44,13 +43,10 @@ export default Vue.extend({
   },
   created() {
     this.initializeWishlist();
-    this.changeStatus(Status.Init);
     this.authenticateClient().then(() => {
       this.changeStatus(Status.Loading);
-      this.fetchTranslations(this.authentication.token).then(() => {
-        this.fetchData(this.authentication.token).then(() => {
-          this.changeStatus(Status.Ready);
-        });
+      this.fetchData(this.authentication.token).then(() => {
+        this.changeStatus(Status.Ready);
       });
     });
     setInterval(() => {
@@ -59,17 +55,6 @@ export default Vue.extend({
   },
   beforeDestroy() {
     clearInterval();
-  },
-  updated() {
-    const params = this.$route.params;
-    if (!isEmpty(this.$route.params)) {
-      if ("campsiteId" in params) {
-        this.fetchPageData({
-          token: this.authentication.token,
-          id: params.campsiteId
-        });
-      }
-    }
   }
 });
 </script>

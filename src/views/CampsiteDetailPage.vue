@@ -20,7 +20,7 @@
           <v-col cols="12">
             <DetailsGallery />
           </v-col>
-          <v-col class="mb-4" v-if="houses" cols="12">
+          <v-col v-if="houses.length > 0" class="mb-4" cols="12">
             <h4>
               {{
                 houses.length > 1
@@ -62,31 +62,35 @@ export default {
     DetailsData
   },
   methods: {
-    ...mapActions(["setActivePage"])
+    ...mapActions(["setActivePage", "savePage"])
   },
   computed: {
     ...mapState(["detailPage"]),
-    ...mapGetters(["mergedPageData", "gallery", "i18n"]),
+    ...mapGetters(["i18n", "campsites"]),
     loading() {
-      return (
-        this.detailPage.pageStatus === Status.Ready &&
-        !isEmpty(this.mergedPageData)
-      );
+      return !isEmpty(this.detailPage.page);
     },
     status() {
       return Status;
     },
     houses() {
-      return this.mergedPageData.house;
+      return this.detailPage.page.house;
     },
     campsiteId() {
       return this.$route.params.campsiteId;
     },
     galleryExists() {
-      return this.gallery.length !== 0;
+      return this.detailPage.page.gallery.length !== 0;
+    },
+    campsitePage() {
+      const campsitePage = this.campsites.filter(
+        item => item.id === parseInt(this.campsiteId)
+      );
+      return campsitePage;
     }
   },
   mounted() {
+    this.savePage(this.campsitePage[0]);
     this.setActivePage(this.i18n.CAMPSITE_DETAIL_INFO_TITLE);
   },
   updated() {

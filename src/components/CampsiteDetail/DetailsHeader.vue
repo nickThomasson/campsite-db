@@ -10,7 +10,7 @@
     </v-col>
     <v-col cols="auto" align-self="center">
       <v-rating
-        v-model="page.bewertung"
+        v-model="page.rating"
         readonly
         color="yellow darken-3"
         background-color="grey darken-1"
@@ -20,14 +20,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "DetailsHeader",
   computed: {
-    ...mapGetters(["mergedPageData", "i18n"]),
+    ...mapState(["detailPage"]),
+    ...mapGetters(["i18n"]),
     page() {
-      return this.mergedPageData.campsite;
+      return this.detailPage.page;
     }
   },
   methods: {

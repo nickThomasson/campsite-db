@@ -323,12 +323,14 @@ export const actions = {
 
   fetchData({ dispatch }: any, token: string) {
     return new Promise(resolve => {
-      dispatch("fetchCampsiteCount", token);
-      dispatch("fetchResults", token).then(() => {
-        dispatch("fetchAddresses", token).then(() => {
-          dispatch("fetchHouses", token).then(() => {
-            dispatch("fetchGalleries", token).then(() => {
-              resolve();
+      dispatch("fetchTranslations", token).then(() => {
+        dispatch("fetchCampsiteCount", token);
+        dispatch("fetchResults", token).then(() => {
+          dispatch("fetchAddresses", token).then(() => {
+            dispatch("fetchHouses", token).then(() => {
+              dispatch("fetchGalleries", token).then(() => {
+                resolve();
+              });
             });
           });
         });
@@ -388,9 +390,14 @@ export const getters = {
 
     for (const campsite of campsites) {
       const address = find(addresses, { id: campsite.adresse[0].address_id });
-      let house = undefined;
+
+      const housesArray = [];
+
       if (!isEmpty(campsite.haus)) {
-        house = find(houses, { id: campsite.haus[0].house_id });
+        for (const house of houses) {
+          const houseItem = find(houses, { id: house.id });
+          housesArray.push(houseItem);
+        }
       }
 
       const gallery: any = [];
@@ -401,7 +408,7 @@ export const getters = {
         }
       }
       mergedResults.push(
-        combinedCampsiteModel(campsite, address, house, gallery)
+        combinedCampsiteModel(campsite, address, housesArray, gallery)
       );
     }
 

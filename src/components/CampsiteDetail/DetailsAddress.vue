@@ -3,16 +3,12 @@
     <v-card-title>{{ i18n.CAMPSITE_DETAIL_ADDRESS }}</v-card-title>
     <v-card-text>
       <v-row no-gutters>
-        <v-col cols="12">{{ address.strasse }} {{ address.hausnummer }}</v-col>
-        <v-col cols="12">{{ address.plz }} {{ address.stadt }}</v-col>
-        <v-col v-if="address.landkreis" cols="12">{{
-          address.landkreis
-        }}</v-col>
-        <v-col v-if="address.bundesland" cols="12">{{
-          address.bundesland
-        }}</v-col>
-        <v-col v-if="address.telefon" cols="12"
-          >{{ i18n.CAMPSITE_DETAIL_ADDRESS_PHONE }} {{ address.telefon }}</v-col
+        <v-col cols="12">{{ address.street }} {{ address.houseNumber }}</v-col>
+        <v-col cols="12">{{ address.zip }} {{ address.city }}</v-col>
+        <v-col v-if="address.landkreis" cols="12">{{ address.county }}</v-col>
+        <v-col v-if="address.state" cols="12">{{ address.state }}</v-col>
+        <v-col v-if="address.phone" cols="12"
+          >{{ i18n.CAMPSITE_DETAIL_ADDRESS_PHONE }} {{ address.phone }}</v-col
         >
         <v-col v-if="address.fax" cols="12"
           >{{ i18n.CAMPSITE_DETAIL_ADDRESS_FAX }} {{ address.fax }}</v-col
@@ -31,7 +27,7 @@
           </a>
           <a
             :href="
-              `https://www.google.de/maps/place/${address.strasse}+${address.hausnummer}+${address.plz}+${address.stadt}`
+              `https://www.google.de/maps/place/${address.street}+${address.houseNumnber}+${address.zip}+${address.city}`
             "
             target="_blank"
           >
@@ -44,15 +40,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "DetailsAddress",
 
   computed: {
-    ...mapGetters(["mergedPageData", "i18n"]),
+    ...mapState(["detailPage"]),
+    ...mapGetters(["i18n"]),
     address() {
-      return this.mergedPageData.address;
+      return this.detailPage.page.address;
     }
   }
 };

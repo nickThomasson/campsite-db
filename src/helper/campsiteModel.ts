@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const campsiteModel = (campsite: any) => {
   return {
     id: campsite["id"],
@@ -29,13 +30,18 @@ const addressModel = (address: any) => {
 };
 
 const houseModel = (house: any) => {
-  return {
-    name: house["name"],
-    beds: house["betten"],
-    rooms: house["seminarraeume"],
-    price: house["preis"],
-    annotations: house["bemerkungen"]
-  };
+  const houses = [];
+  for (const item of house) {
+    houses.push({
+      name: item["name"],
+      beds: item["betten"],
+      rooms: item["seminarraeume"],
+      price: item["preis"],
+      annotations: item["bemerkungen"]
+    });
+  }
+
+  return houses;
 };
 
 export const combinedCampsiteModel = (
@@ -49,7 +55,7 @@ export const combinedCampsiteModel = (
   const houseM = houseModel(house);
   const combinedCampsiteObject = {
     ...campsiteM,
-    combinedPrice: campsiteM.price + houseM.price,
+    //combinedPrice: campsiteM.price + houseM.price,
     address: addressM,
     house: houseM,
     gallery
