@@ -51,14 +51,22 @@ export default {
   },
   methods: {
     startpage() {
-      this.$router.push({
-        name: "CampsiteSearch"
-      });
+      this.$router
+        .push({
+          name: "CampsiteSearch"
+        })
+        .catch(() => {
+          console.log("Gleiche Seite ;-)");
+        });
     },
     wishlist() {
-      this.$router.push({
-        name: "Wishlist"
-      });
+      this.$router
+        .push({
+          name: "Wishlist"
+        })
+        .catch(() => {
+          console.log("Gleiche Seite ;-)");
+        });
     }
   }
 };
