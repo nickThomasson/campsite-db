@@ -33,12 +33,8 @@ export default Vue.extend({
       "initializeWishlist",
       "refreshToken",
       "authenticateClient",
-      "fetchTranslations",
       "changeStatus",
-      "fetchData",
-      "changeStatus",
-      "fetchPageData",
-      "setActivePage"
+      "fetchData"
     ])
   },
   created() {
