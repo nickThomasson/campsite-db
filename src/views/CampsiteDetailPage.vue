@@ -95,6 +95,9 @@ export default {
   },
   updated() {
     this.setActivePage(this.i18n.CAMPSITE_DETAIL_INFO_TITLE);
+  },
+  beforeDestroy() {
+    this.savePage({});
   }
 };
 </script>
