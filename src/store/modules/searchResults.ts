@@ -5,6 +5,7 @@ import { max, min, find, pull, random, isEmpty } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
+import { combinedCampsiteModel } from "@/helper/campsiteModel";
 
 export const state = {
   collectionName: "campsite",
@@ -20,7 +21,8 @@ export const state = {
   addresses: [],
   personFilter: null,
   campsiteCount: 0,
-  houses: []
+  houses: [],
+  gallery: []
 };
 
 export const mutations = {
@@ -47,6 +49,9 @@ export const mutations = {
   },
   CHANGE_OFFSET(state: any, pageOffset: any) {
     state.offset = pageOffset;
+  },
+  SAVE_GALLERY(state: any, gallery: any) {
+    state.gallery = gallery;
   }
 };
 
@@ -143,6 +148,27 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_HOUSES", response.data.data);
+            resolve();
+          } else {
+            commit("CHANGE_STATUS", Status.Error);
+            reject();
+          }
+        })
+        .catch((err: any) => {
+          commit("CHANGE_STATUS", Status.Error);
+          console.error(err);
+          reject();
+        });
+    });
+  },
+
+  fetchGalleries({ commit }: any, token: string) {
+    return new Promise((resolve, reject) => {
+      campsiteService
+        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
+        .then((response: any) => {
+          if (response.status === 200) {
+            commit("SAVE_GALLERY", response.data.data);
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
@@ -348,6 +374,35 @@ export const getters = {
         house = find(houses, { id: campsite.haus[0].house_id });
       }
       mergedResults.push({ campsite, address, house });
+    }
+
+    return mergedResults;
+  },
+  campsites: (state: any) => {
+    const mergedResults: Array<object> = [];
+
+    const campsites = state.results;
+    const addresses = state.addresses;
+    const houses = state.houses;
+    const galleries = state.gallery;
+
+    for (const campsite of campsites) {
+      const address = find(addresses, { id: campsite.adresse[0].address_id });
+      let house = undefined;
+      if (!isEmpty(campsite.haus)) {
+        house = find(houses, { id: campsite.haus[0].house_id });
+      }
+
+      const gallery: any = [];
+      if (!isEmpty(campsite.galerie)) {
+        for (const image of campsite.galerie) {
+          const imageObject = find(galleries, { id: image.id });
+          gallery.push(imageObject.directus_files_id.data);
+        }
+      }
+      mergedResults.push(
+        combinedCampsiteModel(campsite, address, house, gallery)
+      );
     }
 
     return mergedResults;

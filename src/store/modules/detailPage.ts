@@ -8,7 +8,6 @@ export const state = {
   page: {},
   addresses: [],
   houses: [],
-  gallery: [],
   pageStatus: Status.Init
 };
 
@@ -22,9 +21,7 @@ export const mutations = {
   SAVE_HOUSES(state: any, houses: any) {
     state.houses = houses;
   },
-  SAVE_GALLERY(state: any, gallery: any) {
-    state.gallery = gallery;
-  },
+
   CHANGE_PAGE_STATUS(state: any, status: any) {
     state.pageStatus = status;
   }
@@ -41,27 +38,6 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_PAGE", response.data.data[0]);
-            resolve();
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
-  fetchGalleries({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
-        .then((response: any) => {
-          if (response.status === 200) {
-            commit("SAVE_GALLERY", response.data.data);
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
