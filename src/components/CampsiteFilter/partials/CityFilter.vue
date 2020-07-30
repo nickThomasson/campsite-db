@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     ...mapState(["authentication", "searchResults"]),
-    ...mapGetters(["cities", "mergedResults", "i18n"]),
+    ...mapGetters(["cities", "i18n", "campsites"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
         filterName: "cityFilter"
@@ -45,11 +45,11 @@ export default {
     findCampIdByCity(value) {
       const campsiteIds = [];
       if (value) {
-        const campsites = this.mergedResults.filter(
-          campsite => campsite["address"]["stadt"] === value
+        const campsitesFilter = this.campsites.filter(
+          item => item.address.city === value
         );
-        for (const campsite of campsites) {
-          campsiteIds.push(campsite.campsite.id);
+        for (const campsite of campsitesFilter) {
+          campsiteIds.push(campsite.id);
         }
       }
       return campsiteIds.join(",");

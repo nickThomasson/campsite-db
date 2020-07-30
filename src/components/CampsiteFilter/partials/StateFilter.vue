@@ -2,11 +2,11 @@
   <v-col cols="auto">
     <h3>{{ i18n.CAMPSITE_FILTER_TITLE_COUNTY }}</h3>
     <v-combobox
-      v-model="selectedCounty"
-      :items="counties"
+      v-model="selectedState"
+      :items="states"
       :label="i18n.CAMPSITE_FILTER_LABEL_COUNTY"
       clearable
-      @change="setCountyFilter(selectedCounty)"
+      @change="setCountyFilter(selectedState)"
     ></v-combobox>
   </v-col>
 </template>
@@ -19,15 +19,15 @@ export default {
   name: "CountyFilter",
   data() {
     return {
-      selectedCounty: null
+      selectedState: null
     };
   },
   computed: {
     ...mapState(["authentication", "searchResults"]),
-    ...mapGetters(["counties", "mergedResults", "i18n"]),
+    ...mapGetters(["states", "i18n", "campsites"]),
     storeValue() {
       const storeValue = find(this.searchResults.activeFilter, {
-        filterName: "countyFilter"
+        filterName: "stateFilter"
       });
       return storeValue !== undefined ? storeValue.rawValue : undefined;
     }
@@ -36,20 +36,20 @@ export default {
     ...mapActions(["applyFilter"]),
     setCountyFilter(value) {
       this.applyFilter({
-        type: "countyFilter",
-        value: this.findCampIdByCounty(value),
+        type: "stateFilter",
+        value: this.findCampIdByState(value),
         token: this.authentication.token,
-        rawValue: this.selectedCounty
+        rawValue: this.selectedState
       });
     },
-    findCampIdByCounty(value) {
+    findCampIdByState(value) {
       const campsiteIds = [];
       if (value) {
-        const campsites = this.mergedResults.filter(
-          campsite => campsite["address"]["bundesland"] === value
+        const campsitesFilter = this.campsites.filter(
+          item => item.address.state === value
         );
-        for (const campsite of campsites) {
-          campsiteIds.push(campsite.campsite.id);
+        for (const campsite of campsitesFilter) {
+          campsiteIds.push(campsite.id);
         }
       }
       return campsiteIds.join(",");
@@ -57,7 +57,7 @@ export default {
   },
   mounted() {
     if (this.storeValue) {
-      this.selectedCounty = this.storeValue;
+      this.selectedState = this.storeValue;
     }
   }
 };

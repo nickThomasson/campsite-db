@@ -241,13 +241,13 @@ export const actions = {
     });
   },
 
-  registerCountyFilter({ dispatch }: any, payload: any) {
+  registerStateFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
       const filterContent = `&filter[id][in]=${payload.value}`;
       dispatch(
         "initActiveFilter",
         registerFilter(
-          "countyFilter",
+          "stateFilter",
           payload.rawValue !== null ? true : false,
           filterContent,
           payload.rawValue
@@ -292,8 +292,8 @@ export const actions = {
       });
     }
 
-    if (payload.type === "countyFilter") {
-      dispatch("registerCountyFilter", payload).then(() => {
+    if (payload.type === "stateFilter") {
+      dispatch("registerStateFilter", payload).then(() => {
         dispatch("fetchResults", payload.token);
       });
     }
@@ -352,33 +352,15 @@ export const getters = {
   pageCount: (state: any) => {
     return Math.ceil(state.campsiteCount / state.limit);
   },
-  counties: (state: any) => {
+  states: (state: any) => {
     return renderItems(state.addresses, "bundesland");
   },
   cities: (state: any, getters: any) => {
-    return renderAddressItems(getters.mergedResults, "stadt");
+    return renderAddressItems(getters.campsites, "city");
   },
   personCount: (state: any) => {
     const values = renderItems(state.results, "personen");
     return [min(values), max(values)];
-  },
-  mergedResults: (state: any) => {
-    const mergedResults: Array<object> = [];
-
-    const campsites = state.results;
-    const addresses = state.addresses;
-    const houses = state.houses;
-
-    for (const campsite of campsites) {
-      const address = find(addresses, { id: campsite.adresse[0].address_id });
-      let house = undefined;
-      if (!isEmpty(campsite.haus)) {
-        house = find(houses, { id: campsite.haus[0].house_id });
-      }
-      mergedResults.push({ campsite, address, house });
-    }
-
-    return mergedResults;
   },
   campsites: (state: any) => {
     const mergedResults: Array<object> = [];
