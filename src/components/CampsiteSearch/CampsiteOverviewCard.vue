@@ -42,7 +42,7 @@
         <v-col cols="12">
           {{ i18n.CAMPSITE_SEARCH_CARD_HOUSE }}
           <v-icon>
-            {{ campsite.house ? "done" : "close" }}
+            {{ campsite.house.length > 0 ? "done" : "close" }}
           </v-icon>
         </v-col>
       </v-row>
