@@ -1,8 +1,10 @@
 <template>
-  <v-container v-if="loading">
-    <NotFound v-if="!detailPage.page" />
-    <DetailsHeader />
-    <v-row>
+  <v-container>
+    <DetailsHeader v-if="!noPage" />
+    <v-row v-if="noPage">
+      <NotFound />
+    </v-row>
+    <v-row v-if="!noPage">
       <v-col cols="12">
         <v-row>
           <v-col cols="12" class="mb-4"
@@ -67,8 +69,8 @@ export default {
   computed: {
     ...mapState(["detailPage"]),
     ...mapGetters(["i18n", "campsites"]),
-    loading() {
-      return !isEmpty(this.detailPage.page);
+    noPage() {
+      return isEmpty(this.detailPage.page);
     },
     status() {
       return Status;
@@ -80,7 +82,10 @@ export default {
       return this.$route.params.campsiteId;
     },
     galleryExists() {
-      return this.detailPage.page.gallery.length !== 0;
+      if (!this.noPage) {
+        return this.detailPage.page.gallery.length !== 0;
+      }
+      return false;
     },
     campsitePage() {
       const campsitePage = this.campsites.filter(
