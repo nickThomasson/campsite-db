@@ -1,5 +1,6 @@
 <template>
   <v-col cols="12">
+    <h3 class="mb-10">{{ i18n.CAMPSITE_FILTER_TITLE_PERSONS }}</h3>
     <v-range-slider
       v-model="persons"
       thumb-label="always"

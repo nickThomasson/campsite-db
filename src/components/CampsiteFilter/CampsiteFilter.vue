@@ -4,11 +4,15 @@
     <CountyFilter />
     <CityFilter />
     <PersonFilter />
-    <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
-    <KitchenFilter />
-    <SanitaryFilter />
-    <h3 class="mb-4 mt-6">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
-    <PageSize />
+    <v-col cols="12">
+      <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
+      <KitchenFilter />
+      <SanitaryFilter />
+    </v-col>
+    <v-col cols="12">
+      <h3 class="mb-4">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
+      <PageSize />
+    </v-col>
     <FilterReset :key="app.resetKey" />
   </div>
 </template>
