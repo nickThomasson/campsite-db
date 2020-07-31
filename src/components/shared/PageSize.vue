@@ -10,15 +10,22 @@
 import { mapGetters, mapState, mapActions } from "vuex";
 export default {
   name: "PageSize",
+  props: {
+    dispatchName: String
+  },
   computed: {
-    ...mapState(["searchResults", "authentication"]),
+    ...mapState(["data", "authentication"]),
     ...mapGetters(["i18n"]),
     limit: {
       get() {
-        return this.searchResults.limit;
+        return this.data.limit;
       },
       set(value) {
-        this.applyPageLimit({ value, token: this.authentication.token });
+        this.applyPageLimit({
+          value,
+          token: this.authentication.token,
+          dispatchName: this.dispatchName
+        });
       }
     }
   },

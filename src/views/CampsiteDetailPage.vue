@@ -76,13 +76,16 @@ export default {
       return Status;
     },
     houses() {
-      return this.detailPage.page.house;
+      if (!this.noPage && this.detailPage.page.house) {
+        return this.detailPage.page.house;
+      }
+      return false;
     },
     campsiteId() {
-      return this.$route.params.campsiteId;
+      return this.$route.params.id;
     },
     galleryExists() {
-      if (!this.noPage) {
+      if (!this.noPage && this.detailPage.page.gallery) {
         return this.detailPage.page.gallery.length !== 0;
       }
       return false;

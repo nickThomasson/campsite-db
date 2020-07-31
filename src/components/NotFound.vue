@@ -23,9 +23,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push({
-        name: "CampsiteSearch"
-      });
+      this.$router.go(-1);
     }
   }
 };
