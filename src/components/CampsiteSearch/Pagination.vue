@@ -3,10 +3,7 @@
     cols="12"
     class="text-center"
     order="3"
-    v-if="
-      searchResults.limit < searchResults.campsiteCount &&
-        searchResults.limit !== -1
-    "
+    v-if="data.limit < data.campsiteCount && data.limit !== -1"
   >
     <v-pagination
       v-model="currentPage"
@@ -27,15 +24,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["searchResults", "authentication"]),
+    ...mapState(["data", "authentication"]),
     ...mapGetters(["pageCount"]),
     currentPage: {
       get() {
-        return ~~(this.searchResults.offset / this.searchResults.limit) + 1;
+        return ~~(this.data.offset / this.data.limit) + 1;
       },
       set() {
-        this.page =
-          ~~(this.searchResults.offset / this.searchResults.limit) + 1;
+        this.page = ~~(this.data.offset / this.data.limit) + 1;
       }
     }
   },
@@ -45,7 +41,7 @@ export default {
       const factor = pageNumber - 1;
       this.changePage({
         token: this.authentication.token,
-        pageOffset: ~~(factor * this.searchResults.limit)
+        pageOffset: ~~(factor * this.data.limit)
       });
     }
   }

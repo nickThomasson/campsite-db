@@ -23,10 +23,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication", "searchResults"]),
+    ...mapState(["authentication", "data"]),
     ...mapGetters(["cities", "i18n", "campsites"]),
     storeValue() {
-      const storeValue = find(this.searchResults.activeFilter, {
+      const storeValue = find(this.data.activeFilter, {
         filterName: "cityFilter"
       });
       return storeValue !== undefined ? storeValue.rawValue : undefined;

@@ -6,7 +6,7 @@
       thumb-label="always"
       :max="personCount[1]"
       :min="personCount[0]"
-      @end="setPersonFilter(searchResults.personFilter)"
+      @end="setPersonFilter(data.personFilter)"
     ></v-range-slider>
   </v-col>
 </template>
@@ -16,7 +16,7 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   name: "PersonFilter",
   computed: {
-    ...mapState(["searchResults", "authentication"]),
+    ...mapState(["data", "authentication"]),
     ...mapGetters(["personCount", "i18n"]),
     persons: {
       get() {

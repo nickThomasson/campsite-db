@@ -67,7 +67,7 @@ export default {
     Pagination
   },
   computed: {
-    ...mapState(["searchResults", "app"]),
+    ...mapState(["data", "app"]),
     ...mapGetters(["i18n", "campsites"]),
     status() {
       return Status;

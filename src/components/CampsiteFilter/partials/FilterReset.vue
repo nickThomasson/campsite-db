@@ -12,7 +12,7 @@ import { mapActions, mapState, mapGetters } from "vuex";
 export default {
   name: "FilterReset",
   computed: {
-    ...mapState(["authentication", "searchResults"]),
+    ...mapState(["authentication", "data"]),
     ...mapGetters(["hasActiveFilter", "i18n"])
   },
   methods: {

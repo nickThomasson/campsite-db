@@ -18,10 +18,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication", "searchResults"]),
+    ...mapState(["authentication", "data"]),
     ...mapGetters(["i18n"]),
     storeValue() {
-      const storeValue = find(this.searchResults.activeFilter, {
+      const storeValue = find(this.data.activeFilter, {
         filterName: "kitchenFilter"
       });
       return storeValue;
