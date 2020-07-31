@@ -54,7 +54,8 @@ import { mapGetters } from "vuex";
 export default {
   name: "ShareLink",
   props: {
-    campsiteId: Number
+    id: Number,
+    subFolder: String
   },
   data() {
     return {
@@ -65,7 +66,7 @@ export default {
   computed: {
     ...mapGetters(["i18n"]),
     url() {
-      return `${window.location.origin}/#/${this.campsiteId}`;
+      return `${window.location.origin}/#/${this.subFolder}/${this.id}`;
     }
   },
   methods: {

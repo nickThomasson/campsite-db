@@ -15,18 +15,28 @@
         <v-list-item-icon>
           <v-icon>dashboard</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
           <v-list-item-title>{{
             i18n.CAMPSITE_NAVIGATION_STARTPAGE
           }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+
+      <v-list-item link @click="houseSearch">
+        <v-list-item-icon>
+          <v-icon>house</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{
+            i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH
+          }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
       <v-list-item link @click="wishlist">
         <v-list-item-icon>
           <v-icon>list_alt</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
           <v-list-item-title>
             {{ i18n.CAMPSITE_NAVIGATION_WISHLIST }}
@@ -54,6 +64,15 @@ export default {
       this.$router
         .push({
           name: "CampsiteSearch"
+        })
+        .catch(() => {
+          console.log("Gleiche Seite ;-)");
+        });
+    },
+    houseSearch() {
+      this.$router
+        .push({
+          name: "HouseSearch"
         })
         .catch(() => {
           console.log("Gleiche Seite ;-)");

@@ -62,20 +62,22 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchResults({ state, commit, getters }: any, token: string) {
+  fetchCampsites({ state, commit, getters }: any, payload: any) {
+    const urlstatic = getRequestUrl("campsite", false);
+    const urldynamic = getRequestUrl(
+      "campsite",
+      getters.combinedFilter,
+      state.sort,
+      state.offset,
+      state.limit,
+      true,
+      true
+    );
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
-          getRequestUrl(
-            "campsite",
-            getters.combinedFilter,
-            state.sort,
-            state.offset,
-            state.limit,
-            true,
-            true
-          ),
-          token
+          payload.dynamic ? urldynamic : urlstatic,
+          payload.token
         )
         .then((response: any) => {
           if (response.status === 200) {
@@ -147,10 +149,23 @@ export const actions = {
     });
   },
 
-  fetchHouses({ commit }: any, token: string) {
+  fetchHouses({ commit, getters }: any, payload: any) {
+    const urlstatic = getRequestUrl("house", false);
+    const urldynamic = getRequestUrl(
+      "house",
+      getters.combinedFilter,
+      state.sort,
+      state.offset,
+      state.limit,
+      true,
+      true
+    );
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("house", false), token)
+        .fetchCollectionItems(
+          payload.dynamic ? urldynamic : urlstatic,
+          payload.token
+        )
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_HOUSES", response.data.data);
@@ -298,37 +313,37 @@ export const actions = {
   applyFilter({ dispatch, commit }: any, payload: any) {
     if (payload.type === "personFilter") {
       dispatch("registerPersonFilter", payload.value).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
       });
     }
 
     if (payload.type === "kitchenFilter") {
       dispatch("registerKitchenFilter", payload.value).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
       });
     }
 
     if (payload.type === "sanitaryFilter") {
       dispatch("registerSanitaryFilter", payload.value).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
       });
     }
 
     if (payload.type === "stateFilter") {
       dispatch("registerStateFilter", payload).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
       });
     }
 
     if (payload.type === "countyFilter") {
       dispatch("registerCountyFilter", payload).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
       });
     }
 
     if (payload.type === "cityFilter") {
       dispatch("registerCityFilter", payload).then(() => {
-        dispatch("fetchResults", payload.token);
+        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
       });
     }
 
@@ -344,10 +359,10 @@ export const actions = {
     });
   },
 
-  applyReset({ dispatch, commit }: any, token: string) {
+  applyReset({ dispatch, commit }: any, payload: any) {
     dispatch("resetFilter").then(() => {
       commit("CHANGE_OFFSET", 0);
-      dispatch("fetchData", token);
+      dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
     });
   },
 
@@ -361,7 +376,7 @@ export const actions = {
 
   applyPageLimit({ dispatch }: any, limit: any) {
     dispatch("changePageLimit", limit.value).then(() => {
-      dispatch("fetchResults", limit.token);
+      dispatch(limit.dispatchName, { dynamic: true, token: limit.token });
     });
   },
 
@@ -369,9 +384,9 @@ export const actions = {
     return new Promise(resolve => {
       dispatch("fetchTranslations", token).then(() => {
         dispatch("fetchCampsiteCount", token);
-        dispatch("fetchResults", token).then(() => {
+        dispatch("fetchCampsites", { dynamic: false, token }).then(() => {
           dispatch("fetchAddresses", token).then(() => {
-            dispatch("fetchHouses", token).then(() => {
+            dispatch("fetchHouses", { dynamic: false, token }).then(() => {
               dispatch("fetchGalleries", token).then(() => {
                 resolve();
               });
@@ -387,7 +402,7 @@ export const actions = {
       commit("CHANGE_OFFSET", payload.pageOffset);
       resolve();
     }).then(() => {
-      dispatch("fetchData", payload.token);
+      dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
     });
   }
 };
@@ -396,14 +411,23 @@ export const getters = {
   pageCount: (state: any) => {
     return Math.ceil(state.campsiteCount / state.limit);
   },
-  states: (state: any, getters: any) => {
+  campsiteStates: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "state");
   },
-  counties: (state: any, getters: any) => {
+  campsiteCounties: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "county");
   },
-  cities: (state: any, getters: any) => {
+  campsiteCities: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "city");
+  },
+  houseStates: (state: any, getters: any) => {
+    return renderAddressItems(getters.houses, "state");
+  },
+  houseCounties: (state: any, getters: any) => {
+    return renderAddressItems(getters.houses, "county");
+  },
+  houseCities: (state: any, getters: any) => {
+    return renderAddressItems(getters.houses, "city");
   },
   personCount: (state: any) => {
     const values = renderItems(state.results, "personen");
@@ -423,8 +447,8 @@ export const getters = {
       const housesArray = [];
 
       if (!isEmpty(campsite.haus)) {
-        for (const house of houses) {
-          const houseItem = find(houses, { id: house.id });
+        for (const house of campsite.haus) {
+          const houseItem = find(houses, { id: house.house_id });
           housesArray.push(houseItem);
         }
       }

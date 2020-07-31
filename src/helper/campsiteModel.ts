@@ -31,11 +31,13 @@ const addressModel = (address: any) => {
 
 const houseModel = (house: any) => {
   return {
+    id: house["id"],
     name: house["name"],
     beds: house["betten"],
     rooms: house["seminarraeume"],
     price: house["preis"],
-    annotations: house["bemerkungen"]
+    annotations: house["bemerkungen"],
+    rating: house["rating"]
   };
 };
 

@@ -14,7 +14,7 @@
         order-xl="1"
         class="d-none d-md-flex"
       >
-        <CampsiteFilter :key="app.filterKey" />
+        <HouseFilter :key="app.filterKey" />
       </v-col>
       <v-col
         cols="12"
@@ -29,9 +29,9 @@
         order-xl="2"
         v-if="app.loadingStatus === status.Ready"
       >
-        <SearchResults />
+        <HouseSearchResults />
       </v-col>
-      <Pagination dispatchName="fetchCampsites" />
+      <Pagination dispatchName="fetchHouses" />
     </v-row>
     <v-btn
       color="primary"
@@ -52,22 +52,22 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import CampsiteFilter from "@/components/CampsiteFilter/CampsiteFilter.vue";
-import SearchResults from "@/components/CampsiteSearch/SearchResults.vue";
+import HouseFilter from "@/components/HouseFilter/HouseFilter.vue";
+import HouseSearchResults from "@/components/HouseSearch/HouseSearchResults.vue";
 import { Status } from "@/helper/status";
-import FilterDialog from "@/components/CampsiteFilter/FilterDialog.vue";
+import FilterDialog from "@/components/HouseFilter/FilterDialog.vue";
 import Pagination from "@/components/shared/Pagination.vue";
 export default {
-  name: "CampsiteSearch",
+  name: "HouseSearch",
   components: {
-    CampsiteFilter,
-    SearchResults,
+    HouseFilter,
+    HouseSearchResults,
     FilterDialog,
     Pagination
   },
   computed: {
     ...mapState(["data", "app", "authentication"]),
-    ...mapGetters(["i18n", "campsites", "combinedFilter"]),
+    ...mapGetters(["i18n", "houses", "combinedFilter"]),
     status() {
       return Status;
     }
@@ -76,10 +76,10 @@ export default {
     ...mapActions(["switchFilterMenu", "setActivePage", "applyReset"])
   },
   updated() {
-    this.setActivePage(this.i18n.CAMPSITE_SEARCH_TITLE);
+    this.setActivePage(this.i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH);
   },
   mounted() {
-    this.setActivePage(this.i18n.CAMPSITE_SEARCH_TITLE);
+    this.setActivePage(this.i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH);
     if (this.combinedFilter) {
       this.applyReset({
         token: this.authentication.token,

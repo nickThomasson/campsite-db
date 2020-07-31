@@ -7,6 +7,7 @@ export const wishlistItem = (item: any) => {
     city: item["address"]["city"],
     county: item["address"]["county"],
     street: item["address"]["street"],
-    housenumber: item["address"]["houseNumber"]
+    housenumber: item["address"]["houseNumber"],
+    type: "rooms" in item ? "house" : "campsite"
   };
 };

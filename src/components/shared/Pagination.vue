@@ -23,6 +23,9 @@ export default {
       page: 1
     };
   },
+  props: {
+    dispatchName: String
+  },
   computed: {
     ...mapState(["data", "authentication"]),
     ...mapGetters(["pageCount"]),
@@ -41,7 +44,8 @@ export default {
       const factor = pageNumber - 1;
       this.changePage({
         token: this.authentication.token,
-        pageOffset: ~~(factor * this.data.limit)
+        pageOffset: ~~(factor * this.data.limit),
+        dispatchName: this.dispatchName
       });
     }
   }

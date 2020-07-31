@@ -11,6 +11,9 @@
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
   name: "FilterReset",
+  props: {
+    dispatchName: String
+  },
   computed: {
     ...mapState(["authentication", "data"]),
     ...mapGetters(["hasActiveFilter", "i18n"])
@@ -18,7 +21,10 @@ export default {
   methods: {
     ...mapActions(["applyReset"]),
     reset() {
-      this.applyReset(this.authentication.token);
+      this.applyReset({
+        token: this.authentication.token,
+        dispatchName: this.dispatchName
+      });
     }
   }
 };

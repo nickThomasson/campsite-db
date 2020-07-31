@@ -1,9 +1,7 @@
 <template>
   <v-col :cols="12" :md="houses > 1 ? 6 : 12" v-if="house">
     <v-card class="mb-4">
-      <v-card-title @click="goToHouse(house.id)" class="clickable">
-        {{ house.name }}
-      </v-card-title>
+      <v-card-title> {{ house.name }} </v-card-title>
       <v-card-text>
         <v-row no-gutters>
           <v-col v-if="house.beds" cols="12">
@@ -35,12 +33,6 @@ export default {
   methods: {
     price(number) {
       return transformCurrency(number);
-    },
-    goToHouse(id) {
-      this.$router.push({
-        name: "HouseDetailPage",
-        params: { id }
-      });
     }
   },
   computed: {

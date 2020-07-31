@@ -11,6 +11,9 @@
           class="font-weight-black"
           align-self="center"
         >
+          <v-icon class="mr-4">{{
+            item.type === "house" ? "house" : "filter_vintage"
+          }}</v-icon>
           <span @click="goTo(item.id)" class="clickable">{{ item.title }}</span>
         </v-col>
         <v-col cols="12" sm="4" md="4" lg="auto" align-self="center"
@@ -46,8 +49,11 @@ export default {
     ...mapActions(["deleteFromWishlist"]),
     goTo(id) {
       this.$router.push({
-        name: "CampsiteDetailPage",
-        params: { campsiteId: id }
+        name:
+          this.item.type === "campsite"
+            ? "CampsiteDetailPage"
+            : "HouseDetailPage",
+        params: { id }
       });
     }
   }
