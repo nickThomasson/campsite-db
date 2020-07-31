@@ -30,15 +30,19 @@ const addressModel = (address: any) => {
 };
 
 const houseModel = (house: any) => {
+  return {
+    name: house["name"],
+    beds: house["betten"],
+    rooms: house["seminarraeume"],
+    price: house["preis"],
+    annotations: house["bemerkungen"]
+  };
+};
+
+const houseModelMultiple = (house: any) => {
   const houses = [];
   for (const item of house) {
-    houses.push({
-      name: item["name"],
-      beds: item["betten"],
-      rooms: item["seminarraeume"],
-      price: item["preis"],
-      annotations: item["bemerkungen"]
-    });
+    houses.push(houseModel(item));
   }
 
   return houses;
@@ -52,13 +56,22 @@ export const combinedCampsiteModel = (
 ) => {
   const campsiteM = campsiteModel(campsite);
   const addressM = addressModel(address);
-  const houseM = houseModel(house);
+  const houseM = houseModelMultiple(house);
   const combinedCampsiteObject = {
     ...campsiteM,
-    //combinedPrice: campsiteM.price + houseM.price,
     address: addressM,
     house: houseM,
     gallery
   };
   return combinedCampsiteObject;
+};
+
+export const combinedHouseModel = (house: any, address = {}) => {
+  const addressM = addressModel(address);
+  const houseM = houseModel(house);
+  const combinedHouseObject = {
+    ...houseM,
+    address: addressM
+  };
+  return combinedHouseObject;
 };

@@ -5,7 +5,10 @@ import { max, min, find, pull, random, isEmpty } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
-import { combinedCampsiteModel } from "@/helper/campsiteModel";
+import {
+  combinedCampsiteModel,
+  combinedHouseModel
+} from "@/helper/campsiteModel";
 
 export const state = {
   collectionName: "campsite",
@@ -433,9 +436,24 @@ export const getters = {
           gallery.push(imageObject.directus_files_id.data);
         }
       }
+
       mergedResults.push(
         combinedCampsiteModel(campsite, address, housesArray, gallery)
       );
+    }
+
+    return mergedResults;
+  },
+  houses: (state: any) => {
+    const mergedResults: Array<object> = [];
+
+    const addresses = state.addresses;
+    const houses = state.houses;
+
+    for (const house of houses) {
+      const address = find(addresses, { id: house.adresse[0].address_id });
+
+      mergedResults.push(combinedHouseModel(house, address));
     }
 
     return mergedResults;
