@@ -100,7 +100,7 @@ export default {
     },
     goTo(id) {
       this.$router.push({
-        name: "DetailPage",
+        name: "CampsiteDetailPage",
         params: { campsiteId: id }
       });
     }

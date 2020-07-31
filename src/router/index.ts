@@ -18,8 +18,8 @@ const routes: Array<RouteConfig> = [
     component: Wishlist
   },
   {
-    path: "/:campsiteId",
-    name: "DetailPage",
+    path: "/campsite/:campsiteId",
+    name: "CampsiteDetailPage",
     component: CampsiteDetailPage
   }
 ];

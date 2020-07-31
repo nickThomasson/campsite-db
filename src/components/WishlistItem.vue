@@ -46,7 +46,7 @@ export default {
     ...mapActions(["deleteFromWishlist"]),
     goTo(id) {
       this.$router.push({
-        name: "DetailPage",
+        name: "CampsiteDetailPage",
         params: { campsiteId: id }
       });
     }
