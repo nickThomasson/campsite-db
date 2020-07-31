@@ -393,8 +393,8 @@ export const getters = {
   pageCount: (state: any) => {
     return Math.ceil(state.campsiteCount / state.limit);
   },
-  states: (state: any) => {
-    return renderItems(state.addresses, "bundesland");
+  states: (state: any, getters: any) => {
+    return renderAddressItems(getters.campsites, "state");
   },
   counties: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "county");
