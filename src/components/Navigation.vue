@@ -17,7 +17,7 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{
-            i18n.CAMPSITE_NAVIGATION_STARTPAGE
+            i18n.CAMPSITE_SEARCH_TITLE
           }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
