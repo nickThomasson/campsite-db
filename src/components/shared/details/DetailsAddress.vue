@@ -27,7 +27,7 @@
           </a>
           <a
             :href="
-              `https://www.google.de/maps/place/${address.street}+${address.houseNumber}+${address.zip}+${address.city}`
+              `${mapsService}${address.street}+${address.houseNumber}+${address.zip}+${address.city}`
             "
             target="_blank"
           >
@@ -50,6 +50,16 @@ export default {
     ...mapGetters(["i18n"]),
     address() {
       return this.detailPage.page.address;
+    },
+    mapsService() {
+      switch (process.env.VUE_APP_MAP) {
+        case "bm":
+          return "https://www.bing.com/maps?ss=";
+        case "gm":
+          return "https://www.google.de/maps/place/";
+        default:
+          return "https://www.openstreetmap.org/search?query=";
+      }
     }
   }
 };
