@@ -47,9 +47,9 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 import NotFound from "@/components/NotFound.vue";
 import DetailsHouseCard from "@/components/CampsiteDetail/DetailsHouseCard.vue";
-import DetailsGallery from "@/components/CampsiteDetail/DetailsGallery.vue";
-import DetailsHeader from "@/components/CampsiteDetail/DetailsHeader.vue";
-import DetailsAddress from "@/components/CampsiteDetail/DetailsAddress.vue";
+import DetailsGallery from "@/components/shared/details/DetailsGallery.vue";
+import DetailsHeader from "@/components/shared/details/DetailsHeader.vue";
+import DetailsAddress from "@/components/shared/details/DetailsAddress.vue";
 import DetailsData from "@/components/CampsiteDetail/DetailsData.vue";
 import { isEmpty } from "lodash";
 

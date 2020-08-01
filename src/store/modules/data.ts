@@ -470,11 +470,20 @@ export const getters = {
 
     const addresses = state.addresses;
     const houses = state.houses;
+    const galleries = state.gallery;
 
     for (const house of houses) {
       const address = find(addresses, { id: house.adresse[0].address_id });
 
-      mergedResults.push(combinedHouseModel(house, address));
+      const gallery: any = [];
+      if (!isEmpty(house.gallery)) {
+        for (const image of house.gallery) {
+          const imageObject = find(galleries, { id: image.id });
+          gallery.push(imageObject.directus_files_id.data);
+        }
+      }
+
+      mergedResults.push(combinedHouseModel(house, address, gallery));
     }
 
     return mergedResults;

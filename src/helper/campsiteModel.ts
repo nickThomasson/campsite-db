@@ -75,12 +75,13 @@ export const combinedCampsiteModel = (
   return combinedCampsiteObject;
 };
 
-export const combinedHouseModel = (house: any, address = {}) => {
+export const combinedHouseModel = (house: any, address = {}, gallery = []) => {
   const addressM = addressModel(address);
   const houseM = houseModel(house);
   const combinedHouseObject = {
     ...houseM,
-    address: addressM
+    address: addressM,
+    gallery
   };
   return combinedHouseObject;
 };
