@@ -16,7 +16,9 @@ const campsiteModel = (campsite: any) => {
 const campsiteModelMultiple = (campsite: any) => {
   const campsites = [];
   for (const item of campsite) {
-    campsites.push(campsiteModel(item));
+    if (item) {
+      campsites.push(campsiteModel(item));
+    }
   }
   return campsites;
 };
@@ -59,7 +61,9 @@ const houseModel = (house: any) => {
 const houseModelMultiple = (house: any) => {
   const houses = [];
   for (const item of house) {
-    houses.push(houseModel(item));
+    if (item) {
+      houses.push(houseModel(item));
+    }
   }
   return houses;
 };

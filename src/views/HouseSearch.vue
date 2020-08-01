@@ -92,8 +92,7 @@ export default {
     this.setActivePage(this.i18n.HOUSE_SEARCH_PAGE_TITLE);
     if (this.combinedFilter) {
       this.applyReset({
-        token: this.authentication.token,
-        dispatchName: "fetchCampsites"
+        token: this.authentication.token
       });
     }
   }

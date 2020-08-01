@@ -22,8 +22,7 @@ export default {
     ...mapActions(["applyReset"]),
     reset() {
       this.applyReset({
-        token: this.authentication.token,
-        dispatchName: this.dispatchName
+        token: this.authentication.token
       });
     }
   }

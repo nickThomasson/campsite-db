@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="campsites">
+  <v-row v-if="campsites.length > 0">
     <v-col
       xl="4"
       lg="6"
@@ -13,16 +13,19 @@
       <CampsiteOverviewCard :campsite="campsite" />
     </v-col>
   </v-row>
+  <NoResults v-else />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import CampsiteOverviewCard from "@/components/CampsiteSearch/CampsiteOverviewCard.vue";
+import NoResults from "@/components/NoResults.vue";
 
 export default {
-  name: "SearchResults",
+  name: "CampsiteSearchResults",
   components: {
-    CampsiteOverviewCard
+    CampsiteOverviewCard,
+    NoResults
   },
   computed: {
     ...mapGetters(["campsites"])
