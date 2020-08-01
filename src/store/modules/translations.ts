@@ -59,7 +59,7 @@ export const actions = {
   patchLanguage({ commit }: any, payload: any) {
     return new Promise((resolve, reject) => {
       const item: any = state.importedLanguage || {};
-      if (item.language === payload.iso) {
+      if (item.id === payload.id) {
         campsiteService
           .updateItem(payload.token, "translations", item.id, item)
           .then((response: any) => {
