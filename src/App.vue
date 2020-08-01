@@ -42,8 +42,6 @@ export default Vue.extend({
       this.setRanges({
         beds: renderRange(this.data.houses, "betten"),
         persons: renderRange(this.data.results, "personen"),
-        ratingCampsites: renderRange(this.data.results, "bewertung"),
-        ratingHouses: renderRange(this.data.houses, "rating"),
         rooms: renderRange(this.data.houses, "seminarraeume"),
         itemCountCampsites: this.data.results.length,
         itemCountHouses: this.data.houses.length,
