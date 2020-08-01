@@ -11,7 +11,13 @@
       :filterTitle="i18n[filter.filterTitle]"
     />
 
-    <RangeFilter :filterRange="data.personCount" />
+    <RangeFilter
+      :filterRange="data.ranges.persons"
+      :filterTitle="i18n.CAMPSITE_FILTER_TITLE_PERSONS"
+      dispatchName="fetchCampsites"
+      filterName="personFilter"
+    />
+
     <v-col cols="12">
       <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
       <SwitchFilter

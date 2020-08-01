@@ -31,7 +31,11 @@
       >
         <HouseSearchResults />
       </v-col>
-      <Pagination dispatchName="fetchHouses" />
+      <Pagination
+        dispatchName="fetchHouses"
+        :pageCount="pageCountHouses"
+        :totalCount="data.ranges.itemCountHouses"
+      />
     </v-row>
     <v-btn
       color="primary"
@@ -67,7 +71,13 @@ export default {
   },
   computed: {
     ...mapState(["data", "app", "authentication"]),
-    ...mapGetters(["i18n", "houses", "combinedFilter"]),
+    ...mapGetters([
+      "i18n",
+      "houses",
+      "combinedFilter",
+      "pageCountCampsites",
+      "pageCountHouses"
+    ]),
     status() {
       return Status;
     }

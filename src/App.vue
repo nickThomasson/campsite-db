@@ -15,6 +15,7 @@ import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 import Header from "@/components/Header.vue";
+import { renderRange } from "@/helper/renderItems";
 
 export default Vue.extend({
   name: "App",
@@ -22,7 +23,7 @@ export default Vue.extend({
     Header
   },
   computed: {
-    ...mapState(["authentication", "app"]),
+    ...mapState(["authentication", "app", "data"]),
     ...mapGetters(["i18n"]),
     status() {
       return Status;
@@ -34,8 +35,22 @@ export default Vue.extend({
       "refreshToken",
       "authenticateClient",
       "changeStatus",
-      "fetchData"
-    ])
+      "fetchData",
+      "setRanges"
+    ]),
+    getRanges() {
+      this.setRanges({
+        beds: renderRange(this.data.houses, "betten"),
+        persons: renderRange(this.data.results, "personen"),
+        ratingCampsites: renderRange(this.data.results, "bewertung"),
+        ratingHouses: renderRange(this.data.houses, "rating"),
+        rooms: renderRange(this.data.houses, "seminarraeume"),
+        itemCountCampsites: this.data.results.length,
+        itemCountHouses: this.data.houses.length,
+        priceCampsites: renderRange(this.data.results, "preis"),
+        priceHouses: renderRange(this.data.houses, "preis")
+      });
+    }
   },
   created() {
     this.initializeWishlist();
@@ -43,6 +58,7 @@ export default Vue.extend({
       this.changeStatus(Status.Loading);
       this.fetchData(this.authentication.token).then(() => {
         this.changeStatus(Status.Ready);
+        this.getRanges();
       });
     });
     setInterval(() => {

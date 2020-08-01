@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12">
-    <h3 class="mb-10">{{ i18n.CAMPSITE_FILTER_TITLE_PERSONS }}</h3>
+    <h3 class="mb-10">{{ filterTitle }}</h3>
     <v-range-slider
       v-model="filterValue"
       thumb-label="always"
@@ -16,7 +16,10 @@ import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   name: "RangeFilter",
   props: {
-    filterRange: Array
+    filterRange: Array,
+    filterTitle: String,
+    dispatchName: String,
+    filterName: String
   },
   computed: {
     ...mapState(["data", "authentication"]),
@@ -31,10 +34,10 @@ export default {
     ...mapActions(["applyFilter"]),
     setPersonFilter() {
       this.applyFilter({
-        type: "personFilter",
+        type: this.filterName,
         value: this.filterValue,
         token: this.authentication.token,
-        dispatchName: "fetchCampsites"
+        dispatchName: this.dispatchName
       });
     }
   },
