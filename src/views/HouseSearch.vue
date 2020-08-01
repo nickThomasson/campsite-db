@@ -86,10 +86,10 @@ export default {
     ...mapActions(["switchFilterMenu", "setActivePage", "applyReset"])
   },
   updated() {
-    this.setActivePage(this.i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH);
+    this.setActivePage(this.i18n.HOUSE_SEARCH_PAGE_TITLE);
   },
   mounted() {
-    this.setActivePage(this.i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH);
+    this.setActivePage(this.i18n.HOUSE_SEARCH_PAGE_TITLE);
     if (this.combinedFilter) {
       this.applyReset({
         token: this.authentication.token,

@@ -53,8 +53,13 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="primary" @click="goTo(campsite.id)">
-        {{ i18n.CAMPSITE_APP_DETAILS }}
+      <v-btn
+        text
+        color="primary"
+        @click="goTo(campsite.id)"
+        data-lang-key="APP_DETAILS"
+      >
+        {{ i18n.APP_DETAILS }}
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn icon @click="addToWishList(campsite)">

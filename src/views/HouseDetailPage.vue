@@ -8,23 +8,36 @@
       <v-col cols="12">
         <v-row>
           <v-col cols="12" class="mb-4"
-            ><h4>{{ i18n.CAMPSITE_DETAIL_INFO_HOUSE_TITLE }}</h4></v-col
+            ><h4 data-lang-key="HOUSE_DETAIL_HOUSE_TITLE">
+              {{ i18n.HOUSE_DETAIL_HOUSE_TITLE }}
+            </h4></v-col
           >
           <v-col cols="12" md="6">
             <DetailsAddress />
           </v-col>
+          <v-col cols="12" md="6">
+            <DetailsData />
+          </v-col>
           <v-col v-if="galleryExists" cols="12"
-            ><h4>{{ i18n.CAMPSITE_DETAIL_GALLERY_TITLE }}</h4></v-col
+            ><h4 data-lang-key="HOUSE_DETAIL_GALLERY_TITLE">
+              {{ i18n.HOUSE_DETAIL_GALLERY_TITLE }}
+            </h4></v-col
           >
           <v-col cols="12">
             <DetailsGallery />
           </v-col>
           <v-col v-if="campsites.length > 0" class="mb-4" cols="12">
-            <h4>
+            <h4
+              :data-lang-key="
+                campsites.length > 1
+                  ? 'HOUSE_DETAIL_CAMPSITES_TITLE'
+                  : ' HOUSE_DETAIL_CAMPSITE_TITLE'
+              "
+            >
               {{
                 campsites.length > 1
-                  ? i18n.CAMPSITE_DETAIL_INFO_CAMPSITES_TITLE
-                  : i18n.CAMPSITE_DETAIL_INFO_CAMPSITE_TITLE
+                  ? i18n.HOUSE_DETAIL_CAMPSITES_TITLE
+                  : i18n.HOUSE_DETAIL_CAMPSITE_TITLE
               }}
             </h4>
           </v-col>
@@ -46,6 +59,7 @@ import DetailsHeader from "@/components/shared/details/DetailsHeader.vue";
 import DetailsAddress from "@/components/shared/details/DetailsAddress.vue";
 import DetailsGallery from "@/components/shared/details/DetailsGallery.vue";
 import DetailsCampsiteCard from "@/components/HouseDetail/DetailsCampsiteCard.vue";
+import DetailsData from "@/components/HouseDetail/DetailsData.vue";
 import { isEmpty } from "lodash";
 
 export default {
@@ -55,7 +69,8 @@ export default {
     DetailsHeader,
     DetailsAddress,
     DetailsGallery,
-    DetailsCampsiteCard
+    DetailsCampsiteCard,
+    DetailsData
   },
   methods: {
     ...mapActions(["setActivePage", "savePage"])

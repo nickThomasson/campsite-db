@@ -11,14 +11,12 @@
           <v-btn icon dark @click="switchFilterMenu">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{
-            i18n.CAMPSITE_FILTER_MENU_TITLE
-          }}</v-toolbar-title>
+          <v-toolbar-title>{{ i18n.APP_FILTER_MENU_TITLE }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn dark text @click="switchFilterMenu" v-if="hasActiveFilter">
               <v-icon class="mb-1 mr-2">save_alt</v-icon>
-              {{ i18n.CAMPSITE_APP_SAVE }}</v-btn
+              {{ i18n.APP_SAVE }}</v-btn
             >
           </v-toolbar-items>
         </v-toolbar>

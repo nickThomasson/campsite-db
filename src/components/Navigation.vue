@@ -2,8 +2,8 @@
   <div>
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title>{{
-          i18n.CAMPSITE_NAVIGATION_TITLE
+        <v-list-item-title data-lang-key="APP_NAVIGATION_TITLE">{{
+          i18n.APP_NAVIGATION_TITLE
         }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
@@ -16,8 +16,8 @@
           <v-icon>dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{
-            i18n.CAMPSITE_SEARCH_TITLE
+          <v-list-item-title data-lang-key="CAMPSITE_SEARCH_PAGE_TITLE">{{
+            i18n.CAMPSITE_SEARCH_PAGE_TITLE
           }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -27,8 +27,8 @@
           <v-icon>house</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{
-            i18n.CAMPSITE_NAVIGATION_HOUSE_SEARCH
+          <v-list-item-title data-lang-key="HOUSE_SEARCH_PAGE_TITLE">{{
+            i18n.HOUSE_SEARCH_PAGE_TITLE
           }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -38,8 +38,8 @@
           <v-icon>list_alt</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>
-            {{ i18n.CAMPSITE_NAVIGATION_WISHLIST }}
+          <v-list-item-title data-lang-key="WISHLIST_PAGE_TITLE">
+            {{ i18n.WISHLIST_PAGE_TITLE }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

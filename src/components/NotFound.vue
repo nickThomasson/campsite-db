@@ -6,8 +6,8 @@
         <h5>{{ i18n.CAMPSITE_404_BODY }}</h5>
       </v-col>
       <v-col>
-        <v-btn color="primary" dense @click="goBack">{{
-          i18n.CAMPSITE_APP_BACK
+        <v-btn color="primary" dense @click="goBack" data-lang-key="APP_BACK">{{
+          i18n.APP_BACK
         }}</v-btn>
       </v-col>
     </v-row>

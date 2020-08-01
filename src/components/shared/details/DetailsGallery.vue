@@ -8,6 +8,7 @@
           :srcset="
             `${item.thumbnails[2].url} 320w, ${item.thumbnails[4].url} 600w`
           "
+          :alt="detailPage.page.name"
         ></v-img>
       </v-card>
     </v-col>

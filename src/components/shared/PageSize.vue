@@ -1,8 +1,9 @@
 <template>
   <v-select
+    data-lang-key="APP_FILTER_LABEL_PAGE_SIZE"
     v-model="limit"
     :items="[10, 20, 50, 100]"
-    :label="i18n.CAMPSITE_FILTER_LABEL_PAGE_SIZE"
+    :label="i18n.APP_FILTER_LABEL_PAGE_SIZE"
   ></v-select>
 </template>
 

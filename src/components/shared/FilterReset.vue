@@ -1,8 +1,8 @@
 <template>
   <v-col cols="12" v-if="hasActiveFilter">
-    <v-btn color="primary" @click="reset">
+    <v-btn color="primary" @click="reset" data-lang-key="APP_RESET">
       <v-icon class="mr-2">replay</v-icon>
-      {{ i18n.CAMPSITE_APP_RESET }}
+      {{ i18n.APP_RESET }}
     </v-btn>
   </v-col>
 </template>
