@@ -19,6 +19,20 @@
           <v-col cols="12">
             <DetailsGallery />
           </v-col>
+          <v-col v-if="campsites.length > 0" class="mb-4" cols="12">
+            <h4>
+              {{
+                campsites.length > 1
+                  ? i18n.CAMPSITE_DETAIL_INFO_CAMPSITES_TITLE
+                  : i18n.CAMPSITE_DETAIL_INFO_CAMPSITE_TITLE
+              }}
+            </h4>
+          </v-col>
+          <DetailsCampsiteCard
+            v-for="(campsite, index) in campsites"
+            :key="index"
+            :campsite="campsite"
+          />
         </v-row>
       </v-col>
     </v-row>
@@ -31,6 +45,7 @@ import NotFound from "@/components/NotFound.vue";
 import DetailsHeader from "@/components/shared/details/DetailsHeader.vue";
 import DetailsAddress from "@/components/shared/details/DetailsAddress.vue";
 import DetailsGallery from "@/components/shared/details/DetailsGallery.vue";
+import DetailsCampsiteCard from "@/components/HouseDetail/DetailsCampsiteCard.vue";
 import { isEmpty } from "lodash";
 
 export default {
@@ -39,7 +54,8 @@ export default {
     NotFound,
     DetailsHeader,
     DetailsAddress,
-    DetailsGallery
+    DetailsGallery,
+    DetailsCampsiteCard
   },
   methods: {
     ...mapActions(["setActivePage", "savePage"])
@@ -64,6 +80,12 @@ export default {
         item => item.id === parseInt(this.houseId)
       );
       return housePage;
+    },
+    campsites() {
+      if (!this.noPage && this.detailPage.page.campsites) {
+        return this.detailPage.page.campsites;
+      }
+      return false;
     }
   },
   mounted() {

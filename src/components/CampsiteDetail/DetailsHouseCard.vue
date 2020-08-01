@@ -7,7 +7,7 @@
       <v-card-text>
         <v-row no-gutters>
           <v-col v-if="house.beds" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }} {{ house.bes }}
+            {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }} {{ house.beds }}
           </v-col>
           <v-col v-if="house.rooms" cols="12">
             {{ i18n.CAMPSITE_DETAIL_HOUSE_ROOMS }} {{ house.rooms }}

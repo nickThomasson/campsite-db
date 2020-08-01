@@ -471,6 +471,7 @@ export const getters = {
     const addresses = state.addresses;
     const houses = state.houses;
     const galleries = state.gallery;
+    const campsites = state.results;
 
     for (const house of houses) {
       const address = find(addresses, { id: house.adresse[0].address_id });
@@ -483,7 +484,18 @@ export const getters = {
         }
       }
 
-      mergedResults.push(combinedHouseModel(house, address, gallery));
+      const campsitesArray: any = [];
+      if (!isEmpty(house.campsite)) {
+        for (const campsite of house.campsite) {
+          console.log(campsite);
+          const campsiteItem = find(campsites, { id: campsite.campsite_id });
+          campsitesArray.push(campsiteItem);
+        }
+      }
+
+      mergedResults.push(
+        combinedHouseModel(house, address, campsitesArray, gallery)
+      );
     }
 
     return mergedResults;
