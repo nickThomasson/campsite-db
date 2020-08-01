@@ -22,7 +22,7 @@ export const state = {
   activeFilter: [],
   results: [],
   addresses: [],
-  personFilter: null,
+  personCount: null,
   campsiteCount: 0,
   houses: [],
   gallery: []
@@ -39,7 +39,7 @@ export const mutations = {
     state.houses = houses;
   },
   SET_PERSON_COUNT(state: any, count: number) {
-    state.personFilter = count;
+    state.personCount = count;
   },
   SET_PAGE_LIMIT(state: any, count: number) {
     state.limit = count;
@@ -114,6 +114,8 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SET_CAMPSITE_COUNT", response.data.data.length);
+            const values = renderItems(state.results, "personen");
+            commit("SET_PERSON_COUNT", [min(values), max(values)]);
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
@@ -227,9 +229,9 @@ export const actions = {
     commit("REGISTER_ACTIVE_FILTER", activeFilter);
   },
 
-  registerPersonFilter({ dispatch }: any, filterValues: any) {
+  registerPersonFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[personen][between]=${filterValues.join(
+      const filterContent = `&filter[personen][between]=${payload.value.join(
         ","
       )}`;
       dispatch(
@@ -240,23 +242,23 @@ export const actions = {
     });
   },
 
-  registerKitchenFilter({ dispatch }: any, filterValue: boolean) {
+  registerKitchenFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[kueche][neq]=${filterValue}`;
+      const filterContent = `&filter[kitchen][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("kitchenFilter", filterValue, filterContent)
+        registerFilter("kitchenFilter", payload.value, filterContent)
       );
       resolve();
     });
   },
 
-  registerSanitaryFilter({ dispatch }: any, filterValue: boolean) {
+  registerSanitaryFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[sanitaeranlagen][neq]=${filterValue}`;
+      const filterContent = `&filter[sanitary][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("sanitaryFilter", filterValue, filterContent)
+        registerFilter("sanitaryFilter", payload.value, filterContent)
       );
       resolve();
     });
@@ -311,41 +313,13 @@ export const actions = {
   },
 
   applyFilter({ dispatch, commit }: any, payload: any) {
-    if (payload.type === "personFilter") {
-      dispatch("registerPersonFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
+    const filterType = (type: string) => {
+      return `register${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+    };
 
-    if (payload.type === "kitchenFilter") {
-      dispatch("registerKitchenFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "sanitaryFilter") {
-      dispatch("registerSanitaryFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "stateFilter") {
-      dispatch("registerStateFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "countyFilter") {
-      dispatch("registerCountyFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "cityFilter") {
-      dispatch("registerCityFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
+    dispatch(filterType(payload.type), payload).then(() => {
+      dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
+    });
 
     commit("CHANGE_RESET_KEY", random(5, true));
   },
@@ -428,10 +402,6 @@ export const getters = {
   },
   houseCities: (state: any, getters: any) => {
     return renderAddressItems(getters.houses, "city");
-  },
-  personCount: (state: any) => {
-    const values = renderItems(state.results, "personen");
-    return [min(values), max(values)];
   },
   campsites: (state: any) => {
     const mergedResults: Array<object> = [];

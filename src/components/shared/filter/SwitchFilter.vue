@@ -1,7 +1,7 @@
 <template>
   <v-switch
     v-model="filterValue"
-    :label="i18n.CAMPSITE_FILTER_LABEL_SANITARY"
+    :label="filterLabel"
     @change="setSanitaryFilter(filterValue)"
   ></v-switch>
 </template>
@@ -11,7 +11,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { find } from "lodash";
 
 export default {
-  name: "SanitaryFilter",
+  name: "SwitchFilter",
+  props: {
+    filterLabel: String,
+    filterName: String,
+    dispatchName: String
+  },
   data() {
     return {
       filterValue: false
@@ -22,7 +27,7 @@ export default {
     ...mapGetters(["i18n"]),
     storeValue() {
       const storeValue = find(this.data.activeFilter, {
-        filterName: "sanitaryFilter"
+        filterName: this.filterName
       });
       return storeValue;
     }
@@ -31,9 +36,10 @@ export default {
     ...mapActions(["applyFilter"]),
     setSanitaryFilter(value) {
       this.applyFilter({
-        type: "sanitaryFilter",
+        type: this.filterName,
         value,
-        token: this.authentication.token
+        token: this.authentication.token,
+        dispatchName: this.dispatchName
       });
     }
   },

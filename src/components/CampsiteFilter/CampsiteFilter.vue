@@ -1,8 +1,8 @@
 <template>
   <div>
-    <AddressFilter
-      v-for="(filter, index) in addressFilter"
-      :key="index"
+    <SelectFilter
+      v-for="filter in selectFilterItems"
+      :key="filter.filterName"
       :filterName="filter.filterName"
       dispatchName="fetchCampsites"
       :selectItems="filter.filterItems"
@@ -11,11 +11,16 @@
       :filterTitle="i18n[filter.filterTitle]"
     />
 
-    <PersonFilter />
+    <RangeFilter :filterRange="data.personCount" />
     <v-col cols="12">
       <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
-      <KitchenFilter />
-      <SanitaryFilter />
+      <SwitchFilter
+        v-for="filter in switchFilterItems"
+        :key="filter.filterName"
+        :filterName="filter.filterName"
+        :filterLabel="i18n[filter.filterLabel]"
+        dispatchName="fetchCampsites"
+      />
     </v-col>
     <v-col cols="12">
       <h3 class="mb-4">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
@@ -27,17 +32,16 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import AddressFilter from "@/components/shared/filter/AddressFilter.vue";
 import FilterReset from "@/components/shared/FilterReset.vue";
-import PersonFilter from "@/components/CampsiteFilter/partials/PersonFilter";
-import KitchenFilter from "@/components/CampsiteFilter/partials/KitchenFilter";
-import SanitaryFilter from "@/components/CampsiteFilter/partials/SanitaryFilter";
+import SelectFilter from "@/components/shared/filter/SelectFilter.vue";
+import SwitchFilter from "@/components/shared/filter/SwitchFilter.vue";
+import RangeFilter from "@/components/shared/filter/RangeFilter.vue";
 import PageSize from "@/components/shared/PageSize.vue";
 export default {
   name: "CampsiteFilter",
   data() {
     return {
-      addressFilter: [
+      selectFilterItems: [
         {
           filterName: "stateFilter",
           filterItems: [],
@@ -56,19 +60,28 @@ export default {
           filterLabel: "CAMPSITE_FILTER_LABEL_CITY",
           filterTitle: "CAMPSITE_FILTER_TITLE_CITY"
         }
+      ],
+      switchFilterItems: [
+        {
+          filterName: "kitchenFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_KITCHEN"
+        },
+        {
+          filterName: "sanitaryFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_SANITARY"
+        }
       ]
     };
   },
   components: {
-    AddressFilter,
-    PersonFilter,
-    KitchenFilter,
-    SanitaryFilter,
+    SelectFilter,
+    SwitchFilter,
+    RangeFilter,
     PageSize,
     FilterReset
   },
   computed: {
-    ...mapState(["app"]),
+    ...mapState(["app", "data"]),
     ...mapGetters([
       "i18n",
       "campsites",
@@ -79,9 +92,9 @@ export default {
   },
   methods: {
     setFilterItems() {
-      this.addressFilter[0].filterItems = this.campsiteStates;
-      this.addressFilter[1].filterItems = this.campsiteCounties;
-      this.addressFilter[2].filterItems = this.campsiteCities;
+      this.selectFilterItems[0].filterItems = this.campsiteStates;
+      this.selectFilterItems[1].filterItems = this.campsiteCounties;
+      this.selectFilterItems[2].filterItems = this.campsiteCities;
     }
   },
   created() {

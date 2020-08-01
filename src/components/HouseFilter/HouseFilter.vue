@@ -1,8 +1,8 @@
 <template>
   <div>
-    <AddressFilter
-      v-for="(filter, index) in addressFilter"
-      :key="index"
+    <SelectFilter
+      v-for="filter in selectFilterItems"
+      :key="filter.filterName"
       :filterName="filter.filterName"
       dispatchName="fetchHouses"
       :selectItems="filter.filterItems"
@@ -10,6 +10,15 @@
       :filterLabel="i18n[filter.filterLabel]"
       :filterTitle="i18n[filter.filterTitle]"
     />
+    <v-col cols="12">
+      <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
+      <SwitchFilter
+        filterName="kitchenFilter"
+        :filterLabel="i18n.CAMPSITE_FILTER_LABEL_KITCHEN"
+        dispatchName="fetchHouses"
+      />
+    </v-col>
+
     <v-col cols="12">
       <h3 class="mb-4">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
       <PageSize dispatchName="fetchHouses" />
@@ -21,13 +30,14 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import FilterReset from "@/components/shared/FilterReset.vue";
-import AddressFilter from "@/components/shared/filter/AddressFilter.vue";
+import SelectFilter from "@/components/shared/filter/SelectFilter.vue";
+import SwitchFilter from "@/components/shared/filter/SwitchFilter.vue";
 import PageSize from "@/components/shared/PageSize.vue";
 export default {
   name: "HouseFilter",
   data() {
     return {
-      addressFilter: [
+      selectFilterItems: [
         {
           filterName: "stateFilter",
           filterItems: [],
@@ -50,9 +60,10 @@ export default {
     };
   },
   components: {
-    AddressFilter,
+    SelectFilter,
     PageSize,
-    FilterReset
+    FilterReset,
+    SwitchFilter
   },
   computed: {
     ...mapState(["app"]),
@@ -66,9 +77,9 @@ export default {
   },
   methods: {
     setFilterItems() {
-      this.addressFilter[0].filterItems = this.houseStates;
-      this.addressFilter[1].filterItems = this.houseCounties;
-      this.addressFilter[2].filterItems = this.houseCities;
+      this.selectFilterItems[0].filterItems = this.houseStates;
+      this.selectFilterItems[1].filterItems = this.houseCounties;
+      this.selectFilterItems[2].filterItems = this.houseCities;
     }
   },
   created() {

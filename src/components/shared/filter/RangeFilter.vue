@@ -2,11 +2,11 @@
   <v-col cols="12">
     <h3 class="mb-10">{{ i18n.CAMPSITE_FILTER_TITLE_PERSONS }}</h3>
     <v-range-slider
-      v-model="persons"
+      v-model="filterValue"
       thumb-label="always"
-      :max="personCount[1]"
-      :min="personCount[0]"
-      @end="setPersonFilter(data.personFilter)"
+      :max="filterRange[1]"
+      :min="filterRange[0]"
+      @end="setPersonFilter()"
     ></v-range-slider>
   </v-col>
 </template>
@@ -14,28 +14,32 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
-  name: "PersonFilter",
+  name: "RangeFilter",
+  props: {
+    filterRange: Array
+  },
   computed: {
     ...mapState(["data", "authentication"]),
-    ...mapGetters(["personCount", "i18n"]),
-    persons: {
-      get() {
-        return this.personCount;
-      },
-      set(value) {
-        this.$store.commit("SET_PERSON_COUNT", value);
-      }
-    }
+    ...mapGetters(["i18n"])
+  },
+  data() {
+    return {
+      filterValue: []
+    };
   },
   methods: {
     ...mapActions(["applyFilter"]),
-    setPersonFilter(value) {
+    setPersonFilter() {
       this.applyFilter({
         type: "personFilter",
-        value,
-        token: this.authentication.token
+        value: this.filterValue,
+        token: this.authentication.token,
+        dispatchName: "fetchCampsites"
       });
     }
+  },
+  mounted() {
+    this.filterValue = this.filterRange;
   }
 };
 </script>
