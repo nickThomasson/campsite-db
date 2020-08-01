@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col cols="12" class="text-right">
-      <v-btn color="primary" dense @click="goBack">{{
-        i18n.CAMPSITE_APP_BACK
+      <v-btn color="primary" dense @click="goBack" data-lang-key="APP_BACK">{{
+        i18n.APP_BACK
       }}</v-btn>
     </v-col>
     <v-col cols="auto" align-self="center">

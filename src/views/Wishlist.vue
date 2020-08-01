@@ -35,10 +35,10 @@ export default {
     ...mapActions(["setActivePage"])
   },
   updated() {
-    this.setActivePage(this.i18n.CAMPSITE_WISHLIST_TITLE);
+    this.setActivePage(this.i18n.WISHLIST_PAGE_TITLE);
   },
   mounted() {
-    this.setActivePage(this.i18n.CAMPSITE_WISHLIST_TITLE);
+    this.setActivePage(this.i18n.WISHLIST_PAGE_TITLE);
   }
 };
 </script>

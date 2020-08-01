@@ -1,6 +1,10 @@
 <template>
-  <v-alert type="error" v-if="app.loadingStatus === status.Error">
-    {{ i18n.CAMPSITE_ERROR }}
+  <v-alert
+    type="error"
+    v-if="app.loadingStatus === status.Error"
+    data-lang-key="APP_ERROR"
+  >
+    {{ i18n.APP_ERROR }}
   </v-alert>
 </template>
 

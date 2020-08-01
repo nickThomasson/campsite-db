@@ -7,8 +7,11 @@
       <v-toolbar dark color="primary">
         <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-        <v-toolbar-title class="clickable" @click="startPage"
-          >{{ i18n.CAMPSITE_APP_TITLE }} {{ getPageTitle }}
+        <v-toolbar-title
+          class="clickable"
+          @click="startPage"
+          data-lang-key="APP_TITLE"
+          >{{ i18n.APP_TITLE }} {{ getPageTitle }}
         </v-toolbar-title>
 
         <v-spacer></v-spacer>
@@ -28,7 +31,7 @@
           :max-width="35"
           :max-height="35"
           contain
-          :alt="i18n.CAMPSITE_SEARCH_TITLE"
+          :alt="i18n.APP_TITLE"
         ></v-img>
       </v-toolbar>
     </v-card>

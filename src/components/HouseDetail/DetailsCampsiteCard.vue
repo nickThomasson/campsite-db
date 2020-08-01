@@ -6,11 +6,19 @@
       </v-card-title>
       <v-card-text>
         <v-row no-gutters>
-          <v-col v-if="campsite.persons" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_PERSONS }} {{ campsite.persons }}
+          <v-col
+            v-if="campsite.persons"
+            cols="12"
+            data-lang-key="HOUSE_DETAIL_CAMPSITE_PERSONS"
+          >
+            {{ i18n.HOUSE_DETAIL_CAMPSITE_PERSONS }} {{ campsite.persons }}
           </v-col>
-          <v-col v-if="campsite.price" cols="12">
-            {{ i18n.CAMPSITE_DETAIL_HOUSE_PRICE }} {{ price(campsite.price) }}
+          <v-col
+            v-if="campsite.price"
+            cols="12"
+            data-lang-key="HOUSE_DETAIL_CAMPSITE_PRICE"
+          >
+            {{ i18n.HOUSE_DETAIL_CAMPSITE_PRICE }} {{ price(campsite.price) }}
           </v-col>
         </v-row>
       </v-card-text>

@@ -7,7 +7,10 @@
     <v-row v-if="!noPage">
       <v-col cols="12">
         <v-row>
-          <v-col cols="12" class="mb-4"
+          <v-col
+            cols="12"
+            class="mb-4"
+            data-lang-key="CAMPSITE_DETAIL_INFO_TITLE"
             ><h4>{{ i18n.CAMPSITE_DETAIL_INFO_TITLE }}</h4></v-col
           >
           <v-col cols="12" md="6">
@@ -16,14 +19,23 @@
           <v-col cols="12" md="6">
             <DetailsData />
           </v-col>
-          <v-col v-if="galleryExists" cols="12"
+          <v-col
+            v-if="galleryExists"
+            cols="12"
+            data-lang-key="CAMPSITE_DETAIL_GALLERY_TITLE"
             ><h4>{{ i18n.CAMPSITE_DETAIL_GALLERY_TITLE }}</h4></v-col
           >
           <v-col cols="12">
             <DetailsGallery />
           </v-col>
           <v-col v-if="houses.length > 0" class="mb-4" cols="12">
-            <h4>
+            <h4
+              :data-lang-key="
+                houses.length > 1
+                  ? 'CAMPSITE_DETAIL_INFO_HOUSES_TITLE'
+                  : 'CAMPSITE_DETAIL_INFO_HOUSE_TITLE'
+              "
+            >
               {{
                 houses.length > 1
                   ? i18n.CAMPSITE_DETAIL_INFO_HOUSES_TITLE

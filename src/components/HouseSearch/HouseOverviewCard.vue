@@ -30,28 +30,28 @@
             class="mb-4 mt-3"
           ></v-rating>
         </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }}
-          {{ house.beds ? house.beds : i18n.CAMPSITE_APP_NO_VALUE }}
+        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_BEDS">
+          {{ i18n.HOUSE_SEARCH_CARD_BEDS }}
+          {{ house.beds ? house.beds : i18n.APP_NO_VALUE }}
         </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_DETAIL_HOUSE_ROOMS }}
-          {{ house.rooms ? house.rooms : i18n.CAMPSITE_APP_NO_VALUE }}
+        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_ROOMS">
+          {{ i18n.HOUSE_SEARCH_CARD_ROOMS }}
+          {{ house.rooms ? house.rooms : i18n.APP_NO_VALUE }}
         </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
+        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_KITCHEN">
+          {{ i18n.HOUSE_SEARCH_CARD_KITCHEN }}
           <v-icon>
             {{ house.kitchen ? "done" : "close" }}
           </v-icon>
         </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
+        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_SANITARY">
+          {{ i18n.HOUSE_SEARCH_CARD_SANITARY }}
           <v-icon>
             {{ house.sanitary ? "done" : "close" }}
           </v-icon>
         </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_WIFI }}
+        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_WIFI">
+          {{ i18n.HOUSE_SEARCH_CARD_WIFI }}
           <v-icon>
             {{ house.wifi ? "done" : "close" }}
           </v-icon>
@@ -59,8 +59,13 @@
       </v-row>
     </v-card-text>
     <v-card-actions>
-      <v-btn text color="primary" @click="goTo(house.id)">
-        {{ i18n.CAMPSITE_APP_DETAILS }}
+      <v-btn
+        text
+        color="primary"
+        @click="goTo(house.id)"
+        data-lang-key="APP_DETAILS"
+      >
+        {{ i18n.APP_DETAILS }}
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn icon @click="addToWishList(house)">

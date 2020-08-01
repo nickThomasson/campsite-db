@@ -29,7 +29,7 @@
       />
     </v-col>
     <v-col cols="12">
-      <h3 class="mb-4">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
+      <h3 class="mb-4" data-lang-key="APP_SETTINGS">{{ i18n.APP_SETTINGS }}</h3>
       <PageSize dispatchName="fetchCampsites" />
     </v-col>
     <FilterReset :key="app.resetKey" dispatchName="fetchCampsites" />
@@ -51,20 +51,20 @@ export default {
         {
           filterName: "stateFilter",
           filterItems: [],
-          filterLabel: "CAMPSITE_FILTER_LABEL_STATE",
-          filterTitle: "CAMPSITE_FILTER_TITLE_STATE"
+          filterLabel: "APP_FILTER_LABEL_STATE",
+          filterTitle: "APP_FILTER_TITLE_STATE"
         },
         {
           filterName: "countyFilter",
           filterItems: [],
-          filterLabel: "CAMPSITE_FILTER_LABEL_COUNTY",
-          filterTitle: "CAMPSITE_FILTER_TITLE_COUNTY"
+          filterLabel: "APP_FILTER_LABEL_COUNTY",
+          filterTitle: "APP_FILTER_TITLE_COUNTY"
         },
         {
           filterName: "cityFilter",
           filterItems: [],
-          filterLabel: "CAMPSITE_FILTER_LABEL_CITY",
-          filterTitle: "CAMPSITE_FILTER_TITLE_CITY"
+          filterLabel: "APP_FILTER_LABEL_CITY",
+          filterTitle: "APP_FILTER_TITLE_CITY"
         }
       ],
       switchFilterItems: [
