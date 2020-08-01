@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ROUTE, CREDENTIALS } from "@/helper/routes";
 
@@ -26,6 +27,14 @@ export default {
   },
   fetchCollectionItems(requestUrl: string, token: string) {
     return apiClient.get(requestUrl, {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    });
+  },
+
+  updateItem(token: string, collection: string, id: any, item: any) {
+    return apiClient.patch(`${ROUTE.ITEMS}${collection}/${id}`, item, {
       headers: {
         Authorization: `bearer ${token}`
       }
