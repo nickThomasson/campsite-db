@@ -16,7 +16,7 @@ import { mapState, mapActions } from "vuex";
 import { find } from "lodash";
 
 export default {
-  name: "StateFilter",
+  name: "AddressFilter",
   data() {
     return {
       selectedState: null
