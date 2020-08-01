@@ -2,7 +2,11 @@
   <v-card>
     <v-img
       class="white--text align-end"
-      :src="placeholderImg"
+      :src="
+        house.previewImage
+          ? house.previewImage.data.thumbnails[2].url
+          : placeholderImg
+      "
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
       :alt="house.name"
@@ -26,13 +30,31 @@
             class="mb-4 mt-3"
           ></v-rating>
         </v-col>
-        <v-col cols="12" v-if="house.beds">
+        <v-col cols="12">
           {{ i18n.CAMPSITE_DETAIL_HOUSE_BEDS }}
-          {{ house.beds }}
+          {{ house.beds ? house.beds : i18n.CAMPSITE_APP_NO_VALUE }}
         </v-col>
-        <v-col cols="12" v-if="house.rooms">
+        <v-col cols="12">
           {{ i18n.CAMPSITE_DETAIL_HOUSE_ROOMS }}
-          {{ house.rooms }}
+          {{ house.rooms ? house.rooms : i18n.CAMPSITE_APP_NO_VALUE }}
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
+          <v-icon>
+            {{ house.kitchen ? "done" : "close" }}
+          </v-icon>
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
+          <v-icon>
+            {{ house.sanitary ? "done" : "close" }}
+          </v-icon>
+        </v-col>
+        <v-col cols="12">
+          {{ i18n.CAMPSITE_SEARCH_CARD_WIFI }}
+          <v-icon>
+            {{ house.wifi ? "done" : "close" }}
+          </v-icon>
         </v-col>
       </v-row>
     </v-card-text>

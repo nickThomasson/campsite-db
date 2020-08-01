@@ -31,7 +31,11 @@
       >
         <SearchResults />
       </v-col>
-      <Pagination dispatchName="fetchCampsites" />
+      <Pagination
+        dispatchName="fetchCampsites"
+        :pageCount="pageCountCampsites"
+        :totalCount="data.ranges.itemCountCampsites"
+      />
     </v-row>
     <v-btn
       color="primary"
@@ -67,7 +71,12 @@ export default {
   },
   computed: {
     ...mapState(["data", "app", "authentication"]),
-    ...mapGetters(["i18n", "campsites", "combinedFilter"]),
+    ...mapGetters([
+      "i18n",
+      "campsites",
+      "combinedFilter",
+      "pageCountCampsites"
+    ]),
     status() {
       return Status;
     }

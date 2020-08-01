@@ -1,28 +1,31 @@
 <template>
   <div>
-    <AddressFilter
-      filterName="stateFilter"
+    <SelectFilter
+      v-for="filter in selectFilterItems"
+      :key="filter.filterName"
+      :filterName="filter.filterName"
       dispatchName="fetchHouses"
-      :selectItems="houseStates"
+      :selectItems="filter.filterItems"
       :sourceData="houses"
-      :filterLabel="i18n.CAMPSITE_FILTER_LABEL_STATE"
-      :filterTitle="i18n.CAMPSITE_FILTER_TITLE_STATE"
+      :filterLabel="i18n[filter.filterLabel]"
+      :filterTitle="i18n[filter.filterTitle]"
     />
-    <AddressFilter
-      filterName="countyFilter"
+    <v-col cols="12">
+      <h3>{{ i18n.CAMPSITE_FILTER_TITLE_SPECS }}</h3>
+      <SwitchFilter
+        v-for="filter in switchFilterItems"
+        :key="filter.filterName"
+        :filterName="filter.filterName"
+        :filterLabel="i18n[filter.filterLabel]"
+        dispatchName="fetchHouses"
+      />
+    </v-col>
+
+    <RangeFilter
+      :filterRange="data.ranges.beds"
+      :filterTitle="i18n.CAMPSITE_FILTER_TITLE_BEDS"
       dispatchName="fetchHouses"
-      :selectItems="houseCounties"
-      :sourceData="houses"
-      :filterLabel="i18n.CAMPSITE_FILTER_LABEL_COUNTY"
-      :filterTitle="i18n.CAMPSITE_FILTER_TITLE_COUNTY"
-    />
-    <AddressFilter
-      filterName="cityFilter"
-      dispatchName="fetchHouses"
-      :selectItems="houseCities"
-      :sourceData="houses"
-      :filterLabel="i18n.CAMPSITE_FILTER_LABEL_CITY"
-      :filterTitle="i18n.CAMPSITE_FILTER_TITLE_CITY"
+      filterName="bedFilter"
     />
     <v-col cols="12">
       <h3 class="mb-4">{{ i18n.CAMPSITE_FILTER_TITLE_SETTINGS }}</h3>
@@ -35,17 +38,67 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import FilterReset from "@/components/shared/FilterReset.vue";
-import AddressFilter from "@/components/shared/filter/AddressFilter.vue";
+import SelectFilter from "@/components/shared/filter/SelectFilter.vue";
+import SwitchFilter from "@/components/shared/filter/SwitchFilter.vue";
+import RangeFilter from "@/components/shared/filter/RangeFilter.vue";
 import PageSize from "@/components/shared/PageSize.vue";
 export default {
   name: "HouseFilter",
+  data() {
+    return {
+      selectFilterItems: [
+        {
+          filterName: "stateFilter",
+          filterItems: [],
+          filterLabel: "CAMPSITE_FILTER_LABEL_STATE",
+          filterTitle: "CAMPSITE_FILTER_TITLE_STATE"
+        },
+        {
+          filterName: "countyFilter",
+          filterItems: [],
+          filterLabel: "CAMPSITE_FILTER_LABEL_COUNTY",
+          filterTitle: "CAMPSITE_FILTER_TITLE_COUNTY"
+        },
+        {
+          filterName: "cityFilter",
+          filterItems: [],
+          filterLabel: "CAMPSITE_FILTER_LABEL_CITY",
+          filterTitle: "CAMPSITE_FILTER_TITLE_CITY"
+        }
+      ],
+      switchFilterItems: [
+        {
+          filterName: "kitchenFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_KITCHEN"
+        },
+        {
+          filterName: "sanitaryFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_SANITARY"
+        },
+        {
+          filterName: "wifiFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_WIFI"
+        },
+        {
+          filterName: "avFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_AV"
+        },
+        {
+          filterName: "recreationalFilter",
+          filterLabel: "CAMPSITE_FILTER_LABEL_RECREATIONAL"
+        }
+      ]
+    };
+  },
   components: {
-    AddressFilter,
+    SelectFilter,
     PageSize,
-    FilterReset
+    FilterReset,
+    SwitchFilter,
+    RangeFilter
   },
   computed: {
-    ...mapState(["app"]),
+    ...mapState(["app", "data"]),
     ...mapGetters([
       "i18n",
       "houses",
@@ -53,6 +106,19 @@ export default {
       "houseCounties",
       "houseCities"
     ])
+  },
+  methods: {
+    setFilterItems() {
+      this.selectFilterItems[0].filterItems = this.houseStates;
+      this.selectFilterItems[1].filterItems = this.houseCounties;
+      this.selectFilterItems[2].filterItems = this.houseCities;
+    }
+  },
+  created() {
+    this.setFilterItems();
+  },
+  updated() {
+    this.setFilterItems();
   }
 };
 </script>

@@ -6,8 +6,8 @@ const campsiteModel = (campsite: any) => {
     name: campsite["name"],
     previewImage: campsite["vorschaubild"],
     persons: campsite["personen"],
-    kitchen: campsite["kueche"],
-    sanitary: campsite["sanitaeranlagen"],
+    kitchen: campsite["kitchen"],
+    sanitary: campsite["sanitary"],
     price: campsite["preis"],
     rating: campsite["bewertung"]
   };
@@ -37,7 +37,14 @@ const houseModel = (house: any) => {
     rooms: house["seminarraeume"],
     price: house["preis"],
     annotations: house["bemerkungen"],
-    rating: house["rating"]
+    rating: house["rating"],
+    kitchen: house["kitchen"],
+    sanitary: house["sanitary"],
+    av: house["av"],
+    wifi: house["wifi"],
+    additionalEquipment: house["additional_equipment"],
+    previewImage: house["preview_image"],
+    recreationalRoom: house["recreational_room"]
   };
 };
 

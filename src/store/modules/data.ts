@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
-import { renderItems, renderAddressItems } from "@/helper/renderItems";
-import { max, min, find, pull, random, isEmpty } from "lodash";
+import { renderAddressItems } from "@/helper/renderItems";
+import { find, pull, random, isEmpty } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
@@ -22,10 +22,9 @@ export const state = {
   activeFilter: [],
   results: [],
   addresses: [],
-  personFilter: null,
-  campsiteCount: 0,
   houses: [],
-  gallery: []
+  gallery: [],
+  ranges: []
 };
 
 export const mutations = {
@@ -38,9 +37,6 @@ export const mutations = {
   SAVE_HOUSES(state: any, houses: Array<object>) {
     state.houses = houses;
   },
-  SET_PERSON_COUNT(state: any, count: number) {
-    state.personFilter = count;
-  },
   SET_PAGE_LIMIT(state: any, count: number) {
     state.limit = count;
   },
@@ -50,14 +46,14 @@ export const mutations = {
   REGISTER_ACTIVE_FILTER(state: any, activeFilter: Array<object>) {
     state.activeFilter = activeFilter;
   },
-  SET_CAMPSITE_COUNT(state: any, count: any) {
-    state.campsiteCount = count;
-  },
   CHANGE_OFFSET(state: any, pageOffset: any) {
     state.offset = pageOffset;
   },
   SAVE_GALLERY(state: any, gallery: any) {
     state.gallery = gallery;
+  },
+  SET_RANGES(state: any, ranges: Array<object>) {
+    state.ranges = ranges;
   }
 };
 
@@ -82,38 +78,6 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_RESULTS", response.data.data);
-            resolve();
-          } else {
-            commit("CHANGE_STATUS", Status.Error);
-            reject();
-          }
-        })
-        .catch((err: any) => {
-          commit("CHANGE_STATUS", Status.Error);
-          console.error(err);
-          reject();
-        });
-    });
-  },
-
-  fetchCampsiteCount({ commit }: any, token: string) {
-    return new Promise((resolve, reject) => {
-      campsiteService
-        .fetchCollectionItems(
-          getRequestUrl(
-            "campsite",
-            false,
-            undefined,
-            undefined,
-            -1,
-            true,
-            true
-          ),
-          token
-        )
-        .then((response: any) => {
-          if (response.status === 200) {
-            commit("SET_CAMPSITE_COUNT", response.data.data.length);
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
@@ -227,9 +191,9 @@ export const actions = {
     commit("REGISTER_ACTIVE_FILTER", activeFilter);
   },
 
-  registerPersonFilter({ dispatch }: any, filterValues: any) {
+  registerPersonFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[personen][between]=${filterValues.join(
+      const filterContent = `&filter[personen][between]=${payload.value.join(
         ","
       )}`;
       dispatch(
@@ -240,23 +204,82 @@ export const actions = {
     });
   },
 
-  registerKitchenFilter({ dispatch }: any, filterValue: boolean) {
+  registerPriceFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[kueche][neq]=${filterValue}`;
+      const filterContent = `&filter[preis][between]=${payload.value.join(
+        ","
+      )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("kitchenFilter", filterValue, filterContent)
+        registerFilter("priceFilter", true, filterContent)
       );
       resolve();
     });
   },
 
-  registerSanitaryFilter({ dispatch }: any, filterValue: boolean) {
+  registerBedFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[sanitaeranlagen][neq]=${filterValue}`;
+      const filterContent = `&filter[betten][between]=${payload.value.join(
+        ","
+      )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("sanitaryFilter", filterValue, filterContent)
+        registerFilter("bedFilter", true, filterContent)
+      );
+      resolve();
+    });
+  },
+
+  registerKitchenFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[kitchen][neq]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter("kitchenFilter", payload.value, filterContent)
+      );
+      resolve();
+    });
+  },
+
+  registerSanitaryFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[sanitary][neq]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter("sanitaryFilter", payload.value, filterContent)
+      );
+      resolve();
+    });
+  },
+
+  registerWifiFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[wifi][neq]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter("wifiFilter", payload.value, filterContent)
+      );
+      resolve();
+    });
+  },
+
+  registerAvFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[av][neq]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter("avFilter", payload.value, filterContent)
+      );
+      resolve();
+    });
+  },
+
+  registerRecreationalFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const filterContent = `&filter[recreational_room][neq]=${payload.value}`;
+      dispatch(
+        "initActiveFilter",
+        registerFilter("recreationalFilter", payload.value, filterContent)
       );
       resolve();
     });
@@ -311,41 +334,13 @@ export const actions = {
   },
 
   applyFilter({ dispatch, commit }: any, payload: any) {
-    if (payload.type === "personFilter") {
-      dispatch("registerPersonFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
+    const filterType = (type: string) => {
+      return `register${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+    };
 
-    if (payload.type === "kitchenFilter") {
-      dispatch("registerKitchenFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "sanitaryFilter") {
-      dispatch("registerSanitaryFilter", payload.value).then(() => {
-        dispatch("fetchCampsites", { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "stateFilter") {
-      dispatch("registerStateFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "countyFilter") {
-      dispatch("registerCountyFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
-
-    if (payload.type === "cityFilter") {
-      dispatch("registerCityFilter", payload).then(() => {
-        dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
-      });
-    }
+    dispatch(filterType(payload.type), payload).then(() => {
+      dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
+    });
 
     commit("CHANGE_RESET_KEY", random(5, true));
   },
@@ -383,7 +378,6 @@ export const actions = {
   fetchData({ dispatch }: any, token: string) {
     return new Promise(resolve => {
       dispatch("fetchTranslations", token).then(() => {
-        dispatch("fetchCampsiteCount", token);
         dispatch("fetchCampsites", { dynamic: false, token }).then(() => {
           dispatch("fetchAddresses", token).then(() => {
             dispatch("fetchHouses", { dynamic: false, token }).then(() => {
@@ -404,12 +398,19 @@ export const actions = {
     }).then(() => {
       dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
     });
+  },
+
+  setRanges({ commit }: any, ranges: Array<object>) {
+    commit("SET_RANGES", ranges);
   }
 };
 
 export const getters = {
-  pageCount: (state: any) => {
-    return Math.ceil(state.campsiteCount / state.limit);
+  pageCountCampsites: (state: any) => {
+    return Math.ceil(state.ranges.itemCountCampsites / state.limit);
+  },
+  pageCountHouses: (state: any) => {
+    return Math.ceil(state.ranges.itemCountHouses / state.limit);
   },
   campsiteStates: (state: any, getters: any) => {
     return renderAddressItems(getters.campsites, "state");
@@ -428,10 +429,6 @@ export const getters = {
   },
   houseCities: (state: any, getters: any) => {
     return renderAddressItems(getters.houses, "city");
-  },
-  personCount: (state: any) => {
-    const values = renderItems(state.results, "personen");
-    return [min(values), max(values)];
   },
   campsites: (state: any) => {
     const mergedResults: Array<object> = [];

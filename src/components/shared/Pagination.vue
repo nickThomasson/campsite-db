@@ -1,10 +1,5 @@
 <template>
-  <v-col
-    cols="12"
-    class="text-center"
-    order="3"
-    v-if="data.limit < data.campsiteCount && data.limit !== -1"
-  >
+  <v-col cols="12" class="text-center" order="3" v-if="showPagination">
     <v-pagination
       v-model="currentPage"
       :length="pageCount"
@@ -15,7 +10,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "Pagination",
   data() {
@@ -24,11 +19,12 @@ export default {
     };
   },
   props: {
-    dispatchName: String
+    dispatchName: String,
+    pageCount: Number,
+    totalCount: Number
   },
   computed: {
     ...mapState(["data", "authentication"]),
-    ...mapGetters(["pageCount"]),
     currentPage: {
       get() {
         return ~~(this.data.offset / this.data.limit) + 1;
@@ -36,6 +32,9 @@ export default {
       set() {
         this.page = ~~(this.data.offset / this.data.limit) + 1;
       }
+    },
+    showPagination() {
+      return this.data.limit < this.totalCount && this.data.limit !== -1;
     }
   },
   methods: {
