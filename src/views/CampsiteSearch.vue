@@ -29,7 +29,7 @@
         order-xl="2"
         v-if="app.loadingStatus === status.Ready"
       >
-        <SearchResults />
+        <CampsiteSearchResults />
       </v-col>
       <Pagination
         dispatchName="fetchCampsites"
@@ -57,7 +57,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import CampsiteFilter from "@/components/CampsiteFilter/CampsiteFilter.vue";
-import SearchResults from "@/components/CampsiteSearch/SearchResults.vue";
+import CampsiteSearchResults from "@/components/CampsiteSearch/CampsiteSearchResults.vue";
 import { Status } from "@/helper/status";
 import FilterDialog from "@/components/CampsiteFilter/FilterDialog.vue";
 import Pagination from "@/components/shared/Pagination.vue";
@@ -65,7 +65,7 @@ export default {
   name: "CampsiteSearch",
   components: {
     CampsiteFilter,
-    SearchResults,
+    CampsiteSearchResults,
     FilterDialog,
     Pagination
   },
@@ -91,8 +91,7 @@ export default {
     this.setActivePage(this.i18n.CAMPSITE_SEARCH_PAGE_TITLE);
     if (this.combinedFilter) {
       this.applyReset({
-        token: this.authentication.token,
-        dispatchName: "fetchCampsites"
+        token: this.authentication.token
       });
     }
   }
