@@ -13,6 +13,12 @@
           <v-col cols="12" md="6">
             <DetailsAddress />
           </v-col>
+          <v-col v-if="galleryExists" cols="12"
+            ><h4>{{ i18n.CAMPSITE_DETAIL_GALLERY_TITLE }}</h4></v-col
+          >
+          <v-col cols="12">
+            <DetailsGallery />
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -22,8 +28,9 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import NotFound from "@/components/NotFound.vue";
-import DetailsHeader from "@/components/HouseDetail/DetailsHeader.vue";
-import DetailsAddress from "@/components/HouseDetail/DetailsAddress.vue";
+import DetailsHeader from "@/components/shared/details/DetailsHeader.vue";
+import DetailsAddress from "@/components/shared/details/DetailsAddress.vue";
+import DetailsGallery from "@/components/shared/details/DetailsGallery.vue";
 import { isEmpty } from "lodash";
 
 export default {
@@ -31,7 +38,8 @@ export default {
   components: {
     NotFound,
     DetailsHeader,
-    DetailsAddress
+    DetailsAddress,
+    DetailsGallery
   },
   methods: {
     ...mapActions(["setActivePage", "savePage"])
@@ -44,6 +52,12 @@ export default {
     },
     houseId() {
       return this.$route.params.id;
+    },
+    galleryExists() {
+      if (!this.noPage && this.detailPage.page.gallery) {
+        return this.detailPage.page.gallery.length !== 0;
+      }
+      return false;
     },
     housePage() {
       const housePage = this.houses.filter(
