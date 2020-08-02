@@ -84,6 +84,7 @@ import { mapState, mapGetters } from "vuex";
 import { isEmpty, find } from "lodash";
 import LanguageImport from "@/components/Administration/LanguageSettings/LanguageImport.vue";
 import { Status } from "@/helper/status";
+import { sortObject } from "@/helper/sortObject";
 
 export default {
   name: "LanguageSettings",
@@ -125,7 +126,10 @@ export default {
         const language = find(this.translations.languages, {
           language: this.selected[0].iso
         });
-        const exportContent = JSON.stringify(language);
+        const exportContent = JSON.stringify({
+          ...language,
+          dictionary: sortObject(language.dictionary)
+        });
         const url =
           "data:application/json;charset=utf-8," +
           encodeURIComponent(exportContent);
