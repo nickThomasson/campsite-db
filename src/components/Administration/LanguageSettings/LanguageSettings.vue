@@ -82,7 +82,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { isEmpty, find } from "lodash";
-import LanguageImport from "@/components/Administration/LanguageImport.vue";
+import LanguageImport from "@/components/Administration/LanguageSettings/LanguageImport.vue";
 import { Status } from "@/helper/status";
 
 export default {
