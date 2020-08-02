@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-btn
+      data-lang-key="APP_SETTINGS_LANGUAGE_BUTTON_IMPORT"
       color="primary"
       @click.stop="dialog = true"
       :disabled="languageSelect"
@@ -10,14 +11,18 @@
     <v-row justify="center">
       <v-dialog v-model="dialog" max-width="360">
         <v-card>
-          <v-card-title class="headline">{{
-            i18n.APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_TITLE
-          }}</v-card-title>
+          <v-card-title
+            class="headline"
+            data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_TITLE"
+            >{{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_TITLE }}</v-card-title
+          >
 
           <v-card-text>
             <v-row>
               <v-col cols="12">
                 <v-file-input
+                  data-lang-key-label="APP_SETTINGS_LANGUAGE_IMPORT_FILE_LABEL"
+                  data-lang-key-placeholder="APP_SETTINGS_LANGUAGE_IMPORT_FILE_PLACEHOLDER"
                   v-model="uploadedFile"
                   :show-size="1000"
                   :label="i18n.APP_SETTINGS_LANGUAGE_IMPORT_FILE_LABEL"
@@ -54,11 +59,16 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="accent" @click="dialog = false">
+            <v-btn
+              color="accent"
+              @click="dialog = false"
+              data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_CLOSE"
+            >
               {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_CLOSE }}
             </v-btn>
 
             <v-btn
+              data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_DIALOG_SAVE"
               color="primary"
               @click="importLanguageFile"
               :disabled="uploadedFile === undefined"
@@ -88,7 +98,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["authentication"]),
+    ...mapState(["authentication", "userIsLoggedIn"]),
     ...mapGetters(["i18n"]),
     iso() {
       if (this.selectedLanguage.length > 0) {
@@ -106,7 +116,7 @@ export default {
         fileReader.onload = event => {
           const contents = JSON.parse(event.target.result);
           this.updateLanguage({
-            token: this.authentication.token,
+            token: this.authentication.userData.token,
             id: contents.id,
             item: contents,
             iso: this.iso

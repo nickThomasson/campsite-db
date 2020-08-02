@@ -20,6 +20,16 @@ export default {
   authenticate() {
     return apiClient.post(ROUTE.AUTH, authData);
   },
+  authenticateUser(authData: object) {
+    return apiClient.post(ROUTE.AUTH, authData);
+  },
+  logoutUser(token: string) {
+    return apiClient.post(ROUTE.LOGOUT, {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    });
+  },
   refresh(token: string) {
     return apiClient.post(ROUTE.REFRESH, {
       token

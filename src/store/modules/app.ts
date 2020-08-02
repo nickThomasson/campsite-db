@@ -6,7 +6,9 @@ export const state = {
   loadingStatus: Status.Init,
   filterKey: 1,
   resetKey: 1,
-  activePage: ""
+  activePage: "",
+  showError: false,
+  errorMessage: ""
 };
 
 export const mutations = {
@@ -24,6 +26,12 @@ export const mutations = {
   },
   SET_ACTIVE_PAGE(state: any, activePage: string) {
     state.activePage = activePage;
+  },
+  SWITCH_ERROR(state: any, status: boolean) {
+    state.showError = status;
+  },
+  SET_ERROR_MESSAGE(state: any, message: string) {
+    state.errorMessage = message;
   }
 };
 
@@ -36,6 +44,18 @@ export const actions = {
   },
   setActivePage({ commit }: any, activePage: string) {
     commit("SET_ACTIVE_PAGE", activePage);
+  },
+  activateError({ commit }: any, message: string) {
+    console.log(message);
+    return new Promise(resolve => {
+      commit("SET_ERROR_MESSAGE", message);
+      resolve();
+    }).then(() => {
+      commit("SWITCH_ERROR", true);
+    });
+  },
+  deactivateError({ commit }: any) {
+    commit("SWITCH_ERROR", false);
   }
 };
 

@@ -28,7 +28,7 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchTranslations({ commit }: any, token: string) {
+  fetchTranslations({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(getRequestUrl("translations", false), token)
@@ -42,7 +42,9 @@ export const actions = {
           }
         })
         .catch((err: any) => {
+          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", message);
           console.error(err);
           reject();
         });
@@ -57,6 +59,7 @@ export const actions = {
   },
 
   patchLanguage({ commit }: any, payload: any) {
+    console.log(payload);
     return new Promise((resolve, reject) => {
       const item: any = state.importedLanguage || {};
       if (item.id === payload.id) {

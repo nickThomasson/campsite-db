@@ -35,7 +35,6 @@
         ></v-img>
       </v-toolbar>
     </v-card>
-    <Error />
   </div>
 </template>
 
@@ -43,13 +42,10 @@
 import { mapState, mapGetters } from "vuex";
 import Navigation from "@/components/Navigation.vue";
 import logo from "@/assets/logo.svg";
-import Error from "@/components/Error.vue";
-
 export default {
   name: "Header",
   components: {
-    Navigation,
-    Error
+    Navigation
   },
   data() {
     return {

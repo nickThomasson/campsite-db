@@ -1,62 +1,82 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col v-if="translations.importStatus === status.Ready">
-        <v-alert type="success" dismissible>
-          {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_SUCCESS }}
-        </v-alert>
-      </v-col>
-      <v-col v-if="translations.importStatus === status.Error">
-        <v-alert type="error" dismissible>
-          {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_ERROR_COMMON }}
-        </v-alert>
-      </v-col>
-      <v-col v-if="translations.importStatus === status.NonMatchingIds">
-        <v-alert type="error" dismissible>
-          {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_ERROR_ID }}
-        </v-alert>
-      </v-col>
-      <v-col cols="12">
-        <h1>{{ i18n.APP_SETTINGS_LANGUAGE_TITLE }}</h1>
-      </v-col>
-      <v-col cols="12">
-        <h2>{{ i18n.APP_SETTINGS_LANGUAGE_SUB_IMPORT }}</h2>
-      </v-col>
-      <v-col cols="12">
-        <v-data-table
-          v-model="selected"
-          item-key="name"
-          :headers="headers"
-          :items="tableItems"
-          hide-default-footer
-          single-select
-          class="elevation-1"
-          show-select
-        >
-        </v-data-table>
-      </v-col>
-      <v-col cols="12">
-        <v-row>
-          <v-col cols="auto">
-            <v-btn
-              link
-              color="primary"
-              :href="exportLink.url"
-              :download="exportLink.fileName"
-              :disabled="!languageSelect"
-              >{{ i18n.APP_SETTINGS_LANGUAGE_BUTTON_EXPORT }}</v-btn
+  <v-row no-gutters>
+    <v-col cols="12">
+      <v-card>
+        <v-card-title data-lang-key="APP_SETTINGS_LANGUAGE_TITLE">
+          {{ i18n.APP_SETTINGS_LANGUAGE_TITLE }}
+        </v-card-title>
+        <v-card-text>
+          <v-col v-if="translations.importStatus === status.Ready">
+            <v-alert
+              type="success"
+              dismissible
+              data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_SUCCESS"
             >
+              {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_SUCCESS }}
+            </v-alert>
           </v-col>
-          <v-col cols="auto">
-            <LanguageImport
-              :languageSelect="!languageSelect"
-              :selectedLanguage="selected"
-            />
+          <v-col v-if="translations.importStatus === status.Error">
+            <v-alert
+              type="error"
+              dismissible
+              data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_ERROR_COMMON "
+            >
+              {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_ERROR_COMMON }}
+            </v-alert>
           </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+          <v-col v-if="translations.importStatus === status.NonMatchingIds">
+            <v-alert
+              type="error"
+              dismissible
+              data-lang-key="APP_SETTINGS_LANGUAGE_IMPORT_ERROR_ID"
+            >
+              {{ i18n.APP_SETTINGS_LANGUAGE_IMPORT_ERROR_ID }}
+            </v-alert>
+          </v-col>
+
+          <v-col cols="12">
+            <h3 data-lang-key="APP_SETTINGS_LANGUAGE_SUB_IMPORT">
+              {{ i18n.APP_SETTINGS_LANGUAGE_SUB_IMPORT }}
+            </h3>
+          </v-col>
+          <v-col cols="12">
+            <v-data-table
+              v-model="selected"
+              item-key="name"
+              :headers="tableHeaders"
+              :items="tableItems"
+              hide-default-footer
+              single-select
+              class="elevation-1"
+              show-select
+            >
+            </v-data-table>
+          </v-col>
+          <v-col cols="12">
+            <v-row>
+              <v-col cols="auto">
+                <v-btn
+                  data-lang-key="APP_SETTINGS_LANGUAGE_BUTTON_EXPORT"
+                  link
+                  color="primary"
+                  :href="exportLink.url"
+                  :download="exportLink.fileName"
+                  :disabled="!languageSelect"
+                  >{{ i18n.APP_SETTINGS_LANGUAGE_BUTTON_EXPORT }}</v-btn
+                >
+              </v-col>
+              <v-col cols="auto">
+                <LanguageImport
+                  :languageSelect="!languageSelect"
+                  :selectedLanguage="selected"
+                />
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -83,6 +103,20 @@ export default {
       }
       return tableItems;
     },
+    tableHeaders() {
+      const header = [
+        {
+          text: this.i18n.APP_SETTINGS_LANGUAGE_TABLE_HEADER_LANG,
+          align: "start",
+          value: "name"
+        },
+        {
+          text: this.i18n.APP_SETTINGS_LANGUAGE_TABLE_HEADER_ISO,
+          value: "iso"
+        }
+      ];
+      return header;
+    },
     languageSelect() {
       return !isEmpty(this.selected);
     },
@@ -108,18 +142,7 @@ export default {
     return {
       selected: [],
       uploadedFile: undefined,
-      importedData: undefined,
-      headers: [
-        {
-          text: "Name der Sprache",
-          align: "start",
-          value: "name"
-        },
-        {
-          text: "ISO Code",
-          value: "iso"
-        }
-      ]
+      importedData: undefined
     };
   }
 };
