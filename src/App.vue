@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <Header v-if="app.loadingStatus === status.Ready" />
+    <Error />
     <v-progress-linear
       indeterminate
       color="accent"
@@ -16,11 +17,13 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import { Status } from "@/helper/status";
 import Header from "@/components/Header.vue";
 import { renderRange } from "@/helper/renderItems";
+import Error from "@/components/Error.vue";
 
 export default Vue.extend({
   name: "App",
   components: {
-    Header
+    Header,
+    Error
   },
   computed: {
     ...mapState(["authentication", "app", "data"]),

@@ -58,7 +58,7 @@ export const mutations = {
 };
 
 export const actions = {
-  fetchCampsites({ state, commit, getters }: any, payload: any) {
+  fetchCampsites({ state, commit, getters, dispatch }: any, payload: any) {
     const urlstatic = getRequestUrl("campsite", false);
     const urldynamic = getRequestUrl(
       "campsite",
@@ -85,14 +85,16 @@ export const actions = {
           }
         })
         .catch((err: any) => {
+          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", message);
           console.error(err);
           reject();
         });
     });
   },
 
-  fetchAddresses({ commit }: any, token: string) {
+  fetchAddresses({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(getRequestUrl("address", false), token)
@@ -106,14 +108,16 @@ export const actions = {
           }
         })
         .catch((err: any) => {
+          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", message);
           console.error(err);
           reject();
         });
     });
   },
 
-  fetchHouses({ commit, getters }: any, payload: any) {
+  fetchHouses({ commit, getters, dispatch }: any, payload: any) {
     const urlstatic = getRequestUrl("house", false);
     const urldynamic = getRequestUrl(
       "house",
@@ -140,14 +144,16 @@ export const actions = {
           }
         })
         .catch((err: any) => {
+          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", message);
           console.error(err);
           reject();
         });
     });
   },
 
-  fetchGalleries({ commit }: any, token: string) {
+  fetchGalleries({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
@@ -161,7 +167,9 @@ export const actions = {
           }
         })
         .catch((err: any) => {
+          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", message);
           console.error(err);
           reject();
         });

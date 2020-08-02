@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ROUTE, CREDENTIALS } from "@/helper/routes";
 
@@ -19,6 +20,16 @@ export default {
   authenticate() {
     return apiClient.post(ROUTE.AUTH, authData);
   },
+  authenticateUser(authData: object) {
+    return apiClient.post(ROUTE.AUTH, authData);
+  },
+  logoutUser(token: string) {
+    return apiClient.post(ROUTE.LOGOUT, {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    });
+  },
   refresh(token: string) {
     return apiClient.post(ROUTE.REFRESH, {
       token
@@ -26,6 +37,14 @@ export default {
   },
   fetchCollectionItems(requestUrl: string, token: string) {
     return apiClient.get(requestUrl, {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    });
+  },
+
+  updateItem(token: string, collection: string, id: any, item: any) {
+    return apiClient.patch(`${ROUTE.ITEMS}${collection}/${id}`, item, {
       headers: {
         Authorization: `bearer ${token}`
       }
