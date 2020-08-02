@@ -3,6 +3,7 @@ import { Status } from "@/helper/status";
 import campsiteService from "@/services/campsiteService";
 import { getRequestUrl } from "@/helper/routes";
 import { find } from "lodash";
+import { sortObject } from "@/helper/sortObject";
 
 export const state = {
   dictionary: {},
@@ -53,7 +54,10 @@ export const actions = {
 
   setLanguage({ commit }: any, data: any) {
     return new Promise(resolve => {
-      commit("IMPORT_LANGUAGE", data);
+      commit("IMPORT_LANGUAGE", {
+        ...data,
+        dictionary: sortObject(data.dictionary)
+      });
       resolve();
     });
   },
