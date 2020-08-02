@@ -7,8 +7,8 @@
       dispatchName="fetchHouses"
       :selectItems="filter.filterItems"
       :sourceData="houses"
-      :filterLabel="i18n[filter.filterLabel]"
-      :filterTitle="i18n[filter.filterTitle]"
+      :filterLabel="filter.filterLabel"
+      :filterTitle="filter.filterTitle"
     />
     <v-col cols="12">
       <h3 data-lang-key="HOUSE_FILTER_TITLE_SPECS">
@@ -18,7 +18,7 @@
         v-for="filter in switchFilterItems"
         :key="filter.filterName"
         :filterName="filter.filterName"
-        :filterLabel="i18n[filter.filterLabel]"
+        :filterLabel="filter.filterLabel"
         dispatchName="fetchHouses"
       />
     </v-col>
@@ -47,52 +47,6 @@ import RangeFilter from "@/components/shared/filter/RangeFilter.vue";
 import PageSize from "@/components/shared/PageSize.vue";
 export default {
   name: "HouseFilter",
-  data() {
-    return {
-      selectFilterItems: [
-        {
-          filterName: "stateFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_STATE",
-          filterTitle: "APP_FILTER_TITLE_STATE"
-        },
-        {
-          filterName: "countyFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_COUNTY",
-          filterTitle: "APP_FILTER_TITLE_COUNTY"
-        },
-        {
-          filterName: "cityFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_CITY",
-          filterTitle: "APP_FILTER_TITLE_CITY"
-        }
-      ],
-      switchFilterItems: [
-        {
-          filterName: "kitchenFilter",
-          filterLabel: "HOUSE_FILTER_LABEL_KITCHEN"
-        },
-        {
-          filterName: "sanitaryFilter",
-          filterLabel: "HOUSE_FILTER_LABEL_SANITARY"
-        },
-        {
-          filterName: "wifiFilter",
-          filterLabel: "HOUSE_FILTER_LABEL_WIFI"
-        },
-        {
-          filterName: "avFilter",
-          filterLabel: "HOUSE_FILTER_LABEL_AV"
-        },
-        {
-          filterName: "recreationalFilter",
-          filterLabel: "HOUSE_FILTER_LABEL_RECREATIONAL"
-        }
-      ]
-    };
-  },
   components: {
     SelectFilter,
     PageSize,
@@ -108,13 +62,52 @@ export default {
       "houseStates",
       "houseCounties",
       "houseCities"
-    ])
-  },
-  methods: {
-    setFilterItems() {
-      this.selectFilterItems[0].filterItems = this.houseStates;
-      this.selectFilterItems[1].filterItems = this.houseCounties;
-      this.selectFilterItems[2].filterItems = this.houseCities;
+    ]),
+    selectFilterItems() {
+      return [
+        {
+          filterName: "stateFilter",
+          filterItems: this.houseStates,
+          filterLabel: this.i18n.APP_FILTER_LABEL_STATE,
+          filterTitle: this.i18n.APP_FILTER_TITLE_STATE
+        },
+        {
+          filterName: "countyFilter",
+          filterItems: this.houseCounties,
+          filterLabel: this.i18n.APP_FILTER_LABEL_COUNTY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_COUNTY
+        },
+        {
+          filterName: "cityFilter",
+          filterItems: this.houseCities,
+          filterLabel: this.i18n.APP_FILTER_LABEL_CITY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_CITY
+        }
+      ];
+    },
+    switchFilterItems() {
+      return [
+        {
+          filterName: "kitchenFilter",
+          filterLabel: this.i18n.HOUSE_FILTER_LABEL_KITCHEN
+        },
+        {
+          filterName: "sanitaryFilter",
+          filterLabel: this.i18n.HOUSE_FILTER_LABEL_SANITARY
+        },
+        {
+          filterName: "wifiFilter",
+          filterLabel: this.i18n.HOUSE_FILTER_LABEL_WIFI
+        },
+        {
+          filterName: "avFilter",
+          filterLabel: this.i18n.HOUSE_FILTER_LABEL_AV
+        },
+        {
+          filterName: "recreationalFilter",
+          filterLabel: this.i18n.HOUSE_FILTER_LABEL_RECREATIONAL
+        }
+      ];
     }
   },
   created() {

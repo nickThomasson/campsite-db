@@ -7,8 +7,8 @@
       dispatchName="fetchCampsites"
       :selectItems="filter.filterItems"
       :sourceData="campsites"
-      :filterLabel="i18n[filter.filterLabel]"
-      :filterTitle="i18n[filter.filterTitle]"
+      :filterLabel="filter.filterLabel"
+      :filterTitle="filter.filterTitle"
     />
 
     <RangeFilter
@@ -24,7 +24,7 @@
         v-for="filter in switchFilterItems"
         :key="filter.filterName"
         :filterName="filter.filterName"
-        :filterLabel="i18n[filter.filterLabel]"
+        :filterLabel="filter.filterLabel"
         dispatchName="fetchCampsites"
       />
     </v-col>
@@ -45,40 +45,6 @@ import RangeFilter from "@/components/shared/filter/RangeFilter.vue";
 import PageSize from "@/components/shared/PageSize.vue";
 export default {
   name: "CampsiteFilter",
-  data() {
-    return {
-      selectFilterItems: [
-        {
-          filterName: "stateFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_STATE",
-          filterTitle: "APP_FILTER_TITLE_STATE"
-        },
-        {
-          filterName: "countyFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_COUNTY",
-          filterTitle: "APP_FILTER_TITLE_COUNTY"
-        },
-        {
-          filterName: "cityFilter",
-          filterItems: [],
-          filterLabel: "APP_FILTER_LABEL_CITY",
-          filterTitle: "APP_FILTER_TITLE_CITY"
-        }
-      ],
-      switchFilterItems: [
-        {
-          filterName: "kitchenFilter",
-          filterLabel: "CAMPSITE_FILTER_LABEL_KITCHEN"
-        },
-        {
-          filterName: "sanitaryFilter",
-          filterLabel: "CAMPSITE_FILTER_LABEL_SANITARY"
-        }
-      ]
-    };
-  },
   components: {
     SelectFilter,
     SwitchFilter,
@@ -94,13 +60,40 @@ export default {
       "campsiteStates",
       "campsiteCounties",
       "campsiteCities"
-    ])
-  },
-  methods: {
-    setFilterItems() {
-      this.selectFilterItems[0].filterItems = this.campsiteStates;
-      this.selectFilterItems[1].filterItems = this.campsiteCounties;
-      this.selectFilterItems[2].filterItems = this.campsiteCities;
+    ]),
+    selectFilterItems() {
+      return [
+        {
+          filterName: "stateFilter",
+          filterItems: this.campsiteStates,
+          filterLabel: this.i18n.APP_FILTER_LABEL_STATE,
+          filterTitle: this.i18n.APP_FILTER_TITLE_STATE
+        },
+        {
+          filterName: "countyFilter",
+          filterItems: this.campsiteCounties,
+          filterLabel: this.i18n.APP_FILTER_LABEL_COUNTY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_COUNTY
+        },
+        {
+          filterName: "cityFilter",
+          filterItems: this.campsiteCities,
+          filterLabel: this.i18n.APP_FILTER_LABEL_CITY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_CITY
+        }
+      ];
+    },
+    switchFilterItems() {
+      return [
+        {
+          filterName: "kitchenFilter",
+          filterLabel: this.i18n.CAMPSITE_FILTER_LABEL_KITCHEN
+        },
+        {
+          filterName: "sanitaryFilter",
+          filterLabel: this.i18n.CAMPSITE_FILTER_LABEL_SANITARY
+        }
+      ];
     }
   },
   created() {
