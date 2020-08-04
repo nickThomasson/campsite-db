@@ -1,40 +1,44 @@
 <template>
   <div>
-    <SelectFilter
-      v-for="filter in selectFilterItems"
-      :key="filter.filterName"
-      :filterName="filter.filterName"
-      dispatchName="fetchHouses"
-      :selectItems="filter.filterItems"
-      :sourceData="houses"
-      :filterLabel="filter.filterLabel"
-      :filterTitle="filter.filterTitle"
-    />
-    <v-col cols="12">
-      <h3 data-lang-key="HOUSE_FILTER_TITLE_SPECS">
-        {{ i18n.HOUSE_FILTER_TITLE_SPECS }}
-      </h3>
-      <SwitchFilter
-        v-for="filter in switchFilterItems"
+    <v-row>
+      <SelectFilter
+        v-for="filter in selectFilterItems"
         :key="filter.filterName"
         :filterName="filter.filterName"
-        :filterLabel="filter.filterLabel"
         dispatchName="fetchHouses"
+        :selectItems="filter.filterItems"
+        :sourceData="houses"
+        :filterLabel="filter.filterLabel"
+        :filterTitle="filter.filterTitle"
       />
-    </v-col>
+      <v-col cols="12">
+        <h3 data-lang-key="HOUSE_FILTER_TITLE_SPECS">
+          {{ i18n.HOUSE_FILTER_TITLE_SPECS }}
+        </h3>
+        <SwitchFilter
+          v-for="filter in switchFilterItems"
+          :key="filter.filterName"
+          :filterName="filter.filterName"
+          :filterLabel="filter.filterLabel"
+          dispatchName="fetchHouses"
+        />
+      </v-col>
 
-    <RangeFilter
-      data-lang-key="HOUSE_FILTER_TITLE_BEDS"
-      :filterRange="data.ranges.beds"
-      :filterTitle="i18n.HOUSE_FILTER_TITLE_BEDS"
-      dispatchName="fetchHouses"
-      filterName="bedFilter"
-    />
-    <v-col cols="12">
-      <h3 class="mb-4" data-lang-key="APP_SETTINGS">{{ i18n.APP_SETTINGS }}</h3>
-      <PageSize dispatchName="fetchHouses" />
-    </v-col>
-    <FilterReset :key="app.resetKey" dispatchName="fetchHouses" />
+      <RangeFilter
+        data-lang-key="HOUSE_FILTER_TITLE_BEDS"
+        :filterRange="data.ranges.beds"
+        :filterTitle="i18n.HOUSE_FILTER_TITLE_BEDS"
+        dispatchName="fetchHouses"
+        filterName="bedFilter"
+      />
+      <v-col cols="12">
+        <h3 class="mb-4" data-lang-key="APP_SETTINGS">
+          {{ i18n.APP_SETTINGS }}
+        </h3>
+        <PageSize dispatchName="fetchHouses" />
+      </v-col>
+      <FilterReset :key="app.resetKey" dispatchName="fetchHouses" />
+    </v-row>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="auto">
+  <v-col cols="12">
     <h3>{{ filterTitle }}</h3>
     <v-combobox
       v-model="selectedState"
