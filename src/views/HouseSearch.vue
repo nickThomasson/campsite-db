@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-6">
+  <v-container class="mt-6" fluid>
     <v-row v-if="app.loadingStatus === status.Ready">
       <v-col
         cols="12"

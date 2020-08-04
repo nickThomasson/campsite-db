@@ -95,12 +95,6 @@ export default {
         }
       ];
     }
-  },
-  created() {
-    this.setFilterItems();
-  },
-  updated() {
-    this.setFilterItems();
   }
 };
 </script>
