@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { find } from "lodash";
 
 export default {
