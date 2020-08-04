@@ -1,9 +1,9 @@
 <template>
   <v-row v-if="campsites.length > 0">
     <v-col
-      xl="4"
-      lg="6"
-      md="12"
+      xl="3"
+      lg="4"
+      md="6"
       sm="12"
       cols="12"
       v-for="(campsite, index) in campsites"

@@ -105,10 +105,10 @@ export default {
   },
   mounted() {
     this.savePage(this.housePage[0]);
-    this.setActivePage(this.i18n.CAMPSITE_DETAIL_INFO_HOUSE_TITLE);
+    this.setActivePage(this.i18n.HOUSE_DETAIL_HOUSE_TITLE);
   },
   updated() {
-    this.setActivePage(this.i18n.CAMPSITE_DETAIL_INFO_HOUSE_TITLE);
+    this.setActivePage(this.i18n.HOUSE_DETAIL_HOUSE_TITLE);
   },
   beforeDestroy() {
     this.savePage({});
