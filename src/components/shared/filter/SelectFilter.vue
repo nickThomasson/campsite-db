@@ -6,6 +6,7 @@
       :items="selectItems"
       :label="filterLabel"
       clearable
+      :disabled="filterDisabled"
       @change="setFilter(selectedState)"
     ></v-combobox>
   </v-col>
@@ -19,7 +20,9 @@ export default {
   name: "SelectFilter",
   data() {
     return {
-      selectedState: null
+      selectedState: null,
+      filterSet: false,
+      filterDisabled: false
     };
   },
   props: {
@@ -54,7 +57,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["applyFilter"]),
+    ...mapActions(["applyFilter", "applyReset"]),
     setFilter(value) {
       this.applyFilter({
         type: this.filterName,
@@ -63,6 +66,11 @@ export default {
         rawValue: this.selectedState,
         dispatchName: this.dispatchName
       });
+      if (this.selectedState) {
+        this.filterSet = true;
+      } else {
+        this.filterSet = false;
+      }
     },
     findItemId(value) {
       const Ids = [];
@@ -78,10 +86,13 @@ export default {
       return Ids.join(",");
     },
     singleSelection() {
-      if (this.selectItems.length === 1) {
-        this.selectedState = this.selectItems[0];
-      } else {
+      if (this.selectItems.length === 1 && !this.filterSet) {
+        this.selectedState = this.selectItems;
+        this.filterDisabled = true;
+      }
+      if (this.selectItems.length !== 1 && !this.filterSet) {
         this.selectedState = null;
+        this.filterDisabled = false;
       }
     }
   },
