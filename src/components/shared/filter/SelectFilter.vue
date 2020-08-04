@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import { find } from "lodash";
 
 export default {
@@ -76,12 +76,22 @@ export default {
         }
       }
       return Ids.join(",");
+    },
+    singleSelection() {
+      if (this.selectItems.length === 1) {
+        this.selectedState = this.selectItems[0];
+      } else {
+        this.selectedState = null;
+      }
     }
   },
   mounted() {
     if (this.storeValue) {
       this.select = this.storeValue;
     }
+  },
+  updated() {
+    this.singleSelection();
   }
 };
 </script>
