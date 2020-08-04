@@ -1,32 +1,14 @@
 <template>
   <v-container class="mt-6" fluid>
     <v-row v-if="app.loadingStatus === status.Ready">
-      <v-col
-        cols="12"
-        sm="12"
-        md="4"
-        lg="3"
-        xl="2"
-        order="2"
-        order-sm="2"
-        order-md="1"
-        order-lg="1"
-        order-xl="1"
-        class="d-none d-md-flex"
-      >
+      <v-col cols="12" sm="12" md="3" lg="2" class="d-none d-md-flex">
         <HouseFilter :key="app.filterKey" />
       </v-col>
       <v-col
         cols="12"
         sm="12"
-        md="8"
-        lg="9"
-        xl="10"
-        order="1"
-        order-sm="1"
-        order-md="2"
-        order-lg="2"
-        order-xl="2"
+        md="9"
+        lg="10"
         v-if="app.loadingStatus === status.Ready"
       >
         <HouseSearchResults />
