@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12">
+  <div>
     <h3>{{ filterTitle }}</h3>
     <v-combobox
       v-model="selectedState"
@@ -9,7 +9,7 @@
       :disabled="filterDisabled"
       @change="setFilter(selectedState)"
     ></v-combobox>
-  </v-col>
+  </div>
 </template>
 
 <script>

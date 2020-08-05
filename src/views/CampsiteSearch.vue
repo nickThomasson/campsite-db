@@ -1,13 +1,13 @@
 <template>
   <v-container class="mt-6" fluid>
     <v-row v-if="app.loadingStatus === status.Ready">
-      <v-col cols="12" sm="12" md="3" lg="3" xl="2" class="d-none d-md-flex">
+      <v-col cols="12" sm="12" md="4" lg="3" xl="2" class="d-none d-md-flex">
         <CampsiteFilter :key="app.filterKey" />
       </v-col>
       <v-col
         cols="12"
         sm="12"
-        md="9"
+        md="8"
         lg="9"
         xl="10"
         v-if="app.loadingStatus === status.Ready"
