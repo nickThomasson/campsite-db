@@ -37,7 +37,8 @@ export default {
         type: this.filterName,
         value: this.filterValue,
         token: this.authentication.token,
-        dispatchName: this.dispatchName
+        dispatchName: this.dispatchName,
+        rawValue: this.filterValue
       });
     }
   },

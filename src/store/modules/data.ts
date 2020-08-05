@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
-import { find, pull, random, isEmpty } from "lodash";
+import { find, pull, random, isEmpty, sum } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
@@ -182,18 +182,26 @@ export const actions = {
       filterName: filter["filterName"]
     });
 
-    if (existingFilter) {
-      if (filter.rawValue === null) {
-        pull(activeFilter, existingFilter);
-      } else if (filter.rawValue !== null) {
-        if (filter.rawValue.length === 0) {
-          pull(activeFilter, existingFilter);
-        }
+    const rawValue = filter.rawValue;
+
+    const checkValueType = (value: any) => {
+      const valueType = typeof value;
+      if (Array.isArray(value)) {
+        return "array";
       }
-    } else {
-      if (filter["isActive"]) {
+      return valueType;
+    };
+
+    if (existingFilter) {
+      if (!rawValue || checkValueType(rawValue) === "array") {
+        pull(activeFilter, existingFilter);
+      }
+
+      if (checkValueType(rawValue) === "array") {
         activeFilter.push(filter);
       }
+    } else if (filter["isActive"]) {
+      activeFilter.push(filter);
     }
 
     commit("REGISTER_ACTIVE_FILTER", activeFilter);
@@ -206,7 +214,7 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("personFilter", true, filterContent)
+        registerFilter("personFilter", true, filterContent, payload.rawValue)
       );
       resolve();
     });
@@ -219,7 +227,7 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("priceFilter", true, filterContent)
+        registerFilter("priceFilter", true, filterContent, payload.rawValue)
       );
       resolve();
     });
@@ -232,7 +240,7 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("bedFilter", true, filterContent)
+        registerFilter("bedFilter", true, filterContent, payload.rawValue)
       );
       resolve();
     });
@@ -243,7 +251,12 @@ export const actions = {
       const filterContent = `&filter[kitchen][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("kitchenFilter", payload.value, filterContent)
+        registerFilter(
+          "kitchenFilter",
+          payload.value,
+          filterContent,
+          payload.rawValue
+        )
       );
       resolve();
     });
@@ -254,7 +267,12 @@ export const actions = {
       const filterContent = `&filter[sanitary][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("sanitaryFilter", payload.value, filterContent)
+        registerFilter(
+          "sanitaryFilter",
+          payload.value,
+          filterContent,
+          payload.rawValue
+        )
       );
       resolve();
     });
@@ -265,7 +283,12 @@ export const actions = {
       const filterContent = `&filter[wifi][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("wifiFilter", payload.value, filterContent)
+        registerFilter(
+          "wifiFilter",
+          payload.value,
+          filterContent,
+          payload.rawValue
+        )
       );
       resolve();
     });
@@ -276,7 +299,12 @@ export const actions = {
       const filterContent = `&filter[av][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("avFilter", payload.value, filterContent)
+        registerFilter(
+          "avFilter",
+          payload.value,
+          filterContent,
+          payload.rawValue
+        )
       );
       resolve();
     });
@@ -287,7 +315,12 @@ export const actions = {
       const filterContent = `&filter[recreational_room][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("recreationalFilter", payload.value, filterContent)
+        registerFilter(
+          "recreationalFilter",
+          payload.value,
+          filterContent,
+          payload.rawValue
+        )
       );
       resolve();
     });
