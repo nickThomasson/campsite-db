@@ -2,6 +2,7 @@
   <div>
     <h3 class="mb-10">{{ filterTitle }}</h3>
     <v-range-slider
+      class="px-4 px-md-0"
       v-model="filterValue"
       thumb-label="always"
       :max="filterRange[1]"
@@ -47,3 +48,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.rangeFilter {
+  padding: 0 20px;
+}
+</style>
