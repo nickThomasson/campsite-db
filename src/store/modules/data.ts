@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
-import { find, pull, random, isEmpty, sum } from "lodash";
+import { find, pull, random, isEmpty } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
