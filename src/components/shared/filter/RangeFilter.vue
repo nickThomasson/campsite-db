@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12">
+  <div>
     <h3 class="mb-10">{{ filterTitle }}</h3>
     <v-range-slider
       v-model="filterValue"
@@ -8,7 +8,7 @@
       :min="filterRange[0]"
       @end="setPersonFilter()"
     ></v-range-slider>
-  </v-col>
+  </div>
 </template>
 
 <script>

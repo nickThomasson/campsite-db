@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-row>
+  <v-row align-content="start">
+    <v-col cols="12">
       <SelectFilter
         v-for="filter in selectFilterItems"
         :key="filter.filterName"
@@ -11,58 +11,58 @@
         :filterLabel="filter.filterLabel"
         :filterTitle="filter.filterTitle"
       />
-      <v-col cols="12" v-if="moreFilter">
-        <h3 data-lang-key="HOUSE_FILTER_TITLE_SPECS">
-          {{ i18n.HOUSE_FILTER_TITLE_SPECS }}
-        </h3>
-        <SwitchFilter
-          v-for="filter in switchFilterItems"
-          :key="filter.filterName"
-          :filterName="filter.filterName"
-          :filterLabel="filter.filterLabel"
-          dispatchName="fetchHouses"
-        />
-      </v-col>
+    </v-col>
 
+    <v-col cols="12" v-if="moreFilter">
+      <h3 data-lang-key="HOUSE_FILTER_TITLE_SPECS">
+        {{ i18n.HOUSE_FILTER_TITLE_SPECS }}
+      </h3>
+      <SwitchFilter
+        v-for="filter in switchFilterItems"
+        :key="filter.filterName"
+        :filterName="filter.filterName"
+        :filterLabel="filter.filterLabel"
+        dispatchName="fetchHouses"
+      />
+    </v-col>
+
+    <v-col cols="12" v-if="moreFilter">
       <RangeFilter
-        v-if="moreFilter"
         data-lang-key="HOUSE_FILTER_TITLE_BEDS"
         :filterRange="data.ranges.beds"
         :filterTitle="i18n.HOUSE_FILTER_TITLE_BEDS"
         dispatchName="fetchHouses"
         filterName="bedFilter"
       />
+    </v-col>
 
-      <v-col cols="12" v-if="moreFilter">
-        <h3 class="mb-4" data-lang-key="APP_SETTINGS">
-          {{ i18n.APP_SETTINGS }}
-        </h3>
-        <PageSize dispatchName="fetchHouses" />
-      </v-col>
+    <v-col cols="12" v-if="moreFilter">
+      <h3 class="mb-4" data-lang-key="APP_SETTINGS">
+        {{ i18n.APP_SETTINGS }}
+      </h3>
+      <PageSize dispatchName="fetchHouses" />
+    </v-col>
 
-      <v-col cols="12">
-        <v-btn
-          color="primary"
-          dark
-          @click="moreFilter = !moreFilter"
-          :data-lang-key="
-            moreFilter ? 'APP_FILTER_BUTTON_LESS' : 'APP_FILTER_BUTTON_MORE'
-          "
-        >
-          <v-icon class="mr-3">
-            {{ moreFilter ? "remove_circle_outline" : "add_circle_outline" }}
-          </v-icon>
-          {{
-            moreFilter
-              ? i18n.APP_FILTER_BUTTON_LESS
-              : i18n.APP_FILTER_BUTTON_MORE
-          }}
-        </v-btn>
-      </v-col>
+    <v-col cols="12">
+      <v-btn
+        color="primary"
+        dark
+        @click="moreFilter = !moreFilter"
+        :data-lang-key="
+          moreFilter ? 'APP_FILTER_BUTTON_LESS' : 'APP_FILTER_BUTTON_MORE'
+        "
+      >
+        <v-icon class="mr-3">
+          {{ moreFilter ? "remove_circle_outline" : "add_circle_outline" }}
+        </v-icon>
+        {{
+          moreFilter ? i18n.APP_FILTER_BUTTON_LESS : i18n.APP_FILTER_BUTTON_MORE
+        }}
+      </v-btn>
+    </v-col>
 
-      <FilterReset :key="app.resetKey" dispatchName="fetchHouses" />
-    </v-row>
-  </div>
+    <FilterReset :key="app.resetKey" dispatchName="fetchHouses" />
+  </v-row>
 </template>
 
 <script>
