@@ -9,6 +9,11 @@ import {
   combinedCampsiteModel,
   combinedHouseModel
 } from "@/helper/campsiteModel";
+import {
+  ChangePageInterface,
+  PageLimitInterface,
+  ApplyFilterInterface
+} from "@/interfaces/interfaces";
 
 export const state = {
   collectionName: "campsite",
@@ -395,7 +400,7 @@ export const actions = {
     });
   },
 
-  applyFilter({ dispatch, commit }: any, payload: any) {
+  applyFilter({ dispatch, commit }: any, payload: ApplyFilterInterface) {
     const filterType = (type: string) => {
       return `register${type.charAt(0).toUpperCase()}${type.slice(1)}`;
     };
@@ -424,7 +429,7 @@ export const actions = {
     });
   },
 
-  changePageLimit({ commit }: any, limit: any) {
+  changePageLimit({ commit }: any, limit: number) {
     return new Promise(resolve => {
       commit("SET_PAGE_LIMIT", limit);
       commit("CHANGE_OFFSET", 0);
@@ -432,7 +437,7 @@ export const actions = {
     });
   },
 
-  applyPageLimit({ dispatch }: any, limit: any) {
+  applyPageLimit({ dispatch }: any, limit: PageLimitInterface) {
     dispatch("changePageLimit", limit.value).then(() => {
       dispatch(limit.dispatchName, { dynamic: true, token: limit.token });
     });
@@ -454,7 +459,7 @@ export const actions = {
     });
   },
 
-  changePage({ commit, dispatch }: any, payload: any) {
+  changePage({ commit, dispatch }: any, payload: ChangePageInterface) {
     return new Promise(resolve => {
       commit("CHANGE_OFFSET", payload.pageOffset);
       resolve();

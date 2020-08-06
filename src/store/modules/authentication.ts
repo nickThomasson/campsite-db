@@ -2,6 +2,7 @@
 import campsiteService from "@/services/campsiteService";
 import { Status } from "@/helper/status";
 import { isEmpty } from "lodash";
+import { AuthenticationInterface } from "@/interfaces/interfaces";
 
 export const state = {
   token: null,
@@ -60,7 +61,10 @@ export const actions = {
       });
   },
 
-  authenticateUser({ commit, dispatch }: any, authData: object) {
+  authenticateUser(
+    { commit, dispatch }: any,
+    authData: AuthenticationInterface
+  ) {
     commit("CHANGE_AUTH_STATUS", Status.Loading);
     campsiteService
       .authenticateUser(authData)

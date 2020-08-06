@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { ROUTE, CREDENTIALS } from "@/helper/routes";
+import { AuthenticationInterface } from "@/interfaces/interfaces";
 
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
@@ -11,7 +11,7 @@ const apiClient = axios.create({
   }
 });
 
-const authData = {
+const authData: object = {
   email: CREDENTIALS.EMAIL,
   password: CREDENTIALS.PASSWORD
 };
@@ -20,7 +20,7 @@ export default {
   authenticate() {
     return apiClient.post(ROUTE.AUTH, authData);
   },
-  authenticateUser(authData: object) {
+  authenticateUser(authData: AuthenticationInterface) {
     return apiClient.post(ROUTE.AUTH, authData);
   },
   logoutUser(token: string) {
@@ -43,7 +43,7 @@ export default {
     });
   },
 
-  updateItem(token: string, collection: string, id: any, item: any) {
+  updateItem(token: string, collection: string, id: number, item: object) {
     return apiClient.patch(`${ROUTE.ITEMS}${collection}/${id}`, item, {
       headers: {
         Authorization: `bearer ${token}`

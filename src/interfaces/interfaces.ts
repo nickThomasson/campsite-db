@@ -1,11 +1,15 @@
-export interface CampsiteInterface {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+interface BaseModel {
   id: number;
-  status: string;
   name: string;
-  vorschaubild: object;
-  personen: number;
+  preis: number;
   kitchen: boolean;
   sanitary: boolean;
+}
+export interface CampsiteInterface extends BaseModel {
+  status: string;
+  vorschaubild: object;
+  personen: number;
   preis: number;
   bewertung: number;
 }
@@ -24,16 +28,12 @@ export interface AddressInterface {
   landkreis: string;
 }
 
-export interface HouseInterface {
-  id: number;
-  name: string;
+export interface HouseInterface extends BaseModel {
   betten: number;
   seminarraeume: number;
   preis: number;
   bemerkungen: string;
   rating: number;
-  kitchen: boolean;
-  sanitary: boolean;
   av: boolean;
   wifi: boolean;
   additional_equipment: Array<string>;
@@ -53,12 +53,7 @@ export interface FilterInterface {
   rawValue: string | boolean | Array<string>;
 }
 
-export interface AddressItemsInterface {
-  source: any;
-  key: string;
-}
-
-export interface RangeItemInterface {
+export interface SourceKeyInterface {
   source: any;
   key: string;
 }
@@ -71,4 +66,37 @@ export interface RequestUrlInterface {
   limit?: number;
   detailedView?: boolean;
   onlyPublished?: boolean;
+}
+
+interface Token {
+  token: string;
+}
+
+interface DispatchToken extends Token {
+  dispatchName: string;
+}
+
+export interface ChangePageInterface extends DispatchToken {
+  pageOffset: number;
+}
+
+export interface PageLimitInterface extends DispatchToken {
+  value: number;
+}
+
+export interface ApplyFilterInterface extends DispatchToken {
+  type: string;
+}
+
+export interface AuthenticationInterface {
+  username: string;
+  email: string;
+}
+
+export interface LanguageImport {
+  id: number;
+  dictionary: { [key: string]: string };
+  language: string;
+  language_name: string;
+  status: string;
 }

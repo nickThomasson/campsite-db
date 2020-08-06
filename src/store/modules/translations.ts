@@ -4,6 +4,7 @@ import campsiteService from "@/services/campsiteService";
 import { getRequestUrl } from "@/helper/routes";
 import { find } from "lodash";
 import { sortObject } from "@/helper/sortObject";
+import { LanguageImport } from "@/interfaces/interfaces";
 
 export const state = {
   dictionary: {},
@@ -55,7 +56,7 @@ export const actions = {
     });
   },
 
-  setLanguage({ commit }: any, data: any) {
+  setLanguage({ commit }: any, data: LanguageImport) {
     return new Promise(resolve => {
       commit("IMPORT_LANGUAGE", {
         ...data,
