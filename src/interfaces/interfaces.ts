@@ -1,45 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-interface BaseModel {
-  id: number;
-  name: string;
-  preis: number;
-  kitchen: boolean;
-  sanitary: boolean;
-}
-export interface CampsiteInterface extends BaseModel {
-  status: string;
-  vorschaubild: object;
-  personen: number;
-  preis: number;
-  bewertung: number;
-}
-
-export interface AddressInterface {
-  strasse: string;
-  hausnummer: string;
-  plz: string;
-  stadt: string;
-  name: string;
-  website: string;
-  email: string;
-  telefon: string;
-  fax: string;
-  bundesland: string;
-  landkreis: string;
-}
-
-export interface HouseInterface extends BaseModel {
-  betten: number;
-  seminarraeume: number;
-  preis: number;
-  bemerkungen: string;
-  rating: number;
-  av: boolean;
-  wifi: boolean;
-  additional_equipment: Array<string>;
-  preview_image: object;
-  recreational_room: boolean;
-}
 
 export interface StoreInterface {
   key: string;
