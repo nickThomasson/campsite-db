@@ -96,7 +96,7 @@ export const actions = {
       })
       .catch((err: any) => {
         commit("CHANGE_AUTH_STATUS", Status.Error);
-        console.log(err);
+        console.error(err);
       });
   }
 };
