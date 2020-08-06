@@ -46,7 +46,6 @@ export const actions = {
     commit("SET_ACTIVE_PAGE", activePage);
   },
   activateError({ commit }: any, message: string) {
-    console.log(message);
     return new Promise(resolve => {
       commit("SET_ERROR_MESSAGE", message);
       resolve();

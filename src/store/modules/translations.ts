@@ -67,7 +67,6 @@ export const actions = {
   },
 
   patchLanguage({ commit }: any, payload: any) {
-    console.log(payload);
     return new Promise((resolve, reject) => {
       const item: any = state.importedLanguage || {};
       if (item.id === payload.id) {
@@ -84,7 +83,7 @@ export const actions = {
           .catch((err: any) => {
             commit("CHANGE_IMPORT_STATUS", Status.Error);
             reject();
-            console.log(err);
+            console.error(err);
           });
       } else {
         commit("CHANGE_IMPORT_STATUS", Status.NonMatchingIds);
