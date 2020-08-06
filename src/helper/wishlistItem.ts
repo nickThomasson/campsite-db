@@ -1,5 +1,6 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-export const wishlistItem = (item: any) => {
+export const wishlistItem = (item: {
+  [key: string]: { [key: string]: string };
+}) => {
   return {
     id: item["id"],
     title: item["name"],
@@ -7,7 +8,7 @@ export const wishlistItem = (item: any) => {
     city: item["address"]["city"],
     county: item["address"]["county"],
     street: item["address"]["street"],
-    housenumber: item["address"]["houseNumber"],
+    houseNumber: item["address"]["houseNumber"],
     type: "rooms" in item ? "house" : "campsite"
   };
 };

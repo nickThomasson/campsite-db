@@ -1,28 +1,19 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { max, min } from "lodash";
+import { SourceKeyInterface } from "@/interfaces/interfaces";
 
-export const renderItems = (state: any, key: any) => {
+export const renderRange = (payload: SourceKeyInterface) => {
   const items: Array<string> = [];
-  for (const item of state) {
-    const returnValue = item[key];
-    if (!items.includes(returnValue)) items.push(returnValue);
-  }
-  return items;
-};
-
-export const renderRange = (state: any, key: any) => {
-  const items: Array<string> = [];
-  for (const item of state) {
-    const returnValue = item[key];
+  for (const item of payload.source) {
+    const returnValue = item[payload.key.toString()];
     if (!items.includes(returnValue)) items.push(returnValue);
   }
   return [min(items), max(items)];
 };
 
-export const renderAddressItems = (state: any, key: any) => {
+export const renderAddressItems = (payload: SourceKeyInterface) => {
   const items: Array<string> = [];
-  for (const item of state) {
-    const returnValue = item.address[key];
+  for (const item of payload.source) {
+    const returnValue = item.address[payload.key.toString()];
     if (!items.includes(returnValue)) items.push(returnValue);
   }
   return items;

@@ -1,10 +1,9 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-export const sortObject = (sourceObject: any) => {
-  const targetObject: any = {};
-  Object.keys(sourceObject)
+export const sortObject = (source: { [key: string]: string }) => {
+  const target: { [key: string]: string } = {};
+  Object.keys(source)
     .sort()
     .forEach(key => {
-      targetObject[key] = sourceObject[key];
+      target[key] = source[key];
     });
-  return targetObject;
+  return target;
 };

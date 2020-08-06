@@ -9,6 +9,11 @@ import {
   combinedCampsiteModel,
   combinedHouseModel
 } from "@/helper/campsiteModel";
+import {
+  ChangePageInterface,
+  PageLimitInterface,
+  ApplyFilterInterface
+} from "@/interfaces/interfaces";
 
 export const state = {
   collectionName: "campsite",
@@ -59,16 +64,16 @@ export const mutations = {
 
 export const actions = {
   fetchCampsites({ state, commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl("campsite", false);
-    const urldynamic = getRequestUrl(
-      "campsite",
-      getters.combinedFilter,
-      state.sort,
-      state.offset,
-      state.limit,
-      true,
-      true
-    );
+    const urlstatic = getRequestUrl({ collectionName: "campsite" });
+    const urldynamic = getRequestUrl({
+      collectionName: "campsite",
+      filterQuery: getters.combinedFilter,
+      sortCriteria: state.sort,
+      offset: state.offset,
+      limit: state.limit,
+      detailedView: true,
+      onlyPublished: true
+    });
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
@@ -97,7 +102,10 @@ export const actions = {
   fetchAddresses({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("address", false), token)
+        .fetchCollectionItems(
+          getRequestUrl({ collectionName: "address" }),
+          token
+        )
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_ADDRESSES", response.data.data);
@@ -118,16 +126,16 @@ export const actions = {
   },
 
   fetchHouses({ commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl("house", false);
-    const urldynamic = getRequestUrl(
-      "house",
-      getters.combinedFilter,
-      state.sort,
-      state.offset,
-      state.limit,
-      true,
-      true
-    );
+    const urlstatic = getRequestUrl({ collectionName: "house" });
+    const urldynamic = getRequestUrl({
+      collectionName: "house",
+      filterQuery: getters.combinedFilter,
+      sortCriteria: state.sort,
+      offset: state.offset,
+      limit: state.limit,
+      detailedView: true,
+      onlyPublished: true
+    });
     return new Promise((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
@@ -156,7 +164,10 @@ export const actions = {
   fetchGalleries({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("campsite_gallery", false), token)
+        .fetchCollectionItems(
+          getRequestUrl({ collectionName: "campsite_gallery" }),
+          token
+        )
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_GALLERY", response.data.data);
@@ -214,7 +225,12 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("personFilter", true, filterContent, payload.rawValue)
+        registerFilter({
+          filterName: "personFilter",
+          isActive: true,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -227,7 +243,12 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("priceFilter", true, filterContent, payload.rawValue)
+        registerFilter({
+          filterName: "priceFilter",
+          isActive: true,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -240,7 +261,12 @@ export const actions = {
       )}`;
       dispatch(
         "initActiveFilter",
-        registerFilter("bedFilter", true, filterContent, payload.rawValue)
+        registerFilter({
+          filterName: "bedFilter",
+          isActive: true,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -251,12 +277,12 @@ export const actions = {
       const filterContent = `&filter[kitchen][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "kitchenFilter",
-          payload.value,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "kitchenFilter",
+          isActive: payload.value,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -267,12 +293,12 @@ export const actions = {
       const filterContent = `&filter[sanitary][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "sanitaryFilter",
-          payload.value,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "sanitaryFilter",
+          isActive: payload.value,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -283,12 +309,12 @@ export const actions = {
       const filterContent = `&filter[wifi][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "wifiFilter",
-          payload.value,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "wifiFilter",
+          isActive: payload.value,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -299,12 +325,12 @@ export const actions = {
       const filterContent = `&filter[av][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "avFilter",
-          payload.value,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "avFilter",
+          isActive: payload.value,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -315,12 +341,12 @@ export const actions = {
       const filterContent = `&filter[recreational_room][neq]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "recreationalFilter",
-          payload.value,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "recreationalFilter",
+          isActive: payload.value,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -331,12 +357,12 @@ export const actions = {
       const filterContent = `&filter[id][in]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "stateFilter",
-          payload.rawValue !== null ? true : false,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "stateFilter",
+          isActive: payload.rawValue !== null ? true : false,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -347,12 +373,12 @@ export const actions = {
       const filterContent = `&filter[id][in]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "countyFilter",
-          payload.rawValue !== null ? true : false,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "countyFilter",
+          isActive: payload.rawValue !== null ? true : false,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
@@ -363,18 +389,18 @@ export const actions = {
       const filterContent = `&filter[id][in]=${payload.value}`;
       dispatch(
         "initActiveFilter",
-        registerFilter(
-          "cityFilter",
-          payload.rawValue !== null ? true : false,
-          filterContent,
-          payload.rawValue
-        )
+        registerFilter({
+          filterName: "cityFilter",
+          isActive: payload.rawValue !== null ? true : false,
+          filterRequest: filterContent,
+          rawValue: payload.rawValue
+        })
       );
       resolve();
     });
   },
 
-  applyFilter({ dispatch, commit }: any, payload: any) {
+  applyFilter({ dispatch, commit }: any, payload: ApplyFilterInterface) {
     const filterType = (type: string) => {
       return `register${type.charAt(0).toUpperCase()}${type.slice(1)}`;
     };
@@ -403,7 +429,7 @@ export const actions = {
     });
   },
 
-  changePageLimit({ commit }: any, limit: any) {
+  changePageLimit({ commit }: any, limit: number) {
     return new Promise(resolve => {
       commit("SET_PAGE_LIMIT", limit);
       commit("CHANGE_OFFSET", 0);
@@ -411,7 +437,7 @@ export const actions = {
     });
   },
 
-  applyPageLimit({ dispatch }: any, limit: any) {
+  applyPageLimit({ dispatch }: any, limit: PageLimitInterface) {
     dispatch("changePageLimit", limit.value).then(() => {
       dispatch(limit.dispatchName, { dynamic: true, token: limit.token });
     });
@@ -433,7 +459,7 @@ export const actions = {
     });
   },
 
-  changePage({ commit, dispatch }: any, payload: any) {
+  changePage({ commit, dispatch }: any, payload: ChangePageInterface) {
     return new Promise(resolve => {
       commit("CHANGE_OFFSET", payload.pageOffset);
       resolve();
@@ -456,37 +482,37 @@ export const getters = {
   },
   campsiteStates: (state: any, getters: any) => {
     if (getters.campsites) {
-      return renderAddressItems(getters.campsites, "state");
+      return renderAddressItems({ source: getters.campsites, key: "state" });
     }
     return [];
   },
   campsiteCounties: (state: any, getters: any) => {
     if (getters.campsites) {
-      return renderAddressItems(getters.campsites, "county");
+      return renderAddressItems({ source: getters.campsites, key: "county" });
     }
     return [];
   },
   campsiteCities: (state: any, getters: any) => {
     if (getters.campsites) {
-      return renderAddressItems(getters.campsites, "city");
+      return renderAddressItems({ source: getters.campsites, key: "city" });
     }
     return [];
   },
   houseStates: (state: any, getters: any) => {
     if (getters.houses) {
-      return renderAddressItems(getters.houses, "state");
+      return renderAddressItems({ source: getters.houses, key: "state" });
     }
     return [];
   },
   houseCounties: (state: any, getters: any) => {
     if (getters.houses) {
-      return renderAddressItems(getters.houses, "county");
+      return renderAddressItems({ source: getters.houses, key: "county" });
     }
     return [];
   },
   houseCities: (state: any, getters: any) => {
     if (getters.houses) {
-      return renderAddressItems(getters.houses, "city");
+      return renderAddressItems({ source: getters.houses, key: "city" });
     }
     return [];
   },

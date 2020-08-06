@@ -4,6 +4,7 @@ import campsiteService from "@/services/campsiteService";
 import { getRequestUrl } from "@/helper/routes";
 import { find } from "lodash";
 import { sortObject } from "@/helper/sortObject";
+import { LanguageImport } from "@/interfaces/interfaces";
 
 export const state = {
   dictionary: {},
@@ -32,7 +33,10 @@ export const actions = {
   fetchTranslations({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("translations", false), token)
+        .fetchCollectionItems(
+          getRequestUrl({ collectionName: "translations" }),
+          token
+        )
         .then((response: any) => {
           if (response.status === 200) {
             resolve();
@@ -52,7 +56,7 @@ export const actions = {
     });
   },
 
-  setLanguage({ commit }: any, data: any) {
+  setLanguage({ commit }: any, data: LanguageImport) {
     return new Promise(resolve => {
       commit("IMPORT_LANGUAGE", {
         ...data,
