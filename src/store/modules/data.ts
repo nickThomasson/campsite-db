@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
-import { find, pull, random, isEmpty } from "lodash";
+import { find, pull, random } from "lodash";
 import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
 import {
-  combinedCampsiteModel,
-  combinedHouseModel
-} from "@/helper/campsiteModel";
+  CampsiteModel,
+  AddressModel,
+  HouseModel,
+  GalleryModel
+} from "@/classes/classes";
 import {
   ChangePageInterface,
   PageLimitInterface,
@@ -516,78 +518,72 @@ export const getters = {
     }
     return [];
   },
+
   campsites: (state: any) => {
-    const mergedResults: Array<object> = [];
+    const campsites = new CampsiteModel(state.results);
+    const addresses = new AddressModel(state.addresses);
+    const houses = new HouseModel(state.houses);
+    const galleries = new GalleryModel(state.gallery);
 
-    const campsites = state.results;
-    const addresses = state.addresses;
-    const houses = state.houses;
-    const galleries = state.gallery;
+    const combinedCampsites: Array<object> = [];
 
-    if (!isEmpty(campsites)) {
-      for (const campsite of campsites) {
-        const address = find(addresses, { id: campsite.adresse[0].address_id });
+    for (const item of state.results) {
+      const { id } = item;
+      const campsite = campsites.getSingle({ id, formatted: true });
+      const addressIds = campsites.getAddressIds({ id });
+      const address = addresses.getMultiple({
+        ids: addressIds,
+        formatted: true
+      });
+      const houseIds = campsites.getHouseIds({ id });
+      const house = houses.getMultiple({ ids: houseIds, formatted: true });
+      const galleryIds = campsites.getGalleryIds({ id });
+      const gallery = galleries.getMultiple({ ids: galleryIds });
 
-        const housesArray = [];
-
-        if (!isEmpty(campsite.haus)) {
-          for (const house of campsite.haus) {
-            const houseItem = find(houses, { id: house.house_id });
-            housesArray.push(houseItem);
-          }
-        }
-
-        const gallery: any = [];
-        if (!isEmpty(campsite.galerie)) {
-          for (const image of campsite.galerie) {
-            const imageObject = find(galleries, { id: image.id });
-            gallery.push(imageObject.directus_files_id.data);
-          }
-        }
-
-        mergedResults.push(
-          combinedCampsiteModel(campsite, address, housesArray, gallery)
-        );
-      }
+      combinedCampsites.push({
+        ...campsite,
+        address: address[0],
+        house,
+        gallery
+      });
     }
 
-    return mergedResults;
+    return combinedCampsites;
   },
+
   houses: (state: any) => {
-    const mergedResults: Array<object> = [];
+    const combinedHouses: Array<object> = [];
 
-    const addresses = state.addresses;
-    const houses = state.houses;
-    const galleries = state.gallery;
-    const campsites = state.results;
+    const campsites = new CampsiteModel(state.results);
+    const addresses = new AddressModel(state.addresses);
+    const houses = new HouseModel(state.houses);
+    const galleries = new GalleryModel(state.gallery);
 
-    if (!isEmpty(houses)) {
-      for (const house of houses) {
-        const address = find(addresses, { id: house.adresse[0].address_id });
+    for (const item of state.houses) {
+      const { id } = item;
+      const house = houses.getSingle({ id, formatted: true });
+      const addressIds = houses.getAddressIds({ id });
+      const address = addresses.getMultiple({
+        ids: addressIds,
+        formatted: true
+      });
+      const campsiteIds = houses.getCampsiteIds({ id });
+      const campsite = campsites.getMultiple({
+        ids: campsiteIds,
+        formatted: true
+      });
+      const galleryIds = houses.getGalleryIds({ id });
+      const gallery = galleries.getMultiple({ ids: galleryIds });
 
-        const gallery: any = [];
-        if (!isEmpty(house.gallery)) {
-          for (const image of house.gallery) {
-            const imageObject = find(galleries, { id: image.id });
-            gallery.push(imageObject.directus_files_id.data);
-          }
-        }
-
-        const campsitesArray: any = [];
-        if (!isEmpty(house.campsite)) {
-          for (const campsite of house.campsite) {
-            const campsiteItem = find(campsites, { id: campsite.campsite_id });
-            campsitesArray.push(campsiteItem);
-          }
-        }
-
-        mergedResults.push(
-          combinedHouseModel(house, address, campsitesArray, gallery)
-        );
-      }
+      combinedHouses.push({
+        ...house,
+        address: address[0],
+        campsites: campsite,
+        gallery
+      });
     }
 
-    return mergedResults;
+    return combinedHouses;
   },
   combinedFilter: (state: any) => {
     const combinedFilter: Array<string> = [];
