@@ -3,7 +3,17 @@
     <v-col cols="12">
       <v-card>
         <v-card-title data-lang-key="APP_SETTINGS_LANGUAGE_TITLE">
-          {{ i18n.APP_SETTINGS_LANGUAGE_TITLE }}
+          <v-row>
+            <v-col cols="auto">
+              {{ i18n.APP_SETTINGS_LANGUAGE_TITLE }}
+            </v-col>
+            <v-spacer></v-spacer>
+            <v-col cols="auto">
+              <v-icon @click="fetchTranslations(authentication.userData.token)">
+                refresh
+              </v-icon>
+            </v-col>
+          </v-row>
         </v-card-title>
         <v-card-text>
           <v-col v-if="translations.importStatus === status.Ready">
@@ -80,7 +90,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import { isEmpty, find } from "lodash";
 import LanguageImport from "@/components/Administration/LanguageSettings/LanguageImport.vue";
 import { Status } from "@/helper/status";
@@ -91,8 +101,11 @@ export default {
   components: {
     LanguageImport
   },
+  methods: {
+    ...mapActions(["fetchTranslations"])
+  },
   computed: {
-    ...mapState(["translations"]),
+    ...mapState(["translations", "authentication"]),
     ...mapGetters(["i18n"]),
     tableItems() {
       const tableItems = [];
