@@ -1,5 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const campsiteModel = (campsite: any) => {
+import {
+  CampsiteInterface,
+  AddressInterface,
+  HouseInterface
+} from "@/interfaces/interfaces";
+
+const campsiteModel = (campsite: CampsiteInterface) => {
   return {
     id: campsite["id"],
     status: campsite["status"],
@@ -13,7 +18,7 @@ const campsiteModel = (campsite: any) => {
   };
 };
 
-const campsiteModelMultiple = (campsite: any) => {
+const campsiteModelMultiple = (campsite: Array<CampsiteInterface>) => {
   const campsites = [];
   for (const item of campsite) {
     if (item) {
@@ -23,7 +28,7 @@ const campsiteModelMultiple = (campsite: any) => {
   return campsites;
 };
 
-const addressModel = (address: any) => {
+const addressModel = (address: AddressInterface) => {
   return {
     street: address["strasse"],
     houseNumber: address["hausnummer"],
@@ -39,7 +44,7 @@ const addressModel = (address: any) => {
   };
 };
 
-const houseModel = (house: any) => {
+const houseModel = (house: HouseInterface) => {
   return {
     id: house["id"],
     name: house["name"],
@@ -58,7 +63,7 @@ const houseModel = (house: any) => {
   };
 };
 
-const houseModelMultiple = (house: any) => {
+const houseModelMultiple = (house: Array<HouseInterface>) => {
   const houses = [];
   for (const item of house) {
     if (item) {
@@ -69,36 +74,30 @@ const houseModelMultiple = (house: any) => {
 };
 
 export const combinedCampsiteModel = (
-  campsite: any,
-  address = {},
-  house = {},
-  gallery = {}
+  campsite: CampsiteInterface,
+  address: AddressInterface,
+  house: Array<HouseInterface>,
+  gallery: Array<object>
 ) => {
-  const campsiteM = campsiteModel(campsite);
-  const addressM = addressModel(address);
-  const houseM = houseModelMultiple(house);
   const combinedCampsiteObject = {
-    ...campsiteM,
-    address: addressM,
-    house: houseM,
+    ...campsiteModel(campsite),
+    address: addressModel(address),
+    house: houseModelMultiple(house),
     gallery
   };
   return combinedCampsiteObject;
 };
 
 export const combinedHouseModel = (
-  house: any,
-  address = {},
-  campsite = [],
-  gallery = []
+  house: HouseInterface,
+  address: AddressInterface,
+  campsite: Array<CampsiteInterface>,
+  gallery: Array<object>
 ) => {
-  const addressM = addressModel(address);
-  const houseM = houseModel(house);
-  const campsiteM = campsiteModelMultiple(campsite);
   const combinedHouseObject = {
-    ...houseM,
-    address: addressM,
-    campsites: campsiteM,
+    ...houseModel(house),
+    address: addressModel(address),
+    campsites: campsiteModelMultiple(campsite),
     gallery
   };
   return combinedHouseObject;

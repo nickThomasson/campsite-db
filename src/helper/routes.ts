@@ -1,4 +1,5 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
+import { RequestUrlInterface } from "@/interfaces/interfaces";
+
 export enum ROUTE {
   AUTH = "/auth/authenticate",
   LOGOUT = "/auth/logout",
@@ -29,7 +30,7 @@ const createBaseUrl = (collectionName: string) => {
  *
  * @param filterQuery
  */
-const createFilterParameter = (filterQuery: string) => {
+const createFilterParameter = (filterQuery: string | boolean) => {
   if (!filterQuery) {
     return false;
   }
@@ -103,30 +104,22 @@ const createLimitParameter = (limit: number) => {
  *
  * @returns string
  */
-export const getRequestUrl = (
-  collectionName: string,
-  filterQuery: any,
-  sortCriteria = "id",
-  offset = 0,
-  limit = -1,
-  detailedView = true,
-  onlyPublished = true
-) => {
-  const requestUrl: Array<any> = [];
+export const getRequestUrl = (payload: RequestUrlInterface) => {
+  const requestUrl: Array<string> = [];
 
   const catchRequestUrl = [
-    createBaseUrl(collectionName),
-    createFilterParameter(filterQuery),
-    createSortParameter(sortCriteria),
-    createOffsetParameter(offset),
-    createLimitParameter(limit),
-    createFieldParameter(detailedView),
-    createPublishedParameter(onlyPublished)
+    createBaseUrl(payload.collectionName),
+    createFilterParameter(payload.filterQuery || false),
+    createSortParameter(payload.sortCriteria || "id"),
+    createOffsetParameter(payload.offset || 0),
+    createLimitParameter(payload.limit || -1),
+    createFieldParameter(payload.detailedView || true),
+    createPublishedParameter(payload.onlyPublished || true)
   ];
 
   for (const urlItem of catchRequestUrl) {
     if (urlItem) {
-      requestUrl.push(urlItem);
+      requestUrl.push(urlItem.toString());
     }
   }
 

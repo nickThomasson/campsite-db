@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const writeToStorage = (key: string, value: any) => {
-  localStorage.setItem(key, JSON.stringify(value));
+import { StoreInterface } from "@/interfaces/interfaces";
+
+export const writeToStorage = (value: StoreInterface) => {
+  localStorage.setItem(value.key.toString(), JSON.stringify(value.value));
 };
 
-export const readFromStorage = (key: string) => {
-  const storage: any = localStorage.getItem(key);
+export const readFromStorage = (value: StoreInterface) => {
+  const storage: string = localStorage.getItem(value.key.toString()) || "";
   return JSON.parse(storage);
 };

@@ -11,7 +11,7 @@ Vue.config.productionTip = false;
 
 store.subscribe((mutation: any, state: any) => {
   const wishlist = state.wishlist;
-  writeToStorage("wishlist", wishlist);
+  writeToStorage({ key: "wishlist", value: wishlist });
 });
 
 new Vue({

@@ -32,7 +32,10 @@ export const actions = {
   fetchTranslations({ commit, dispatch }: any, token: string) {
     return new Promise((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(getRequestUrl("translations", false), token)
+        .fetchCollectionItems(
+          getRequestUrl({ collectionName: "translations" }),
+          token
+        )
         .then((response: any) => {
           if (response.status === 200) {
             resolve();

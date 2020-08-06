@@ -42,7 +42,7 @@ export const actions = {
     commit("DELETE_FROM_WISHLIST", newlist);
   },
   initializeWishlist({ commit }: any) {
-    const storage = readFromStorage("wishlist");
+    const storage = readFromStorage({ key: "wishlist" });
     if (storage) {
       commit("INITIALIZE_WISHLIST", storage);
     }
