@@ -43,16 +43,16 @@ export default Vue.extend({
     ]),
     getRanges() {
       this.setRanges({
-        beds: renderRange({ source: this.data.houses, key: "betten" }),
-        persons: renderRange({ source: this.data.results, key: "personen" }),
-        rooms: renderRange({ source: this.data.houses, key: "seminarraeume" }),
+        beds: renderRange({ source: this.data.houses, key: "beds" }),
+        persons: renderRange({ source: this.data.results, key: "persons" }),
+        rooms: renderRange({ source: this.data.houses, key: "rooms" }),
         itemCountCampsites: this.data.results.length,
         itemCountHouses: this.data.houses.length,
         priceCampsites: renderRange({
           source: this.data.results,
-          key: "preis"
+          key: "price"
         }),
-        priceHouses: renderRange({ source: this.data.houses, key: "preis" })
+        priceHouses: renderRange({ source: this.data.houses, key: "price" })
       });
     }
   },
