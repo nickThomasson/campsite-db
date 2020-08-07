@@ -11,7 +11,7 @@ abstract class StoreConnector {
 
 abstract class CreateItem extends StoreConnector {
   protected id: number;
-  protected item: any;
+  readonly item: any;
 
   protected constructor(id: number, store: Array<object>) {
     super(store);

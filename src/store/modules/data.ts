@@ -2,7 +2,6 @@
 import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
 import { find, pull, random } from "lodash";
-import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
 import {
@@ -11,7 +10,8 @@ import {
   CreateHouse,
   CreateAddress,
   CreateGallery
-} from "@/classes/classes";
+} from "@/classes/data";
+import { CreateFilter } from "@/classes/filter";
 import {
   ChangePageInterface,
   PageLimitInterface,
@@ -223,180 +223,223 @@ export const actions = {
 
   registerPersonFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[persons][between]=${payload.value.join(
-        ","
-      )}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "personFilter",
-          isActive: true,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "persons",
+        operator: "between",
+        value: payload.value.join(",")
+      };
+      const parameter = {
+        filterName: "personFilter",
+        isActive: true,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
       resolve();
     });
   },
 
   registerPriceFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[price][between]=${payload.value.join(
-        ","
-      )}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "priceFilter",
-          isActive: true,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "price",
+        operator: "between",
+        value: payload.value.join(",")
+      };
+      const parameter = {
+        filterName: "priceFilter",
+        isActive: true,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
 
   registerBedFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[beds][between]=${payload.value.join(",")}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "bedFilter",
-          isActive: true,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "beds",
+        operator: "between",
+        value: payload.value.join(",")
+      };
+
+      const parameter = {
+        filterName: "bedFilter",
+        isActive: true,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
       resolve();
     });
   },
 
   registerKitchenFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[kitchen][neq]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "kitchenFilter",
-          isActive: payload.value,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "kitchen",
+        operator: "neq",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "kitchenFilter",
+        isActive: payload.value,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
 
   registerSanitaryFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[sanitary][neq]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "sanitaryFilter",
-          isActive: payload.value,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "sanitary",
+        operator: "neq",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "sanitaryFilter",
+        isActive: payload.value,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
       resolve();
     });
   },
 
   registerWifiFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[wifi][neq]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "wifiFilter",
-          isActive: payload.value,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "wifi",
+        operator: "neq",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "wifiFilter",
+        isActive: payload.value,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
 
   registerAvFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[av][neq]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "avFilter",
-          isActive: payload.value,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "av",
+        operator: "neq",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "avFilter",
+        isActive: payload.value,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
 
   registerRecreationalFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[recreational_room][neq]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "recreationalFilter",
-          isActive: payload.value,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "recreational_room",
+        operator: "neq",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "recreationalFilter",
+        isActive: payload.value,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
       resolve();
     });
   },
 
   registerStateFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[id][in]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "stateFilter",
-          isActive: payload.rawValue !== null ? true : false,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "id",
+        operator: "in",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "stateFilter",
+        isActive: payload.rawValue !== null ? true : false,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
       resolve();
     });
   },
 
   registerCountyFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[id][in]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "countyFilter",
-          isActive: payload.rawValue !== null ? true : false,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "id",
+        operator: "in",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "countyFilter",
+        isActive: payload.rawValue !== null ? true : false,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
 
   registerCityFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[id][in]=${payload.value}`;
-      dispatch(
-        "initActiveFilter",
-        registerFilter({
-          filterName: "cityFilter",
-          isActive: payload.rawValue !== null ? true : false,
-          filterRequest: filterContent,
-          rawValue: payload.rawValue
-        })
-      );
+      const query = {
+        field: "id",
+        operator: "in",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "cityFilter",
+        isActive: payload.rawValue !== null ? true : false,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
       resolve();
     });
   },
@@ -610,7 +653,7 @@ export const getters = {
     const combinedFilter: Array<string> = [];
 
     for (const filter of state.activeFilter) {
-      combinedFilter.push(filter.filterRequest);
+      combinedFilter.push(filter.query);
     }
 
     return combinedFilter.length === 0 ? undefined : combinedFilter.join("");
