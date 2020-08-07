@@ -11,10 +11,12 @@ abstract class StoreConnector {
 
 abstract class CreateItem extends StoreConnector {
   protected id: number;
+  protected item: any;
 
   protected constructor(id: number, store: Array<object>) {
     super(store);
     this.id = id;
+    this.item = find(this.store, { id: this.id }) || {};
   }
 
   protected getValue(item: any, key: string) {
@@ -22,8 +24,7 @@ abstract class CreateItem extends StoreConnector {
   }
 
   protected getItem() {
-    const item: any = find(this.store, { id: this.id }) || {};
-    return item;
+    return this.item;
   }
 }
 
@@ -33,18 +34,17 @@ export class CreateCampsite extends CreateItem {
   }
 
   getItem() {
-    const item: any = super.getItem();
     return {
-      id: this.getValue(item, "id"),
-      status: this.getValue(item, "status"),
-      name: this.getValue(item, "name"),
-      previewImage: this.getValue(item, "preview_image"),
-      persons: this.getValue(item, "persons"),
-      kitchen: this.getValue(item, "kitchen"),
-      sanitary: this.getValue(item, "sanitary"),
-      price: this.getValue(item, "price"),
-      rating: this.getValue(item, "rating"),
-      website: this.getValue(item, "website")
+      id: this.getValue(this.item, "id"),
+      status: this.getValue(this.item, "status"),
+      name: this.getValue(this.item, "name"),
+      previewImage: this.getValue(this.item, "preview_image"),
+      persons: this.getValue(this.item, "persons"),
+      kitchen: this.getValue(this.item, "kitchen"),
+      sanitary: this.getValue(this.item, "sanitary"),
+      price: this.getValue(this.item, "price"),
+      rating: this.getValue(this.item, "rating"),
+      website: this.getValue(this.item, "website")
     };
   }
 }
@@ -55,23 +55,22 @@ export class CreateHouse extends CreateItem {
   }
 
   getItem() {
-    const item: any = super.getItem();
     return {
-      id: this.getValue(item, "id"),
-      name: this.getValue(item, "name"),
-      beds: this.getValue(item, "beds"),
-      rooms: this.getValue(item, "rooms"),
-      price: this.getValue(item, "price"),
-      annotations: this.getValue(item, "annotations"),
-      rating: this.getValue(item, "rating"),
-      kitchen: this.getValue(item, "kitchen"),
-      sanitary: this.getValue(item, "sanitary"),
-      av: this.getValue(item, "av"),
-      wifi: this.getValue(item, "wifi"),
-      additionalEquipment: this.getValue(item, "additional_equipment"),
-      previewImage: this.getValue(item, "preview_image"),
-      recreationalRoom: this.getValue(item, "recreational_room"),
-      website: this.getValue(item, "website")
+      id: this.getValue(this.item, "id"),
+      name: this.getValue(this.item, "name"),
+      beds: this.getValue(this.item, "beds"),
+      rooms: this.getValue(this.item, "rooms"),
+      price: this.getValue(this.item, "price"),
+      annotations: this.getValue(this.item, "annotations"),
+      rating: this.getValue(this.item, "rating"),
+      kitchen: this.getValue(this.item, "kitchen"),
+      sanitary: this.getValue(this.item, "sanitary"),
+      av: this.getValue(this.item, "av"),
+      wifi: this.getValue(this.item, "wifi"),
+      additionalEquipment: this.getValue(this.item, "additional_equipment"),
+      previewImage: this.getValue(this.item, "preview_image"),
+      recreationalRoom: this.getValue(this.item, "recreational_room"),
+      website: this.getValue(this.item, "website")
     };
   }
 }
@@ -82,77 +81,76 @@ export class CreateAddress extends CreateItem {
   }
 
   getItem() {
-    const item: any = super.getItem();
     return {
-      street: this.getValue(item, "street"),
-      houseNumber: this.getValue(item, "house_number"),
-      zip: this.getValue(item, "zip"),
-      city: this.getValue(item, "city"),
-      name: this.getValue(item, "name"),
-      website: this.getValue(item, "website"),
-      email: this.getValue(item, "mail"),
-      phone: this.getValue(item, "phone"),
-      fax: this.getValue(item, "fax"),
-      state: this.getValue(item, "state"),
-      county: this.getValue(item, "county"),
-      type: this.getValue(item, "type")
+      street: this.getValue(this.item, "street"),
+      houseNumber: this.getValue(this.item, "house_number"),
+      zip: this.getValue(this.item, "zip"),
+      city: this.getValue(this.item, "city"),
+      name: this.getValue(this.item, "name"),
+      website: this.getValue(this.item, "website"),
+      email: this.getValue(this.item, "mail"),
+      phone: this.getValue(this.item, "phone"),
+      fax: this.getValue(this.item, "fax"),
+      state: this.getValue(this.item, "state"),
+      county: this.getValue(this.item, "county"),
+      type: this.getValue(this.item, "type")
     };
   }
 }
 
 export class CreateGallery extends CreateItem {
-  identifier: string;
+  protected identifier: string;
+  private galleries: Array<object>;
+  private galleryImages: Array<object>;
 
   constructor(id: number, store: Array<object>, identifier: string) {
     super(id, store);
     this.identifier = identifier;
-  }
 
-  getItem() {
-    const galleries: Array<object> = this.store.filter((item: any) => {
+    this.galleries = this.store.filter((item: any) => {
       if (item[this.identifier]) {
         return item[this.identifier]["id"] === this.id;
       } else {
         return false;
       }
     });
-    const galleryImages: Array<object> = [];
 
-    const getGalleryImage = (gallery: any) => {
-      return gallery["directus_files_id"]["data"];
-    };
+    this.galleryImages = [];
+  }
 
-    const getImageDescription = (gallery: any) => {
-      return gallery["directus_files_id"]["description"];
-    };
+  private getGalleryItem(gallery: any, item: string) {
+    return gallery["directus_files_id"][item];
+  }
 
-    for (const gallery of galleries) {
-      galleryImages.push({
-        ...getGalleryImage(gallery),
-        description: getImageDescription(gallery)
+  getItem() {
+    for (const gallery of this.galleries) {
+      this.galleryImages.push({
+        ...this.getGalleryItem(gallery, "data"),
+        description: this.getGalleryItem(gallery, "description")
       });
     }
-    return galleryImages;
+    return this.galleryImages;
   }
 }
 
 abstract class RelatedItems extends CreateItem {
-  relationKey: string;
+  protected relationKey: string;
+  protected items: Array<object>;
 
   protected constructor(id: number, store: Array<object>, relationKey: string) {
     super(id, store);
     this.relationKey = relationKey;
+    this.items = this.item[this.relationKey];
   }
 
   protected getItems() {
-    const item: any = super.getItem();
-    const items: Array<object> = item[this.relationKey];
-    return items;
+    return this.items;
   }
 }
 
 export class RelatedIds extends RelatedItems {
-  idKey: string;
+  protected idKey: string;
+  private ids: Array<number>;
 
   constructor(
     id: number,
@@ -162,16 +160,13 @@ export class RelatedIds extends RelatedItems {
   ) {
     super(id, store, relationKey);
     this.idKey = idKey;
+    this.ids = [];
   }
 
   getIds() {
-    const items: Array<object> = super.getItems();
-    const ids: Array<number> = [];
-
-    for (const item of items) {
-      ids.push(this.getValue(item, this.idKey));
+    for (const item of this.items) {
+      this.ids.push(this.getValue(item, this.idKey));
     }
-
-    return ids;
+    return this.ids;
   }
 }
