@@ -6,10 +6,11 @@ import { registerFilter } from "@/helper/registerFilter";
 import { Status } from "@/helper/status";
 import { getRequestUrl } from "@/helper/routes";
 import {
-  CampsiteModel,
-  AddressModel,
-  HouseModel,
-  GalleryModel
+  CreateCampsite,
+  RelatedIds,
+  CreateHouse,
+  CreateAddress,
+  CreateGallery
 } from "@/classes/classes";
 import {
   ChangePageInterface,
@@ -520,31 +521,43 @@ export const getters = {
   },
 
   campsites: (state: any) => {
-    const campsites = new CampsiteModel(state.results);
-    const addresses = new AddressModel(state.addresses);
-    const houses = new HouseModel(state.houses);
-    const galleries = new GalleryModel(state.gallery);
-
     const combinedCampsites: Array<object> = [];
 
     for (const item of state.results) {
-      const { id } = item;
-      const campsite = campsites.getSingle({ id, formatted: true });
-      const addressIds = campsites.getAddressIds({ id });
-      const address = addresses.getMultiple({
-        ids: addressIds,
-        formatted: true
-      });
-      const houseIds = campsites.getHouseIds({ id });
-      const house = houses.getMultiple({ ids: houseIds, formatted: true });
-      const galleryIds = campsites.getGalleryIds({ id });
-      const gallery = galleries.getMultiple({ ids: galleryIds });
+      const campsite: any = new CreateCampsite(item.id, state.results);
+      const houseIds = new RelatedIds(
+        item.id,
+        state.results,
+        "haus",
+        "house_id"
+      );
+
+      const addressIds = new RelatedIds(
+        item.id,
+        state.results,
+        "adresse",
+        "address_id"
+      );
+
+      const houses: Array<object> = [];
+      for (const id of houseIds.getIds()) {
+        const house = new CreateHouse(id, state.houses);
+        houses.push(house.getItem());
+      }
+
+      const addresses: Array<object> = [];
+      for (const id of addressIds.getIds()) {
+        const address = new CreateAddress(id, state.addresses);
+        addresses.push(address.getItem());
+      }
+
+      const gallery = new CreateGallery(item.id, state.gallery, "campsite_id");
 
       combinedCampsites.push({
-        ...campsite,
-        address: address[0],
-        house,
-        gallery
+        ...campsite.getItem(),
+        house: houses,
+        address: addresses[0],
+        gallery: gallery.getItem()
       });
     }
 
@@ -554,37 +567,47 @@ export const getters = {
   houses: (state: any) => {
     const combinedHouses: Array<object> = [];
 
-    const campsites = new CampsiteModel(state.results);
-    const addresses = new AddressModel(state.addresses);
-    const houses = new HouseModel(state.houses);
-    const galleries = new GalleryModel(state.gallery);
-
     for (const item of state.houses) {
-      const { id } = item;
-      const house = houses.getSingle({ id, formatted: true });
-      const addressIds = houses.getAddressIds({ id });
-      const address = addresses.getMultiple({
-        ids: addressIds,
-        formatted: true
-      });
-      const campsiteIds = houses.getCampsiteIds({ id });
-      const campsite = campsites.getMultiple({
-        ids: campsiteIds,
-        formatted: true
-      });
-      const galleryIds = houses.getGalleryIds({ id });
-      const gallery = galleries.getMultiple({ ids: galleryIds });
+      const house: any = new CreateHouse(item.id, state.houses);
+      const campsiteIds = new RelatedIds(
+        item.id,
+        state.houses,
+        "campsite",
+        "campsite_id"
+      );
+
+      const addressIds = new RelatedIds(
+        item.id,
+        state.houses,
+        "adresse",
+        "address_id"
+      );
+
+      const campsites: Array<object> = [];
+      for (const id of campsiteIds.getIds()) {
+        const campsite = new CreateCampsite(id, state.results);
+        campsites.push(campsite.getItem());
+      }
+
+      const addresses: Array<object> = [];
+      for (const id of addressIds.getIds()) {
+        const address = new CreateAddress(id, state.addresses);
+        addresses.push(address.getItem());
+      }
+
+      const gallery = new CreateGallery(item.id, state.gallery, "house_id");
 
       combinedHouses.push({
-        ...house,
-        address: address[0],
-        campsites: campsite,
-        gallery
+        ...house.getItem(),
+        campsites: campsites,
+        address: addresses[0],
+        gallery: gallery.getItem()
       });
     }
 
     return combinedHouses;
   },
+
   combinedFilter: (state: any) => {
     const combinedFilter: Array<string> = [];
 

@@ -1,346 +1,166 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { find } from "lodash";
 
-interface Base {
-  id: number;
-  name: string;
-  price: number;
-  kitchen: boolean;
-  sanitary: boolean;
-}
-interface Campsite extends Base {
-  status: string;
-  previewImage: object;
-  persons: number;
-  rating: number;
+abstract class StoreConnector {
+  protected store: Array<object>;
+
+  protected constructor(store: Array<object>) {
+    this.store = store;
+  }
 }
 
-interface House extends Base {
-  beds: number;
-  rooms: number;
-  annotations: string;
-  rating: number;
-  av: boolean;
-  wifi: boolean;
-  additionalEquipment: Array<string>;
-  previewImage: object;
-  recreationalRoom: boolean;
-}
+abstract class CreateItem extends StoreConnector {
+  protected id: number;
 
-interface Address {
-  street: string;
-  houseNumber: string;
-  zip: string;
-  city: string;
-  name: string;
-  website: string;
-  email: string;
-  phone: string;
-  fax: string;
-  state: string;
-  county: string;
-}
-
-interface GetSingle {
-  id: number;
-  formatted?: boolean;
-}
-
-interface GetMultiple {
-  ids: Array<number>;
-  formatted?: boolean;
-}
-
-export class CampsiteModel {
-  private campsites: Array<object>;
-
-  constructor(campsites: Array<object>) {
-    this.campsites = campsites;
+  protected constructor(id: number, store: Array<object>) {
+    super(store);
+    this.id = id;
   }
 
-  private campsiteModel = (campsite: any) => {
+  protected getValue(item: any, key: string) {
+    return item[key];
+  }
+
+  protected getItem() {
+    const item: any = find(this.store, { id: this.id }) || {};
+    return item;
+  }
+}
+
+export class CreateCampsite extends CreateItem {
+  constructor(id: number, store: Array<object>) {
+    super(id, store);
+  }
+
+  getItem() {
+    const item: any = super.getItem();
     return {
-      id: campsite["id"],
-      status: campsite["status"],
-      name: campsite["name"],
-      previewImage: campsite["vorschaubild"],
-      persons: campsite["personen"],
-      kitchen: campsite["kitchen"],
-      sanitary: campsite["sanitary"],
-      price: campsite["preis"],
-      rating: campsite["bewertung"]
+      id: this.getValue(item, "id"),
+      status: this.getValue(item, "status"),
+      name: this.getValue(item, "name"),
+      previewImage: this.getValue(item, "vorschaubild"),
+      persons: this.getValue(item, "personen"),
+      kitchen: this.getValue(item, "kitchen"),
+      sanitary: this.getValue(item, "sanitary"),
+      price: this.getValue(item, "preis"),
+      rating: this.getValue(item, "bewertung")
     };
-  };
-
-  getSingle(payload: GetSingle) {
-    const singleCampsite = find(this.campsites, { id: payload.id });
-
-    if (!payload.formatted) {
-      return singleCampsite;
-    } else {
-      return this.campsiteModel(singleCampsite);
-    }
-  }
-
-  getMultiple(payload: GetMultiple) {
-    const multipleCampsites: Array<object> = [];
-    for (const id of payload.ids) {
-      for (const camp of this.campsites.filter(
-        (item: any) => item["id"] === id
-      )) {
-        multipleCampsites.push(camp);
-      }
-    }
-
-    if (!payload.formatted) {
-      return multipleCampsites;
-    } else {
-      const formattedCampsites: Array<Campsite> = [];
-      for (const campsite of multipleCampsites) {
-        formattedCampsites.push(this.campsiteModel(campsite));
-      }
-      return formattedCampsites;
-    }
-  }
-
-  getAll(formatted = false) {
-    if (!formatted) {
-      return this.campsites;
-    } else {
-      const formattedCampsites: Array<Campsite> = [];
-      for (const campsite of this.campsites) {
-        formattedCampsites.push(this.campsiteModel(campsite));
-      }
-      return formattedCampsites;
-    }
-  }
-
-  getHouseIds(payload: GetSingle) {
-    const singleCampsite: any = find(this.campsites, { id: payload.id }) || {};
-    const houseIds: Array<number> = [];
-    for (const house of singleCampsite.haus) {
-      houseIds.push(house.house_id);
-    }
-    return houseIds;
-  }
-
-  getGalleryIds(payload: GetSingle) {
-    const singleCampsite: any = find(this.campsites, { id: payload.id }) || {};
-    const galleryIds: Array<number> = [];
-    for (const gallery of singleCampsite.galerie) {
-      galleryIds.push(gallery.directus_files_id);
-    }
-    return galleryIds;
-  }
-
-  getAddressIds(payload: GetSingle) {
-    const singleCampsite: any = find(this.campsites, { id: payload.id }) || {};
-    const addressIds: Array<number> = [];
-    for (const address of singleCampsite.adresse) {
-      addressIds.push(address.address_id);
-    }
-    return addressIds;
   }
 }
 
-export class HouseModel {
-  private houses: Array<object>;
-
-  constructor(houses: Array<object>) {
-    this.houses = houses;
+export class CreateHouse extends CreateItem {
+  constructor(id: number, store: Array<object>) {
+    super(id, store);
   }
 
-  private houseModel = (house: any) => {
+  getItem() {
+    const item: any = super.getItem();
     return {
-      id: house["id"],
-      name: house["name"],
-      beds: house["betten"],
-      rooms: house["seminarraeume"],
-      price: house["preis"],
-      annotations: house["bemerkungen"],
-      rating: house["rating"],
-      kitchen: house["kitchen"],
-      sanitary: house["sanitary"],
-      av: house["av"],
-      wifi: house["wifi"],
-      additionalEquipment: house["additional_equipment"],
-      previewImage: house["preview_image"],
-      recreationalRoom: house["recreational_room"]
+      id: this.getValue(item, "id"),
+      name: this.getValue(item, "name"),
+      beds: this.getValue(item, "betten"),
+      rooms: this.getValue(item, "seminarraeume"),
+      price: this.getValue(item, "preis"),
+      annotations: this.getValue(item, "bemerkungen"),
+      rating: this.getValue(item, "rating"),
+      kitchen: this.getValue(item, "kitchen"),
+      sanitary: this.getValue(item, "sanitary"),
+      av: this.getValue(item, "av"),
+      wifi: this.getValue(item, "wifi"),
+      additionalEquipment: this.getValue(item, "dadditional_equipment"),
+      previewImage: this.getValue(item, "preview_image"),
+      recreationalRoom: this.getValue(item, "recreational_room")
     };
-  };
-
-  getSingle(payload: GetSingle) {
-    const singleCampsite = find(this.houses, { id: payload.id });
-
-    if (!payload.formatted) {
-      return singleCampsite;
-    } else {
-      return this.houseModel(singleCampsite);
-    }
-  }
-
-  getMultiple(payload: GetMultiple) {
-    const multipleHouses: Array<object> = [];
-    for (const id of payload.ids) {
-      for (const house of this.houses.filter(
-        (item: any) => item["id"] === id
-      )) {
-        multipleHouses.push(house);
-      }
-    }
-    if (!payload.formatted) {
-      return multipleHouses;
-    } else {
-      const formattedHouses: Array<House> = [];
-      for (const house of multipleHouses) {
-        formattedHouses.push(this.houseModel(house));
-      }
-      return formattedHouses;
-    }
-  }
-
-  getAll(formatted = false) {
-    if (!formatted) {
-      return this.houses;
-    } else {
-      const formattedHouses: Array<House> = [];
-
-      for (const house of this.houses) {
-        formattedHouses.push(this.houseModel(house));
-      }
-
-      return formattedHouses;
-    }
-  }
-
-  getCampsiteIds(payload: GetSingle) {
-    const singleHouse: any = find(this.houses, { id: payload.id }) || {};
-    const campsiteIds: Array<number> = [];
-    for (const house of singleHouse.campsite) {
-      campsiteIds.push(house.campsite_id);
-    }
-    return campsiteIds;
-  }
-
-  getGalleryIds(payload: GetSingle) {
-    const singleHouse: any = find(this.houses, { id: payload.id }) || {};
-    const galleryIds: Array<number> = [];
-    for (const gallery of singleHouse.gallery) {
-      galleryIds.push(gallery.directus_files_id);
-    }
-    return galleryIds;
-  }
-
-  getAddressIds(payload: GetSingle) {
-    const singleHouse: any = find(this.houses, { id: payload.id }) || {};
-    const addressIds: Array<number> = [];
-    for (const address of singleHouse.adresse) {
-      addressIds.push(address.address_id);
-    }
-    return addressIds;
   }
 }
 
-export class AddressModel {
-  private addresses: Array<object>;
-
-  constructor(addresses: Array<object>) {
-    this.addresses = addresses;
+export class CreateAddress extends CreateItem {
+  constructor(id: number, store: Array<object>) {
+    super(id, store);
   }
 
-  private addressModel = (address: any) => {
+  getItem() {
+    const item: any = super.getItem();
     return {
-      street: address["strasse"],
-      houseNumber: address["hausnummer"],
-      zip: address["plz"],
-      city: address["stadt"],
-      name: address["name"],
-      website: address["website"],
-      email: address["email"],
-      phone: address["telefon"],
-      fax: address["fax"],
-      state: address["bundesland"],
-      county: address["landkreis"]
+      street: this.getValue(item, "strasse"),
+      houseNumber: this.getValue(item, "hausnummer"),
+      zip: this.getValue(item, "plz"),
+      city: this.getValue(item, "stadt"),
+      name: this.getValue(item, "name"),
+      website: this.getValue(item, "website"),
+      email: this.getValue(item, "email"),
+      phone: this.getValue(item, "telefon"),
+      fax: this.getValue(item, "fax"),
+      state: this.getValue(item, "bundesland"),
+      county: this.getValue(item, "landkreis")
     };
-  };
-
-  getSingle(payload: GetSingle) {
-    const singleAddress = find(this.addresses, { id: payload.id });
-
-    if (!payload.formatted) {
-      return singleAddress;
-    } else {
-      return this.addressModel(singleAddress);
-    }
-  }
-
-  getMultiple(payload: GetMultiple) {
-    const multipleAddresses: Array<object> = [];
-    for (const id of payload.ids) {
-      for (const address of this.addresses.filter(
-        (item: any) => item["id"] === id
-      )) {
-        multipleAddresses.push(address);
-      }
-    }
-    if (!payload.formatted) {
-      return multipleAddresses;
-    } else {
-      const formattedAddresses: Array<Address> = [];
-      for (const address of multipleAddresses) {
-        formattedAddresses.push(this.addressModel(address));
-      }
-      return formattedAddresses;
-    }
-  }
-
-  getAll(formatted = false) {
-    if (!formatted) {
-      return this.addresses;
-    } else {
-      const formattedAddresses: Array<Address> = [];
-      for (const address of this.addresses) {
-        formattedAddresses.push(this.addressModel(address));
-      }
-      return formattedAddresses;
-    }
   }
 }
 
-export class GalleryModel {
-  private galleries: Array<object>;
+export class CreateGallery extends CreateItem {
+  identifier: string;
 
-  constructor(galleries: Array<object>) {
-    this.galleries = galleries;
+  constructor(id: number, store: Array<object>, identifier: string) {
+    super(id, store);
+    this.identifier = identifier;
   }
 
-  getSingle(payload: GetSingle) {
-    const singleGallery = find(this.galleries, { id: payload.id });
-    return singleGallery;
-  }
-
-  getMultiple(payload: GetMultiple) {
-    const multipleGalleries: Array<object> = [];
-
-    const galleryModel = (gallery: any) => {
-      return {
-        ...gallery["directus_files_id"]["data"]
-      };
-    };
-
-    for (const id of payload.ids) {
-      const galleries: Array<object> = this.galleries.filter(
-        (item: any) => item["directus_files_id"]["id"] === id
-      );
-      for (const gallery of galleries) {
-        multipleGalleries.push(galleryModel(gallery));
+  getItem() {
+    const galleries: Array<object> = this.store.filter((item: any) => {
+      if (item[this.identifier]) {
+        return item[this.identifier]["id"] === this.id;
+      } else {
+        return false;
       }
+    });
+    const galleryImages: Array<object> = [];
+
+    const getGalleryImage = (gallery: any) => {
+      return gallery["directus_files_id"]["data"];
+    };
+    for (const gallery of galleries) {
+      galleryImages.push(getGalleryImage(gallery));
+    }
+    return galleryImages;
+  }
+}
+
+class RelatedItems extends CreateItem {
+  relationKey: string;
+
+  constructor(id: number, store: Array<object>, relationKey: string) {
+    super(id, store);
+    this.relationKey = relationKey;
+  }
+
+  getItems() {
+    const item: any = super.getItem();
+    const items: Array<object> = item[this.relationKey];
+    return items;
+  }
+}
+
+export class RelatedIds extends RelatedItems {
+  idKey: string;
+
+  constructor(
+    id: number,
+    store: Array<object>,
+    relationKey: string,
+    idKey: string
+  ) {
+    super(id, store, relationKey);
+    this.idKey = idKey;
+  }
+
+  getIds() {
+    const items: Array<object> = super.getItems();
+    const ids: Array<number> = [];
+
+    for (const item of items) {
+      ids.push(this.getValue(item, this.idKey));
     }
 
-    return multipleGalleries;
-  }
-
-  getAll() {
-    return this.galleries;
+    return ids;
   }
 }
