@@ -1,8 +1,9 @@
 <template>
   <v-card class="mb-4" v-if="address">
-    <v-card-title data-lang-key="APP_DETAIL_ADDRESS">{{
-      i18n.APP_DETAIL_ADDRESS
-    }}</v-card-title>
+    <v-card-title data-lang-key="APP_DETAIL_ADDRESS">
+      {{ i18n.APP_DETAIL_ADDRESS }}
+    </v-card-title>
+    <v-card-subtitle v-if="address.type">({{ address.type }})</v-card-subtitle>
     <v-card-text>
       <v-row no-gutters>
         <v-col cols="12">{{ address.street }} {{ address.houseNumber }}</v-col>
@@ -23,7 +24,7 @@
         >
         <v-col v-if="address.website" cols="12" class="mt-4">
           <a
-            :href="address.website"
+            :href="website ? website : address.website"
             target="_blank"
             class="mr-2"
             :title="address.website"
@@ -65,6 +66,9 @@ export default {
     ...mapGetters(["i18n"]),
     address() {
       return this.detailPage.page.address;
+    },
+    website() {
+      return this.detailPage.page.website;
     },
     mapsService() {
       switch (process.env.VUE_APP_MAP) {

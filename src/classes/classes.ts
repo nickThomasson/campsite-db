@@ -43,7 +43,8 @@ export class CreateCampsite extends CreateItem {
       kitchen: this.getValue(item, "kitchen"),
       sanitary: this.getValue(item, "sanitary"),
       price: this.getValue(item, "price"),
-      rating: this.getValue(item, "rating")
+      rating: this.getValue(item, "rating"),
+      website: this.getValue(item, "website")
     };
   }
 }
@@ -69,7 +70,8 @@ export class CreateHouse extends CreateItem {
       wifi: this.getValue(item, "wifi"),
       additionalEquipment: this.getValue(item, "additional_equipment"),
       previewImage: this.getValue(item, "preview_image"),
-      recreationalRoom: this.getValue(item, "recreational_room")
+      recreationalRoom: this.getValue(item, "recreational_room"),
+      website: this.getValue(item, "website")
     };
   }
 }
@@ -92,7 +94,8 @@ export class CreateAddress extends CreateItem {
       phone: this.getValue(item, "phone"),
       fax: this.getValue(item, "fax"),
       state: this.getValue(item, "state"),
-      county: this.getValue(item, "county")
+      county: this.getValue(item, "county"),
+      type: this.getValue(item, "type")
     };
   }
 }
