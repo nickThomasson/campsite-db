@@ -121,8 +121,16 @@ export class CreateGallery extends CreateItem {
     const getGalleryImage = (gallery: any) => {
       return gallery["directus_files_id"]["data"];
     };
+
+    const getImageDescription = (gallery: any) => {
+      return gallery["directus_files_id"]["description"];
+    };
+
     for (const gallery of galleries) {
-      galleryImages.push(getGalleryImage(gallery));
+      galleryImages.push({
+        ...getGalleryImage(gallery),
+        description: getImageDescription(gallery)
+      });
     }
     return galleryImages;
   }
