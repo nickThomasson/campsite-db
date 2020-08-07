@@ -223,7 +223,7 @@ export const actions = {
 
   registerPersonFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[personen][between]=${payload.value.join(
+      const filterContent = `&filter[persons][between]=${payload.value.join(
         ","
       )}`;
       dispatch(
@@ -241,7 +241,7 @@ export const actions = {
 
   registerPriceFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[preis][between]=${payload.value.join(
+      const filterContent = `&filter[price][between]=${payload.value.join(
         ","
       )}`;
       dispatch(
@@ -259,9 +259,7 @@ export const actions = {
 
   registerBedFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
-      const filterContent = `&filter[betten][between]=${payload.value.join(
-        ","
-      )}`;
+      const filterContent = `&filter[beds][between]=${payload.value.join(",")}`;
       dispatch(
         "initActiveFilter",
         registerFilter({
