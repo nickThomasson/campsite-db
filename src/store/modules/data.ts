@@ -528,14 +528,14 @@ export const getters = {
       const houseIds = new RelatedIds(
         item.id,
         state.results,
-        "haus",
+        "houses",
         "house_id"
       );
 
       const addressIds = new RelatedIds(
         item.id,
         state.results,
-        "adresse",
+        "addresses",
         "address_id"
       );
 
@@ -579,7 +579,7 @@ export const getters = {
       const addressIds = new RelatedIds(
         item.id,
         state.houses,
-        "adresse",
+        "addresses",
         "address_id"
       );
 
