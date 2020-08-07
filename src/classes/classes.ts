@@ -125,15 +125,15 @@ export class CreateGallery extends CreateItem {
   }
 }
 
-class RelatedItems extends CreateItem {
+abstract class RelatedItems extends CreateItem {
   relationKey: string;
 
-  constructor(id: number, store: Array<object>, relationKey: string) {
+  protected constructor(id: number, store: Array<object>, relationKey: string) {
     super(id, store);
     this.relationKey = relationKey;
   }
 
-  getItems() {
+  protected getItems() {
     const item: any = super.getItem();
     const items: Array<object> = item[this.relationKey];
     return items;
