@@ -1,27 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { find } from "lodash";
 
-class StoreConnector {
-  store: Array<object>;
+abstract class StoreConnector {
+  protected store: Array<object>;
 
-  constructor(store: Array<object>) {
+  protected constructor(store: Array<object>) {
     this.store = store;
   }
 }
 
-class CreateItem extends StoreConnector {
-  id: number;
+abstract class CreateItem extends StoreConnector {
+  protected id: number;
 
-  constructor(id: number, store: Array<object>) {
+  protected constructor(id: number, store: Array<object>) {
     super(store);
     this.id = id;
   }
 
-  getValue(item: any, key: string) {
+  protected getValue(item: any, key: string) {
     return item[key];
   }
 
-  getItem() {
+  protected getItem() {
     const item: any = find(this.store, { id: this.id }) || {};
     return item;
   }
