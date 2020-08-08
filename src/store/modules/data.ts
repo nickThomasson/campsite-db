@@ -3,7 +3,7 @@ import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
 import { find, pull, random } from "lodash";
 import { Status } from "@/helper/status";
-import { getRequestUrl } from "@/helper/routes";
+import { getRequestUrl } from "@/helper/requestUrl";
 import {
   CreateCampsite,
   RelatedIds,
