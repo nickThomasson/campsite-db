@@ -1,6 +1,6 @@
 import axios from "axios";
-import { ROUTE, CREDENTIALS } from "@/helper/routes";
-import { AuthenticationInterface } from "@/interfaces/interfaces";
+import { ROUTE } from "@/helper/routes";
+import { Authentication } from "@/interfaces/interfaces";
 
 const apiClient = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
@@ -12,15 +12,15 @@ const apiClient = axios.create({
 });
 
 const authData: object = {
-  email: CREDENTIALS.EMAIL,
-  password: CREDENTIALS.PASSWORD
+  email: process.env.VUE_APP_USERNAME,
+  password: process.env.VUE_APP_PASSWORD
 };
 
 export default {
   authenticate() {
     return apiClient.post(ROUTE.AUTH, authData);
   },
-  authenticateUser(authData: AuthenticationInterface) {
+  authenticateUser(authData: Authentication) {
     return apiClient.post(ROUTE.AUTH, authData);
   },
   logoutUser(token: string) {

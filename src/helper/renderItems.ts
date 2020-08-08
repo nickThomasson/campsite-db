@@ -1,7 +1,18 @@
 import { max, min } from "lodash";
-import { SourceKeyInterface } from "@/interfaces/interfaces";
+interface Key {
+  key: string;
+}
 
-export const renderRange = (payload: SourceKeyInterface) => {
+interface Source extends Key {
+  source: Array<{ [key: string]: string }>;
+}
+
+interface Source2ndLayer extends Key {
+  source: Array<{ [key: string]: { [key: string]: string } }>;
+  key: string;
+}
+
+export const renderRange = (payload: Source) => {
   const items: Array<string> = [];
   for (const item of payload.source) {
     const returnValue = item[payload.key.toString()];
@@ -10,7 +21,7 @@ export const renderRange = (payload: SourceKeyInterface) => {
   return [min(items), max(items)];
 };
 
-export const renderAddressItems = (payload: SourceKeyInterface) => {
+export const renderAddressItems = (payload: Source2ndLayer) => {
   const items: Array<string> = [];
   for (const item of payload.source) {
     const returnValue = item.address[payload.key.toString()];
