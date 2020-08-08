@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { find } from "lodash";
+import { ReturnObject, ReturnIds } from "@/classes/interfaces";
 
-abstract class StoreConnector {
+class StoreConnector {
   protected store: Array<object>;
 
   protected constructor(store: Array<object>) {
@@ -9,7 +10,7 @@ abstract class StoreConnector {
   }
 }
 
-abstract class CreateItem extends StoreConnector {
+class CreateItem extends StoreConnector {
   protected id: number;
   readonly item: any;
 
@@ -23,17 +24,17 @@ abstract class CreateItem extends StoreConnector {
     return item[key];
   }
 
-  protected getItem() {
+  protected get() {
     return this.item;
   }
 }
 
-export class CreateCampsite extends CreateItem {
+export class CreateCampsite extends CreateItem implements ReturnObject {
   constructor(id: number, store: Array<object>) {
     super(id, store);
   }
 
-  getItem() {
+  get() {
     return {
       id: this.getValue(this.item, "id"),
       status: this.getValue(this.item, "status"),
@@ -49,12 +50,12 @@ export class CreateCampsite extends CreateItem {
   }
 }
 
-export class CreateHouse extends CreateItem {
+export class CreateHouse extends CreateItem implements ReturnObject {
   constructor(id: number, store: Array<object>) {
     super(id, store);
   }
 
-  getItem() {
+  get() {
     return {
       id: this.getValue(this.item, "id"),
       name: this.getValue(this.item, "name"),
@@ -75,12 +76,12 @@ export class CreateHouse extends CreateItem {
   }
 }
 
-export class CreateAddress extends CreateItem {
+export class CreateAddress extends CreateItem implements ReturnObject {
   constructor(id: number, store: Array<object>) {
     super(id, store);
   }
 
-  getItem() {
+  get() {
     return {
       street: this.getValue(this.item, "street"),
       houseNumber: this.getValue(this.item, "house_number"),
@@ -98,7 +99,7 @@ export class CreateAddress extends CreateItem {
   }
 }
 
-export class CreateGallery extends CreateItem {
+export class CreateGallery extends CreateItem implements ReturnObject {
   protected identifier: string;
   private galleries: Array<object>;
   private galleryImages: Array<object>;
@@ -122,7 +123,7 @@ export class CreateGallery extends CreateItem {
     return gallery["directus_files_id"][item];
   }
 
-  getItem() {
+  get() {
     for (const gallery of this.galleries) {
       this.galleryImages.push({
         ...this.getGalleryItem(gallery, "data"),
@@ -133,7 +134,7 @@ export class CreateGallery extends CreateItem {
   }
 }
 
-abstract class RelatedItems extends CreateItem {
+class RelatedItems extends CreateItem {
   protected relationKey: string;
   protected items: Array<object>;
 
@@ -148,7 +149,7 @@ abstract class RelatedItems extends CreateItem {
   }
 }
 
-export class RelatedIds extends RelatedItems {
+export class RelatedIds extends RelatedItems implements ReturnIds {
   protected idKey: string;
   private ids: Array<number>;
 
