@@ -10,7 +10,7 @@ interface FilterValues {
   rawValue: string | boolean | Array<string>;
 }
 
-abstract class CreateFilterQuery {
+class CreateFilterQuery {
   protected queryParameter: QueryParameter;
   protected query: string;
 
@@ -20,7 +20,7 @@ abstract class CreateFilterQuery {
   }
 }
 
-abstract class CreateFilterValues extends CreateFilterQuery {
+class CreateFilterValues extends CreateFilterQuery {
   protected filterValues: FilterValues;
 
   constructor(filterValues: FilterValues, queryParameter: QueryParameter) {

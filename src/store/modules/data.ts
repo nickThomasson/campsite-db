@@ -583,22 +583,22 @@ export const getters = {
       const houses: Array<object> = [];
       for (const id of houseIds.getIds()) {
         const house = new CreateHouse(id, state.houses);
-        houses.push(house.getItem());
+        houses.push(house.get());
       }
 
       const addresses: Array<object> = [];
       for (const id of addressIds.getIds()) {
         const address = new CreateAddress(id, state.addresses);
-        addresses.push(address.getItem());
+        addresses.push(address.get());
       }
 
       const gallery = new CreateGallery(item.id, state.gallery, "campsite_id");
 
       combinedCampsites.push({
-        ...campsite.getItem(),
+        ...campsite.get(),
         house: houses,
         address: addresses[0],
-        gallery: gallery.getItem()
+        gallery: gallery.get()
       });
     }
 
@@ -627,22 +627,22 @@ export const getters = {
       const campsites: Array<object> = [];
       for (const id of campsiteIds.getIds()) {
         const campsite = new CreateCampsite(id, state.results);
-        campsites.push(campsite.getItem());
+        campsites.push(campsite.get());
       }
 
       const addresses: Array<object> = [];
       for (const id of addressIds.getIds()) {
         const address = new CreateAddress(id, state.addresses);
-        addresses.push(address.getItem());
+        addresses.push(address.get());
       }
 
       const gallery = new CreateGallery(item.id, state.gallery, "house_id");
 
       combinedHouses.push({
-        ...house.getItem(),
+        ...house.get(),
         campsites: campsites,
         address: addresses[0],
-        gallery: gallery.getItem()
+        gallery: gallery.get()
       });
     }
 

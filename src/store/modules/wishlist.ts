@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any, no-debugger */
-import { wishlistItem } from "@/helper/wishlistItem";
 import { find, isEmpty } from "lodash";
 import { readFromStorage } from "@/helper/localStorage";
+import { WishlistItem } from "@/classes/wishlist";
 export const state = {
   wishlist: []
 };
@@ -26,14 +26,14 @@ export const mutations = {
 export const actions = {
   addToWishList({ commit }: any, campsite: any) {
     const wishlist: any = [...state.wishlist];
-    const item = wishlistItem(campsite);
-    const existingItem = find(wishlist, { id: item.id });
+    const item = new WishlistItem(campsite);
+    const existingItem = find(wishlist, { id: item.id() });
     const itemExists = !isEmpty(existingItem);
 
     if (itemExists) {
-      commit("REMOVE_ITEM_FROM_WISHLIST", item);
+      commit("REMOVE_ITEM_FROM_WISHLIST", item.get());
     } else {
-      commit("ADD_ITEM_TO_WISHLIST", item);
+      commit("ADD_ITEM_TO_WISHLIST", item.get());
     }
   },
   deleteFromWishlist({ commit }: any, id: any) {
