@@ -34,10 +34,12 @@ jobs:
           echo ::set-env name=VUE_APP_USERNAME::$USER_NAME
           echo ::set-env name=VUE_APP_PASSWORD::$PASSWORD
           echo ::set-env name=VUE_APP_API_URL::$URL
+          echo ::set-env name=VUE_APP_GOOGLE_MAPS_KEY::$MAPS_KEY
         env: 
           USER_NAME: ${{ secrets.APP_USER }}
           PASSWORD: ${{ secrets.APP_PASS }}
           URL: ${{ secrets.APP_URL }}
+          MAPS_KEY:  ${{ secrets.MAPS_KEY }}
 
       - name: Build
         run: npm run build
