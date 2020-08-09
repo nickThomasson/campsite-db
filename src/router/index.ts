@@ -18,6 +18,10 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: "/",
+    redirect: { name: "CampsiteSearch" }
+  },
+  {
+    path: "/campsite-search",
     name: "CampsiteSearch",
     component: CampsiteSearch
   },

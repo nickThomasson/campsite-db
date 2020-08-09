@@ -16,39 +16,135 @@
       </v-card-title>
     </v-img>
 
-    <v-card-subtitle class="pb-0">
+    <v-card-subtitle>
       {{ primaryAddress.city }}, {{ primaryAddress.state }}
     </v-card-subtitle>
     <v-card-text>
-      <v-row no-gutters>
-        <v-col>
+      <v-row no-gutters class="mb-3">
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>people</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="CAMPSITE_DETAIL_CAPACITY"
+          >{{ i18n.CAMPSITE_DETAIL_CAPACITY }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col
+          cols="auto"
+          class="body-1"
+          data-lang-key="CAMPSITE_DETAIL_PERSONS"
+        >
+          {{ campsite.persons }} {{ i18n.CAMPSITE_DETAIL_PERSONS }}
+        </v-col>
+      </v-row>
+
+      <v-row
+        no-gutters
+        class="mb-3"
+        :aria-label="
+          campsite.kitchen
+            ? i18n.CAMPSITE_DETAIL_HAS_KITCHEN
+            : i18n.CAMPSITE_DETAIL_HAS_NO_KITCHEN
+        "
+      >
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>kitchen</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="CAMPSITE_SEARCH_CARD_KITCHEN"
+        >
+          {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-icon>{{ campsite.kitchen ? "done" : "close" }}</v-icon>
+        </v-col>
+      </v-row>
+
+      <v-row
+        no-gutters
+        class="mb-3"
+        :aria-label="
+          campsite.sanitary
+            ? i18n.CAMPSITE_DETAIL_HAS_SANITARY
+            : i18n.CAMPSITE_DETAIL_HAS_NO_SANITARY
+        "
+      >
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>wc</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          data-lang-key="CAMPSITE_SEARCH_CARD_SANITARY"
+          class="body-1"
+          >{{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-icon>{{ campsite.sanitary ? "done" : "close" }}</v-icon>
+        </v-col>
+      </v-row>
+
+      <v-row
+        no-gutters
+        class="mb-3"
+        :aria-label="
+          campsite.house.length > 0
+            ? i18n.CAMPSITE_DETAIL_HAS_HOUSE
+            : i18n.CAMPSITE_DETAIL_HAS_NO_HOUSE
+        "
+      >
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>home</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          :data-lang-key="
+            campsite.house.length > 1
+              ? 'CAMPSITE_DETAIL_HOUSES'
+              : 'CAMPSITE_DETAIL_HOUSE'
+          "
+          >{{
+            campsite.house.length > 1
+              ? i18n.CAMPSITE_DETAIL_HOUSES
+              : i18n.CAMPSITE_DETAIL_HOUSE
+          }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-icon>{{ campsite.house.length > 0 ? "done" : "close" }}</v-icon>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters class="mb-3">
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>stars</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="CAMPSITE_DETAIL_RATING"
+          >{{ i18n.CAMPSITE_DETAIL_RATING }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
           <v-rating
+            dense
             v-model="campsite.rating"
             readonly
             color="yellow darken-3"
             background-color="grey darken-1"
-            class="mb-4 mt-3"
           ></v-rating>
-        </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_PERSON }}
-          {{ campsite.persons }}
-        </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_KITCHEN }}
-          <v-icon>{{ campsite.kitchen ? "done" : "close" }}</v-icon>
-        </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_SANITARY }}
-          <v-icon>
-            {{ campsite.sanitary ? "done" : "close" }}
-          </v-icon>
-        </v-col>
-        <v-col cols="12">
-          {{ i18n.CAMPSITE_SEARCH_CARD_HOUSE }}
-          <v-icon>
-            {{ campsite.house.length > 0 ? "done" : "close" }}
-          </v-icon>
         </v-col>
       </v-row>
     </v-card-text>

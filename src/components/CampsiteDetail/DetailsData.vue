@@ -48,7 +48,7 @@
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="auto">
-          <v-icon>{{ page.kitchen ? "done" : "close" }}</v-icon>
+          <v-icon>{{ page.sanitary ? "done" : "close" }}</v-icon>
         </v-col>
       </v-row>
 

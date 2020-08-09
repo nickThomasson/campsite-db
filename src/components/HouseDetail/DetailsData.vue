@@ -25,13 +25,13 @@
         <v-col
           cols="auto"
           align-self="center"
-          data-lang-key="HOUSE_DETAIL_PAGE_BEDS"
+          data-lang-key="CAMPSITE_DETAIL_CAPACITY"
           class="body-1"
-          >{{ i18n.HOUSE_DETAIL_PAGE_BEDS }}
+          >{{ i18n.CAMPSITE_DETAIL_CAPACITY }}
         </v-col>
         <v-spacer></v-spacer>
         <v-col cols="auto body-1">
-          {{ page.beds }}
+          {{ page.beds }} {{ i18n.HOUSE_DETAIL_PAGE_BEDS }}
         </v-col>
       </v-row>
 
@@ -135,7 +135,7 @@
       </v-row>
 
       <v-row no-gutters class="mb-3" v-if="page.additionalEquipment.length > 0">
-        <cols cols="5">
+        <cols cols="12" md="5" class="mb-1 mb-md-0">
           <v-row no-gutters>
             <v-col class="mr-2" cols="auto" align-self="center">
               <v-icon>ballot</v-icon>
@@ -150,7 +150,7 @@
           </v-row>
         </cols>
         <v-spacer></v-spacer>
-        <v-col cols="6" class="text-right">
+        <v-col cols="12" md="5" class="text-md-right pl-8 pl-md-0">
           {{ additional }}
         </v-col>
       </v-row>

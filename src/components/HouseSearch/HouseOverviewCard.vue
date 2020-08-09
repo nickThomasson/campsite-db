@@ -16,45 +16,97 @@
       </v-card-title>
     </v-img>
 
-    <v-card-subtitle class="pb-0">
-      {{ house.address.city }}, {{ house.address.state }}
+    <v-card-subtitle>
+      {{ primaryAddress.city }}, {{ primaryAddress.state }}
     </v-card-subtitle>
     <v-card-text>
-      <v-row no-gutters>
-        <v-col>
+      <v-row no-gutters class="mb-3">
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>weekend</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="CAMPSITE_DETAIL_CAPACITY"
+          >{{ i18n.CAMPSITE_DETAIL_CAPACITY }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col
+          cols="auto"
+          class="body-1"
+          data-lang-key="HOUSE_SEARCH_CARD_BEDS"
+        >
+          {{ house.beds }} {{ i18n.HOUSE_SEARCH_CARD_BEDS }}
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters class="mb-3">
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>meeting_room</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="HOUSE_SEARCH_CARD_ROOMS"
+          >{{ i18n.HOUSE_SEARCH_CARD_ROOMS }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col
+          cols="auto"
+          class="body-1"
+          data-lang-key="HOUSE_SEARCH_CARD_ROOMS"
+        >
+          {{ house.rooms ? house.rooms : i18n.HOUSE_NO_ROOMS }}
+        </v-col>
+      </v-row>
+
+      <v-row
+        no-gutters
+        class="mb-3"
+        :aria-label="
+          house.wifi
+            ? i18n.HOUSE_DETAIL_HAS_WIFI
+            : i18n.HOUSE_DETAIL_HAS_NO_WIFI
+        "
+      >
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>wifi</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          data-lang-key="HOUSE_SEARCH_CARD_WIFI"
+          class="body-1"
+          >{{ i18n.HOUSE_SEARCH_CARD_WIFI }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
+          <v-icon>{{ house.wifi ? "done" : "close" }}</v-icon>
+        </v-col>
+      </v-row>
+
+      <v-row no-gutters class="mb-3">
+        <v-col class="mr-2" cols="auto" align-self="center">
+          <v-icon>stars</v-icon>
+        </v-col>
+        <v-col
+          cols="auto"
+          align-self="center"
+          class="body-1"
+          data-lang-key="CAMPSITE_DETAIL_RATING"
+          >{{ i18n.CAMPSITE_DETAIL_RATING }}
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="auto">
           <v-rating
+            dense
             v-model="house.rating"
             readonly
             color="yellow darken-3"
             background-color="grey darken-1"
-            class="mb-4 mt-3"
           ></v-rating>
-        </v-col>
-        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_BEDS">
-          {{ i18n.HOUSE_SEARCH_CARD_BEDS }}
-          {{ house.beds ? house.beds : i18n.APP_NO_VALUE }}
-        </v-col>
-        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_ROOMS">
-          {{ i18n.HOUSE_SEARCH_CARD_ROOMS }}
-          {{ house.rooms ? house.rooms : i18n.APP_NO_VALUE }}
-        </v-col>
-        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_KITCHEN">
-          {{ i18n.HOUSE_SEARCH_CARD_KITCHEN }}
-          <v-icon>
-            {{ house.kitchen ? "done" : "close" }}
-          </v-icon>
-        </v-col>
-        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_SANITARY">
-          {{ i18n.HOUSE_SEARCH_CARD_SANITARY }}
-          <v-icon>
-            {{ house.sanitary ? "done" : "close" }}
-          </v-icon>
-        </v-col>
-        <v-col cols="12" data-lang-key="HOUSE_SEARCH_CARD_WIFI">
-          {{ i18n.HOUSE_SEARCH_CARD_WIFI }}
-          <v-icon>
-            {{ house.wifi ? "done" : "close" }}
-          </v-icon>
         </v-col>
       </v-row>
     </v-card-text>
@@ -98,6 +150,11 @@ export default {
         id: this.house.id
       });
       return !isEmpty(isOnList) ? "accent" : "";
+    },
+    primaryAddress() {
+      const addresses = this.house.address;
+      const mainAddress = find(addresses, { mainAddress: true });
+      return mainAddress ? mainAddress : addresses[0];
     },
     placeholderImg() {
       return placeholder;
