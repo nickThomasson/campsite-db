@@ -76,9 +76,11 @@ export default {
       const Ids = [];
       const key = this.searchKey;
       if (value) {
-        const filter = this.sourceData.filter(
-          item => item.address[key] === value
-        );
+        const filter = this.sourceData.filter(item => {
+          const primaryAddress =
+            find(item.address, { mainAddress: true }) || item.address[0];
+          return primaryAddress[key] === value;
+        });
         for (const item of filter) {
           Ids.push(item.id);
         }

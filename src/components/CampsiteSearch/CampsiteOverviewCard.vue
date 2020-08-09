@@ -17,7 +17,7 @@
     </v-img>
 
     <v-card-subtitle class="pb-0">
-      {{ campsite.address.city }}, {{ campsite.address.state }}
+      {{ primaryAddress.city }}, {{ primaryAddress.state }}
     </v-card-subtitle>
     <v-card-text>
       <v-row no-gutters>
@@ -95,6 +95,11 @@ export default {
     },
     placeholderImg() {
       return placeholder;
+    },
+    primaryAddress() {
+      const addresses = this.campsite.address;
+      const mainAddress = find(addresses, { mainAddress: true });
+      return mainAddress ? mainAddress : addresses[0];
     }
   },
   methods: {
