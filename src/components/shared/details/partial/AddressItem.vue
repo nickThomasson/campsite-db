@@ -12,7 +12,7 @@
       address.state
     }}</v-col>
 
-    <v-col cols="12">
+    <v-col cols="12" if="address.phone">
       <v-row no-gutters>
         <v-col
           cols="auto"
@@ -35,7 +35,7 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters>
+      <v-row no-gutters if="address.fax">
         <v-col
           cols="auto"
           :aria-label="i18n.APP_DETAIL_ADDRESS_FAX"
