@@ -1,8 +1,8 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <span class="overline" data-lang-key="CAMPSITE_DETAIL_INFO_TITLE">
-        {{ i18n.CAMPSITE_DETAIL_INFO_TITLE }}
+      <span class="overline" data-lang-key="HOUSE_DETAIL_HOUSE_TITLE">
+        {{ i18n.HOUSE_DETAIL_HOUSE_TITLE }}
       </span>
       <h1>{{ page.name }}</h1>
     </v-col>

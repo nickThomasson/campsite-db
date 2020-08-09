@@ -27,8 +27,8 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import Maps from "@/components/shared/details/partial/maps";
-import AddressItem from "@/components/shared/details/partial/AddressItem";
+import Maps from "@/components/shared/details/partial/Maps.vue";
+import AddressItem from "@/components/shared/details/partial/AddressItem.vue";
 import { find } from "lodash";
 
 export default {
@@ -46,7 +46,9 @@ export default {
       return mainAddress ? mainAddress : addresses[0];
     },
     secondaryAddresses() {
-      return this.detailPage.page.address.filter(item => !item.mainAddress);
+      return this.detailPage.page.address.filter(
+        (item, index) => !item.mainAddress && index > 0
+      );
     },
     website() {
       return this.detailPage.page.website;

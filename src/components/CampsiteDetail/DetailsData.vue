@@ -1,8 +1,5 @@
 <template>
   <v-card class="mb-4">
-    <!-- <v-card-title data-lang-key="CAMPSITE_DETAIL_PAGE_DATA_TITLE">{{
-      i18n.CAMPSITE_DETAIL_PAGE_DATA_TITLE
-    }}</v-card-title> -->
     <v-card-text>
       <v-row
         no-gutters

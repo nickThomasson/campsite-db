@@ -20,56 +20,58 @@
       </v-card>
     </v-col>
 
-    <v-card class="d-none d-md-block">
-      <v-card-title>{{ i18n.CAMPSITE_DETAIL_GALLERY_TITLE }}</v-card-title>
-      <v-card-text>
-        <v-row>
-          <v-col
-            cols="12"
-            sm="6"
-            md="4"
-            xl="3"
-            v-for="(item, i) in gallery"
-            :key="i"
-          >
-            <v-card>
-              <v-hover v-slot:default="{ hover }">
-                <v-img
-                  :src="item.thumbnails[4].url"
-                  lazy-src
-                  size="(max-width: 600px) 600w, (min-width: 601px) 601w"
-                  :srcset="
-                    `${item.thumbnails[2].url} 600w, ${item.thumbnails[4].url} 601w`
-                  "
-                  :alt="detailPage.page.name"
-                >
-                  <v-expand-transition v-if="item.description">
-                    <div
-                      v-if="hover"
-                      class="d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
-                      style="height: 100%;"
-                    >
-                      <v-row
-                        align="end"
-                        class="lightbox white--text pa-2 fill-height"
-                        no-gutters
+    <v-col cols="12">
+      <v-card class="d-none d-md-block">
+        <v-card-title>{{ i18n.CAMPSITE_DETAIL_GALLERY_TITLE }}</v-card-title>
+        <v-card-text>
+          <v-row>
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              xl="3"
+              v-for="(item, i) in gallery"
+              :key="i"
+            >
+              <v-card>
+                <v-hover v-slot:default="{ hover }">
+                  <v-img
+                    :src="item.thumbnails[4].url"
+                    lazy-src
+                    size="(max-width: 600px) 600w, (min-width: 601px) 601w"
+                    :srcset="
+                      `${item.thumbnails[2].url} 600w, ${item.thumbnails[4].url} 601w`
+                    "
+                    :alt="detailPage.page.name"
+                  >
+                    <v-expand-transition v-if="item.description">
+                      <div
+                        v-if="hover"
+                        class="d-flex transition-fast-in-fast-out primary darken-2 v-card--reveal display-3 white--text"
+                        style="height: 100%;"
                       >
-                        <v-col>
-                          <div
-                            class="caption caption-text"
-                            v-html="item.description"
-                          ></div>
-                        </v-col>
-                      </v-row>
-                    </div>
-                  </v-expand-transition>
-                </v-img>
-              </v-hover>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-card-text>
-    </v-card>
+                        <v-row
+                          align="end"
+                          class="lightbox white--text pa-2 fill-height"
+                          no-gutters
+                        >
+                          <v-col>
+                            <div
+                              class="caption caption-text"
+                              v-html="item.description"
+                            ></div>
+                          </v-col>
+                        </v-row>
+                      </div>
+                    </v-expand-transition>
+                  </v-img>
+                </v-hover>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
   </v-row>
 </template>
 
