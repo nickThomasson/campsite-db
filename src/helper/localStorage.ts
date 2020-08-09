@@ -9,5 +9,5 @@ export const writeToStorage = (value: Store) => {
 
 export const readFromStorage = (value: Store) => {
   const storage: string = localStorage.getItem(value.key.toString()) || "";
-  return JSON.parse(storage);
+  return storage ? JSON.parse(storage) : "";
 };
