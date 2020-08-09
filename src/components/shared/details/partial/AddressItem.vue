@@ -1,11 +1,12 @@
 <template>
   <v-row no-gutters class="body-1">
-    <v-col cols="12"
-      >{{ address.street }} {{ address.houseNumber }}
+    <v-col cols="12">
+      <span class="font-weight-medium">{{ address.name }}</span>
       <span v-if="address.type" class="text--disabled caption"
-        >({{ address.type }})</span
+        >&nbsp;({{ address.type }})</span
       ></v-col
     >
+    <v-col cols="12">{{ address.street }} {{ address.houseNumber }} </v-col>
     <v-col cols="12">{{ address.zip }} {{ address.city }}</v-col>
     <v-col v-if="address.landkreis" cols="12">{{ address.county }}</v-col>
     <v-col class="mb-2" v-if="address.state" cols="12">{{
