@@ -87,7 +87,7 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters class="mb-3">
+      <v-row no-gutters>
         <v-col class="mr-2" cols="auto" align-self="center">
           <v-icon>stars</v-icon>
         </v-col>
