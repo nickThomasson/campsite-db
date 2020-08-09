@@ -61,7 +61,7 @@
 
     <v-col v-if="address.website" cols="12" class="mt-4">
       <a
-        :href="website ? website : address.website"
+        :href="website && address.mainAddress ? website : address.website"
         target="_blank"
         class="mr-2"
         :title="i18n.APP_DETAIL_ADDRESS_WEBSITE_LINK_TITLE"
