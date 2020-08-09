@@ -597,7 +597,7 @@ export const getters = {
       combinedCampsites.push({
         ...campsite.get(),
         house: houses,
-        address: addresses[0],
+        address: addresses,
         gallery: gallery.get()
       });
     }
@@ -641,7 +641,7 @@ export const getters = {
       combinedHouses.push({
         ...house.get(),
         campsites: campsites,
-        address: addresses[0],
+        address: addresses,
         gallery: gallery.get()
       });
     }
