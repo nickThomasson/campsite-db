@@ -193,9 +193,7 @@ export default {
       return placeholder;
     },
     primaryAddress() {
-      const addresses = this.campsite.address;
-      const mainAddress = find(addresses, { mainAddress: true });
-      return mainAddress ? mainAddress : addresses[0];
+      return this.campsite.mainAddress;
     }
   },
   methods: {

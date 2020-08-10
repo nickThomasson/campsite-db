@@ -152,9 +152,7 @@ export default {
       return !isEmpty(isOnList) ? "accent" : "";
     },
     primaryAddress() {
-      const addresses = this.house.address;
-      const mainAddress = find(addresses, { mainAddress: true });
-      return mainAddress ? mainAddress : addresses[0];
+      return this.house.mainAddress;
     },
     placeholderImg() {
       return placeholder;

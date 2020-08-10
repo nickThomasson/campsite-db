@@ -74,7 +74,7 @@ export default {
       if (!this.noPage && this.detailPage.page.campsites) {
         return this.detailPage.page.campsites;
       }
-      return false;
+      return [];
     }
   },
   mounted() {

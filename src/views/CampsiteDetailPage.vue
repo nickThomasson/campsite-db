@@ -60,7 +60,7 @@ export default {
       if (!this.noPage && this.detailPage.page.house) {
         return this.detailPage.page.house;
       }
-      return false;
+      return [];
     },
     campsiteId() {
       return this.$route.params.id;

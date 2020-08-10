@@ -53,6 +53,7 @@
       </v-row>
 
       <v-row
+        v-if="page.house"
         no-gutters
         class="mb-3"
         :aria-label="

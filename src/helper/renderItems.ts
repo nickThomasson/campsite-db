@@ -9,7 +9,7 @@ interface Source extends Key {
 
 interface Source2ndLayer extends Key {
   source: Array<{
-    [key: string]: { [key: string]: { [key: string]: string } };
+    [key: string]: { [key: string]: string };
   }>;
   key: string;
 }
@@ -26,7 +26,7 @@ export const renderRange = (payload: Source) => {
 export const renderAddressItems = (payload: Source2ndLayer) => {
   const items: Array<string> = [];
   for (const item of payload.source) {
-    const returnValue = item.address[0][payload.key.toString()];
+    const returnValue = item.mainAddress[payload.key.toString()];
     if (!items.includes(returnValue)) items.push(returnValue);
   }
   return items;

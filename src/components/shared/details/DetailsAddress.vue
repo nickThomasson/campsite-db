@@ -1,26 +1,21 @@
 <template>
-  <v-card class="mb-4" v-if="detailPage.page.address.length > 0">
-    <Maps
-      :address="{
-        street: primaryAddress.street,
-        houseNumber: primaryAddress.houseNumber,
-        zip: primaryAddress.zip,
-        city: primaryAddress.city
-      }"
-    />
+  <v-card class="mb-4">
+    <Maps />
     <v-card-text>
       <AddressItem
         :address="primaryAddress"
         :index="secondaryAddresses.length > 0 ? 1 : 0"
         :total="1"
       />
-      <AddressItem
-        :address="address"
-        v-for="(address, index) in secondaryAddresses"
-        :key="index"
-        :index="index"
-        :total="secondaryAddresses.length"
-      />
+      <div v-if="detailPage.page.address.length > 0">
+        <AddressItem
+          :address="address"
+          v-for="(address, index) in secondaryAddresses"
+          :key="index"
+          :index="index"
+          :total="secondaryAddresses.length"
+        />
+      </div>
     </v-card-text>
   </v-card>
 </template>
@@ -29,7 +24,6 @@
 import { mapGetters, mapState } from "vuex";
 import Maps from "@/components/shared/details/partial/Maps.vue";
 import AddressItem from "@/components/shared/details/partial/AddressItem.vue";
-import { find } from "lodash";
 
 export default {
   name: "DetailsAddress",
@@ -41,14 +35,10 @@ export default {
     ...mapState(["detailPage"]),
     ...mapGetters(["i18n"]),
     primaryAddress() {
-      const addresses = this.detailPage.page.address;
-      const mainAddress = find(addresses, { mainAddress: true });
-      return mainAddress ? mainAddress : addresses[0];
+      return this.detailPage.page.mainAddress;
     },
     secondaryAddresses() {
-      return this.detailPage.page.address.filter(
-        (item, index) => !item.mainAddress && index > 0
-      );
+      return this.detailPage.page.address;
     },
     website() {
       return this.detailPage.page.website;

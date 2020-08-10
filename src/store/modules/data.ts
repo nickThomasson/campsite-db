@@ -1,3 +1,4 @@
+import { splitAddresses } from "./../../helper/splitAddresses";
 /* eslint-disable @typescript-eslint/camelcase, @typescript-eslint/no-explicit-any */
 import campsiteService from "@/services/campsiteService";
 import { renderAddressItems } from "@/helper/renderItems";
@@ -591,13 +592,15 @@ export const getters = {
         const address = new CreateAddress(id, state.addresses);
         addresses.push(address.get());
       }
+      const addressItems: any = splitAddresses(addresses);
 
       const gallery = new CreateGallery(item.id, state.gallery, "campsite_id");
 
       combinedCampsites.push({
         ...campsite.get(),
         house: houses,
-        address: addresses,
+        address: addressItems.normalAddresses,
+        mainAddress: addressItems.mainAddress,
         gallery: gallery.get()
       });
     }
@@ -635,13 +638,15 @@ export const getters = {
         const address = new CreateAddress(id, state.addresses);
         addresses.push(address.get());
       }
+      const addressItems: any = splitAddresses(addresses);
 
       const gallery = new CreateGallery(item.id, state.gallery, "house_id");
 
       combinedHouses.push({
         ...house.get(),
         campsites: campsites,
-        address: addresses,
+        address: addressItems.normalAddresses,
+        mainAddress: addressItems.mainAddress,
         gallery: gallery.get()
       });
     }
