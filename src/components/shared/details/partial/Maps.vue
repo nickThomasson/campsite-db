@@ -17,17 +17,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Maps",
-  props: {
-    address: Object
-  },
   computed: {
+    ...mapState(["detailPage"]),
     apiKey() {
       return process.env.VUE_APP_GOOGLE_MAPS_KEY;
+    },
+    address() {
+      return this.detailPage.page.mainAddress;
     }
   }
 };
 </script>
-
-<style></style>

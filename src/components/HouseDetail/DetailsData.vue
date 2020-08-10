@@ -134,8 +134,8 @@
         </v-col>
       </v-row>
 
-      <v-row no-gutters class="mb-3" v-if="page.additionalEquipment.length > 0">
-        <cols cols="12" md="5" class="mb-1 mb-md-0">
+      <v-row no-gutters class="mb-3" v-if="page.additionalEquipment">
+        <v-col cols="12" md="5" class="mb-1 mb-md-0">
           <v-row no-gutters>
             <v-col class="mr-2" cols="auto" align-self="center">
               <v-icon>ballot</v-icon>
@@ -148,7 +148,7 @@
               >{{ i18n.HOUSE_DETAIL_PAGE_ADDITIONAL }}
             </v-col>
           </v-row>
-        </cols>
+        </v-col>
         <v-spacer></v-spacer>
         <v-col cols="12" md="5" class="text-md-right pl-8 pl-md-0">
           {{ additional }}
