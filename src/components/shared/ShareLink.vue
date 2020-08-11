@@ -26,7 +26,7 @@
                 :value="url"
                 hide-details
                 @click="copyLink"
-                id="share-url"
+                :id="`share-url-${id}`"
                 class="mb-2"
                 :append-icon="copyPaste ? 'mdi-check-circle' : ''"
               ></v-text-field>
@@ -80,14 +80,12 @@ export default {
   },
   methods: {
     copyLink() {
-      /* Get the text field */
-      const copyText = document.getElementById("share-url");
+      const copyText = document.getElementById(`share-url-${this.id}`);
 
-      /* Select the text field */
+      copyText.focus();
       copyText.select();
-      copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+      copyText.setSelectionRange(0, 99999);
 
-      /* Copy the text inside the text field */
       document.execCommand("copy");
 
       this.copyPaste = true;
