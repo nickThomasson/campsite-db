@@ -65,12 +65,6 @@ export default {
     campsiteId() {
       return this.$route.params.id;
     },
-    galleryExists() {
-      if (!this.noPage && this.detailPage.page.gallery) {
-        return this.detailPage.page.gallery.length !== 0;
-      }
-      return false;
-    },
     campsitePage() {
       const campsitePage = this.campsites.filter(
         item => item.id === parseInt(this.campsiteId)

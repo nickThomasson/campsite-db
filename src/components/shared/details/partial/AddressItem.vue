@@ -61,7 +61,7 @@
 
     <v-col v-if="address.website" cols="12" class="mt-4">
       <a
-        :href="website && address.mainAddress ? website : address.website"
+        :href="website && mainAddress ? website : address.website"
         target="_blank"
         class="mr-2"
         :title="i18n.APP_DETAIL_ADDRESS_WEBSITE_LINK_TITLE"
@@ -100,7 +100,8 @@ export default {
   props: {
     address: Object,
     index: Number,
-    total: Number
+    total: Number,
+    mainAddress: Boolean
   },
   computed: {
     ...mapState(["detailPage"]),
@@ -109,14 +110,17 @@ export default {
       return this.detailPage.page.website;
     },
     mapsService() {
+      const placesUrl = "https://www.google.de/maps/place/";
+
       if (process.env.VUE_APP_GOOGLE_MAPS_KEY) {
-        return "https://www.google.de/maps/place/";
+        return placesUrl;
       }
+
       switch (process.env.VUE_APP_MAP) {
         case "bm":
           return "https://www.bing.com/maps?ss=";
         case "gm":
-          return "https://www.google.de/maps/place/";
+          return placesUrl;
         default:
           return "https://www.openstreetmap.org/search?query=";
       }
@@ -127,10 +131,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scopted>
-hr.divider {
-  border: none;
-  height: 1px !important;
-  background-color: gray;
-}
-</style>

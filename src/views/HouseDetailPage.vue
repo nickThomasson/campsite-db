@@ -58,12 +58,6 @@ export default {
     houseId() {
       return this.$route.params.id;
     },
-    galleryExists() {
-      if (!this.noPage && this.detailPage.page.gallery) {
-        return this.detailPage.page.gallery.length !== 0;
-      }
-      return false;
-    },
     housePage() {
       const housePage = this.houses.filter(
         item => item.id === parseInt(this.houseId)
