@@ -34,7 +34,6 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions([
-      "initializeWishlist",
       "refreshToken",
       "authenticateClient",
       "changeStatus",
@@ -57,7 +56,6 @@ export default Vue.extend({
     }
   },
   created() {
-    this.initializeWishlist();
     this.authenticateClient().then(() => {
       this.changeStatus(Status.Loading);
       this.fetchData(this.authentication.token).then(() => {

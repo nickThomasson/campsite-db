@@ -67,19 +67,14 @@ export default {
   methods: {
     ...mapActions(["authenticateUser", "activateError", "deactivateError"]),
     login() {
-      this.formValidation().then(() => {
+      this.$refs.authForm.validate();
+      this.$nextTick(() => {
         if (this.valid) {
           this.authenticateUser({
             email: this.username,
             password: this.password
           });
         }
-      });
-    },
-    formValidation() {
-      return new Promise(resolve => {
-        this.$refs.authForm.validate();
-        resolve();
       });
     }
   }

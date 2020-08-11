@@ -8,6 +8,7 @@ import "./styles/main.scss";
 import { writeToStorage } from "@/helper/localStorage";
 import * as Sentry from "@sentry/browser";
 import { Vue as VueIntegration } from "@sentry/integrations";
+import { mapActions } from "vuex";
 
 Vue.config.productionTip = false;
 
@@ -26,5 +27,11 @@ new Vue({
   router,
   store,
   vuetify,
+  methods: {
+    ...mapActions(["initializeWishlist"])
+  },
+  created() {
+    this.initializeWishlist();
+  },
   render: h => h(App)
 }).$mount("#app");
