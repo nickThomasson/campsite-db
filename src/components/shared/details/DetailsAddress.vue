@@ -4,6 +4,7 @@
     <v-card-text>
       <AddressItem
         :address="primaryAddress"
+        mainAddress
         :index="secondaryAddresses.length > 0 ? 1 : 0"
         :total="1"
       />
@@ -39,22 +40,6 @@ export default {
     },
     secondaryAddresses() {
       return this.detailPage.page.address;
-    },
-    website() {
-      return this.detailPage.page.website;
-    },
-    mapsService() {
-      if (process.env.VUE_APP_GOOGLE_MAPS_KEY) {
-        return "https://www.google.de/maps/place/";
-      }
-      switch (process.env.VUE_APP_MAP) {
-        case "bm":
-          return "https://www.bing.com/maps?ss=";
-        case "gm":
-          return "https://www.google.de/maps/place/";
-        default:
-          return "https://www.openstreetmap.org/search?query=";
-      }
     }
   }
 };
