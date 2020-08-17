@@ -78,6 +78,7 @@ export const actions = {
         }
       })
       .catch((err: any) => {
+        console.error(err);
         commit("CHANGE_AUTH_STATUS", Status.Error);
         dispatch("activateError", ERROR.AUTHENTICATE_USER);
       });
