@@ -3,6 +3,7 @@ import campsiteService from "@/services/campsiteService";
 import { Status } from "@/helper/status";
 import { isEmpty } from "lodash";
 import { Authentication } from "@/interfaces/interfaces";
+import { ERROR } from "@/helper/errorMessages";
 
 export const state = {
   token: null,
@@ -34,30 +35,32 @@ export const actions = {
           if (response.status === 200) {
             const { data } = response;
             commit("SET_TOKEN", data.data.token);
+            dispatch("deactivateError");
             resolve();
           }
         })
         .catch((err: any) => {
-          const { message } = err.response.data.error;
-          commit("CHANGE_STATUS", Status.Error);
-          dispatch("activateError", message);
           console.error(err);
+          commit("CHANGE_STATUS", Status.Error);
+          dispatch("activateError", ERROR.AUTHENTICATION);
           reject();
         });
     });
   },
 
-  refreshToken({ commit }: any, token: string) {
+  refreshToken({ commit, dispatch }: any, token: string) {
     campsiteService
       .refresh(token)
       .then((response: any) => {
         if (response.status === 200) {
           const { data } = response;
           commit("SET_TOKEN", data.data.token);
+          dispatch("deactivateError");
         }
       })
       .catch((err: any) => {
         console.error(err);
+        dispatch("activateError", ERROR.AUTHENTICATION_TOKEN_REFRESH);
       });
   },
 
@@ -75,9 +78,8 @@ export const actions = {
         }
       })
       .catch((err: any) => {
-        const { message } = err.response.data.error;
         commit("CHANGE_AUTH_STATUS", Status.Error);
-        dispatch("activateError", message);
+        dispatch("activateError", ERROR.AUTHENTICATE_USER);
       });
   },
 

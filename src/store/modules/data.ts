@@ -18,6 +18,7 @@ import {
   PageLimitInterface,
   ApplyFilterInterface
 } from "@/interfaces/interfaces";
+import { ERROR } from "@/helper/errorMessages";
 
 export const state = {
   collectionName: "campsite",
@@ -87,16 +88,17 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_RESULTS", response.data.data);
+            dispatch("deactivateError");
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
+            dispatch("activateError", ERROR.FETCH_DATA);
             reject();
           }
         })
         .catch((err: any) => {
-          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
-          dispatch("activateError", message);
+          dispatch("activateError", ERROR.FETCH_DATA);
           console.error(err);
           reject();
         });
@@ -113,16 +115,17 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_ADDRESSES", response.data.data);
+            dispatch("deactivateError");
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
+            dispatch("activateError", ERROR.FETCH_DATA);
             reject();
           }
         })
         .catch((err: any) => {
-          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
-          dispatch("activateError", message);
+          dispatch("activateError", ERROR.FETCH_DATA);
           console.error(err);
           reject();
         });
@@ -149,16 +152,17 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_HOUSES", response.data.data);
+            dispatch("deactivateError");
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
+            dispatch("activateError", ERROR.FETCH_DATA);
             reject();
           }
         })
         .catch((err: any) => {
-          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
-          dispatch("activateError", message);
+          dispatch("activateError", ERROR.FETCH_DATA);
           console.error(err);
           reject();
         });
@@ -175,16 +179,17 @@ export const actions = {
         .then((response: any) => {
           if (response.status === 200) {
             commit("SAVE_GALLERY", response.data.data);
+            dispatch("deactivateError");
             resolve();
           } else {
             commit("CHANGE_STATUS", Status.Error);
+            dispatch("activateError", ERROR.FETCH_DATA);
             reject();
           }
         })
         .catch((err: any) => {
-          const { message } = err.response.data.error;
           commit("CHANGE_STATUS", Status.Error);
-          dispatch("activateError", message);
+          dispatch("activateError", ERROR.FETCH_DATA);
           console.error(err);
           reject();
         });
