@@ -89,12 +89,19 @@ export default {
     ...mapGetters([
       "i18n",
       "campsites",
+      "campsiteCountries",
       "campsiteStates",
       "campsiteCounties",
       "campsiteCities"
     ]),
     selectFilterItems() {
       return [
+        {
+          filterName: "countryFilter",
+          filterItems: this.campsiteCountries,
+          filterLabel: this.i18n.APP_FILTER_LABEL_COUNTRY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_COUNTRY
+        },
         {
           filterName: "stateFilter",
           filterItems: this.campsiteStates,
