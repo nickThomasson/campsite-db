@@ -410,6 +410,27 @@ export const actions = {
     });
   },
 
+  registerCountryFilter({ dispatch }: any, payload: any) {
+    return new Promise(resolve => {
+      const query = {
+        field: "id",
+        operator: "in",
+        value: payload.value
+      };
+
+      const parameter = {
+        filterName: "countryFilter",
+        isActive: payload.rawValue !== null ? true : false,
+        rawValue: payload.rawValue
+      };
+
+      const filter = new CreateFilter(parameter, query);
+      dispatch("initActiveFilter", filter.get());
+
+      resolve();
+    });
+  },
+
   registerCountyFilter({ dispatch }: any, payload: any) {
     return new Promise(resolve => {
       const query = {
@@ -530,6 +551,12 @@ export const getters = {
   pageCountHouses: (state: any) => {
     return Math.ceil(state.ranges.itemCountHouses / state.limit);
   },
+  campsiteCountries: (state: any, getters: any) => {
+    if (getters.campsites) {
+      return renderAddressItems({ source: getters.campsites, key: "country" });
+    }
+    return [];
+  },
   campsiteStates: (state: any, getters: any) => {
     if (getters.campsites) {
       return renderAddressItems({ source: getters.campsites, key: "state" });
@@ -545,6 +572,12 @@ export const getters = {
   campsiteCities: (state: any, getters: any) => {
     if (getters.campsites) {
       return renderAddressItems({ source: getters.campsites, key: "city" });
+    }
+    return [];
+  },
+  houseCountries: (state: any, getters: any) => {
+    if (getters.houses) {
+      return renderAddressItems({ source: getters.houses, key: "country" });
     }
     return [];
   },

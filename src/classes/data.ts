@@ -94,6 +94,7 @@ export class CreateAddress extends CreateItem implements ReturnObject {
       fax: this.getValue(this.item, "fax"),
       state: this.getValue(this.item, "state"),
       county: this.getValue(this.item, "county"),
+      country: this.getValue(this.item, "country"),
       type: this.getValue(this.item, "type")
     };
   }

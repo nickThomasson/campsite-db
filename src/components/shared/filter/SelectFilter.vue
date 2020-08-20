@@ -45,6 +45,8 @@ export default {
       switch (this.filterName) {
         case "stateFilter":
           return "state";
+        case "countryFilter":
+          return "country";
         case "countyFilter":
           return "county";
         case "cityFilter":

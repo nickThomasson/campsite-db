@@ -91,12 +91,19 @@ export default {
     ...mapGetters([
       "i18n",
       "houses",
+      "houseCountries",
       "houseStates",
       "houseCounties",
       "houseCities"
     ]),
     selectFilterItems() {
       return [
+        {
+          filterName: "countryFilter",
+          filterItems: this.houseCountries,
+          filterLabel: this.i18n.APP_FILTER_LABEL_COUNTRY,
+          filterTitle: this.i18n.APP_FILTER_TITLE_COUNTRY
+        },
         {
           filterName: "stateFilter",
           filterItems: this.houseStates,
