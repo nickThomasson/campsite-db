@@ -6,9 +6,7 @@ import { ROUTE } from "@/helper/routes";
  * @param collectionName
  */
 const createBaseUrl = (collectionName: string) => {
-  if (!collectionName) {
-    return false;
-  }
+  if (!collectionName) return false;
   return `${process.env.VUE_APP_API_URL}${ROUTE.ITEMS}${collectionName}?`;
 };
 
@@ -18,9 +16,7 @@ const createBaseUrl = (collectionName: string) => {
  * @param filterQuery
  */
 const createFilterParameter = (filterQuery: string | boolean) => {
-  if (!filterQuery) {
-    return false;
-  }
+  if (!filterQuery) return false;
   return `${filterQuery}`;
 };
 
@@ -30,10 +26,8 @@ const createFilterParameter = (filterQuery: string | boolean) => {
  * @param detailedView
  */
 const createFieldParameter = (detailedView: boolean) => {
-  if (detailedView) {
-    return "&fields=*.*";
-  }
-  return detailedView;
+  if (!detailedView) return detailedView;
+  return "&fields=*.*";
 };
 
 /**
@@ -42,9 +36,7 @@ const createFieldParameter = (detailedView: boolean) => {
  * @param sortCriteria
  */
 const createSortParameter = (sortCriteria: string) => {
-  if (!sortCriteria) {
-    return false;
-  }
+  if (!sortCriteria) return false;
   return `&sort=${sortCriteria}`;
 };
 
@@ -54,10 +46,8 @@ const createSortParameter = (sortCriteria: string) => {
  * @param onlyPublished
  */
 const createPublishedParameter = (onlyPublished: boolean) => {
-  if (onlyPublished) {
-    return "&status=published";
-  }
-  return false;
+  if (!onlyPublished) return onlyPublished;
+  return "&status=published";
 };
 
 /**

@@ -39,12 +39,15 @@ export const actions = {
   changeStatus({ commit }: any, status: any) {
     commit("CHANGE_STATUS", status);
   },
+
   switchFilterMenu({ commit }: any) {
     commit("SWITCH_FILTER_MENU");
   },
+
   setActivePage({ commit }: any, activePage: string) {
     commit("SET_ACTIVE_PAGE", activePage);
   },
+
   activateError({ commit }: any, message: string) {
     return new Promise(resolve => {
       commit("SET_ERROR_MESSAGE", message);
@@ -53,6 +56,7 @@ export const actions = {
       commit("SWITCH_ERROR", true);
     });
   },
+
   deactivateError({ commit }: any) {
     commit("SWITCH_ERROR", false);
   }
