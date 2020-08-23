@@ -242,7 +242,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -282,7 +281,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -323,7 +321,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -384,7 +381,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -405,7 +401,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -426,7 +421,6 @@ export const actions = {
 
       const filter = new CreateFilter(parameter, query);
       dispatch("initActiveFilter", filter.get());
-
       resolve();
     });
   },
@@ -548,56 +542,48 @@ export const getters = {
   pageCountCampsites: (state: any) => {
     return Math.ceil(state.ranges.itemCountCampsites / state.limit);
   },
+
   pageCountHouses: (state: any) => {
     return Math.ceil(state.ranges.itemCountHouses / state.limit);
   },
+
   campsiteCountries: (state: any, getters: any) => {
-    if (getters.campsites) {
-      return renderAddressItems({ source: getters.campsites, key: "country" });
-    }
-    return [];
+    if (!getters.campsites) return [];
+    return renderAddressItems({ source: getters.campsites, key: "country" });
   },
+
   campsiteStates: (state: any, getters: any) => {
-    if (getters.campsites) {
-      return renderAddressItems({ source: getters.campsites, key: "state" });
-    }
-    return [];
+    if (!getters.campsites) return [];
+    return renderAddressItems({ source: getters.campsites, key: "state" });
   },
+
   campsiteCounties: (state: any, getters: any) => {
-    if (getters.campsites) {
-      return renderAddressItems({ source: getters.campsites, key: "county" });
-    }
-    return [];
+    if (!getters.campsites) return [];
+    return renderAddressItems({ source: getters.campsites, key: "county" });
   },
+
   campsiteCities: (state: any, getters: any) => {
-    if (getters.campsites) {
-      return renderAddressItems({ source: getters.campsites, key: "city" });
-    }
-    return [];
+    if (!getters.campsites) return [];
+    return renderAddressItems({ source: getters.campsites, key: "city" });
   },
+
   houseCountries: (state: any, getters: any) => {
-    if (getters.houses) {
-      return renderAddressItems({ source: getters.houses, key: "country" });
-    }
-    return [];
+    if (!getters.houses) return [];
+    return renderAddressItems({ source: getters.houses, key: "country" });
   },
+
   houseStates: (state: any, getters: any) => {
-    if (getters.houses) {
-      return renderAddressItems({ source: getters.houses, key: "state" });
-    }
-    return [];
+    if (!getters.houses) return [];
+    return renderAddressItems({ source: getters.houses, key: "state" });
   },
+
   houseCounties: (state: any, getters: any) => {
-    if (getters.houses) {
-      return renderAddressItems({ source: getters.houses, key: "county" });
-    }
-    return [];
+    if (!getters.houses) return [];
+    return renderAddressItems({ source: getters.houses, key: "county" });
   },
   houseCities: (state: any, getters: any) => {
-    if (getters.houses) {
-      return renderAddressItems({ source: getters.houses, key: "city" });
-    }
-    return [];
+    if (!getters.houses) return [];
+    return renderAddressItems({ source: getters.houses, key: "city" });
   },
 
   campsites: (state: any) => {
@@ -701,6 +687,7 @@ export const getters = {
 
     return combinedFilter.length === 0 ? undefined : combinedFilter.join("");
   },
+
   hasActiveFilter: (state: any) => {
     return state.activeFilter.length > 0;
   }

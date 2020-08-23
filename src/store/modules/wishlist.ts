@@ -36,11 +36,13 @@ export const actions = {
       commit("ADD_ITEM_TO_WISHLIST", item.get());
     }
   },
+
   deleteFromWishlist({ commit }: any, id: any) {
     const item: any = find(state.wishlist, { id });
     const newlist = state.wishlist.filter((value: any) => value.id !== item.id);
     commit("DELETE_FROM_WISHLIST", newlist);
   },
+
   initializeWishlist({ commit }: any) {
     const storage = readFromStorage({ key: "wishlist" });
     if (storage) {
