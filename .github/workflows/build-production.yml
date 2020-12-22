@@ -31,16 +31,10 @@ jobs:
 
       - name: Set env
         run:
-          echo "VUE_APP_USERNAME=${{secrets.USER_NAME}}" >> $GITHUB_ENV
-          echo "VUE_APP_PASSWORD=${{secrets.PASSWORD}}" >> $GITHUB_ENV
-          echo "VUE_APP_API_URL=${{secrets.URL}}" >> $GITHUB_ENV
+          echo "VUE_APP_USERNAME=${{secrets.APP_USER}}" >> $GITHUB_ENV
+          echo "VUE_APP_PASSWORD=${{secrets.APP_PASS}}" >> $GITHUB_ENV
+          echo "VUE_APP_API_URL=${{secrets.APP_URL}}" >> $GITHUB_ENV
           echo "VUE_APP_GOOGLE_MAPS_KEY=${{secrets.MAPS_KEY}}" >> $GITHUB_ENV
-        env: 
-          USER_NAME: ${{ secrets.APP_USER }}
-          PASSWORD: ${{ secrets.APP_PASS }}
-          URL: ${{ secrets.APP_URL }}
-          MAPS_KEY:  ${{ secrets.MAPS_KEY }}
-
       - name: Build
         run: npm run build
 
