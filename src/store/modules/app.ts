@@ -49,7 +49,7 @@ export const actions = {
   },
 
   activateError({ commit }: any, message: string) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit("SET_ERROR_MESSAGE", message);
       resolve();
     }).then(() => {

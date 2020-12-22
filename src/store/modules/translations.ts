@@ -32,7 +32,7 @@ export const mutations = {
 
 export const actions = {
   fetchTranslations({ commit, dispatch }: any, token: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
           getRequestUrl({ collectionName: "translations" }),
@@ -59,7 +59,7 @@ export const actions = {
   },
 
   setLanguage({ commit }: any, data: LanguageImport) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit("IMPORT_LANGUAGE", {
         ...data,
         dictionary: sortObject(data.dictionary)
@@ -69,7 +69,7 @@ export const actions = {
   },
 
   patchLanguage({ commit }: any, payload: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const item: any = state.importedLanguage || {};
       if (item.id === payload.id) {
         campsiteService
@@ -95,7 +95,7 @@ export const actions = {
   },
 
   updateLanguage({ dispatch, commit }: any, payload: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       commit("CHANGE_IMPORT_STATUS", Status.Loading);
       dispatch("setLanguage", payload.item)
         .then(() => {

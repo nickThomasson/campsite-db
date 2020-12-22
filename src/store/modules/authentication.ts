@@ -28,7 +28,7 @@ export const mutations = {
 
 export const actions = {
   authenticateClient({ commit, dispatch }: any) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .authenticate()
         .then((response: any) => {
