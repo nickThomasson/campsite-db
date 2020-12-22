@@ -31,10 +31,8 @@ jobs:
 
       - name: Set env
         run:
-          echo "VUE_APP_USERNAME=${{secrets.APP_USER}}" >> $GITHUB_ENV
-          echo "VUE_APP_PASSWORD=${{secrets.APP_PASS}}" >> $GITHUB_ENV
-          echo "VUE_APP_API_URL=${{secrets.APP_URL}}" >> $GITHUB_ENV
-          echo "VUE_APP_GOOGLE_MAPS_KEY=${{secrets.MAPS_KEY}}" >> $GITHUB_ENV
+          echo ${{ secrets.DOT_ENV }} | base64 --decode --ignore-garbage > ./.env
+          
       - name: Build
         run: npm run build
 
