@@ -79,7 +79,7 @@ export const actions = {
       detailedView: true,
       onlyPublished: true
     });
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
           payload.dynamic ? urldynamic : urlstatic,
@@ -106,7 +106,7 @@ export const actions = {
   },
 
   fetchAddresses({ commit, dispatch }: any, token: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
           getRequestUrl({ collectionName: "address" }),
@@ -143,7 +143,7 @@ export const actions = {
       detailedView: true,
       onlyPublished: true
     });
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
           payload.dynamic ? urldynamic : urlstatic,
@@ -170,7 +170,7 @@ export const actions = {
   },
 
   fetchGalleries({ commit, dispatch }: any, token: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
           getRequestUrl({ collectionName: "campsite_gallery" }),
@@ -228,7 +228,7 @@ export const actions = {
   },
 
   registerPersonFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "persons",
         operator: "between",
@@ -247,7 +247,7 @@ export const actions = {
   },
 
   registerPriceFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "price",
         operator: "between",
@@ -266,7 +266,7 @@ export const actions = {
   },
 
   registerBedFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "beds",
         operator: "between",
@@ -286,7 +286,7 @@ export const actions = {
   },
 
   registerKitchenFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "kitchen",
         operator: "neq",
@@ -306,7 +306,7 @@ export const actions = {
   },
 
   registerSanitaryFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "sanitary",
         operator: "neq",
@@ -326,7 +326,7 @@ export const actions = {
   },
 
   registerWifiFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "wifi",
         operator: "neq",
@@ -346,7 +346,7 @@ export const actions = {
   },
 
   registerAvFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "av",
         operator: "neq",
@@ -366,7 +366,7 @@ export const actions = {
   },
 
   registerRecreationalFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "recreational_room",
         operator: "neq",
@@ -386,7 +386,7 @@ export const actions = {
   },
 
   registerStateFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "id",
         operator: "in",
@@ -406,7 +406,7 @@ export const actions = {
   },
 
   registerCountryFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "id",
         operator: "in",
@@ -426,7 +426,7 @@ export const actions = {
   },
 
   registerCountyFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "id",
         operator: "in",
@@ -446,7 +446,7 @@ export const actions = {
   },
 
   registerCityFilter({ dispatch }: any, payload: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       const query = {
         field: "id",
         operator: "in",
@@ -478,7 +478,7 @@ export const actions = {
   },
 
   resetFilter({ commit }: any) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit("RESET_FILTER");
       commit("CHANGE_OFFSET", 0);
       commit("CHANGE_FILTER_KEY", random(5, true));
@@ -495,7 +495,7 @@ export const actions = {
   },
 
   changePageLimit({ commit }: any, limit: number) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit("SET_PAGE_LIMIT", limit);
       commit("CHANGE_OFFSET", 0);
       resolve();
@@ -509,7 +509,7 @@ export const actions = {
   },
 
   fetchData({ dispatch }: any, token: string) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       dispatch("fetchTranslations", token).then(() => {
         dispatch("fetchCampsites", { dynamic: false, token }).then(() => {
           dispatch("fetchAddresses", token).then(() => {
@@ -525,7 +525,7 @@ export const actions = {
   },
 
   changePage({ commit, dispatch }: any, payload: ChangePageInterface) {
-    return new Promise(resolve => {
+    return new Promise<void>(resolve => {
       commit("CHANGE_OFFSET", payload.pageOffset);
       resolve();
     }).then(() => {
