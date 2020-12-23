@@ -1,5 +1,5 @@
 export enum ROUTE {
-  AUTH = "/auth/authenticate",
+  AUTH = "/auth/login",
   LOGOUT = "/auth/logout",
   REFRESH = "/auth/refresh",
   COLLECTIONS = "/collections",

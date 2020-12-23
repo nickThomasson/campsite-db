@@ -44,6 +44,7 @@ export default {
   },
 
   updateItem(token: string, collection: string, id: number, item: object) {
+    console.log("Update", token, collection, id, item);
     return apiClient.patch(`${ROUTE.ITEMS}${collection}/${id}`, item, {
       headers: {
         Authorization: `bearer ${token}`

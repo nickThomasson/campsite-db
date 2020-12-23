@@ -120,15 +120,14 @@ export class CreateGallery extends CreateItem implements ReturnObject {
     this.galleryImages = [];
   }
 
-  private getGalleryItem(gallery: any, item: string) {
-    return gallery["directus_files_id"][item];
+  private getGalleryItem(gallery: any) {
+    return gallery;
   }
 
   get() {
     for (const gallery of this.galleries) {
       this.galleryImages.push({
-        ...this.getGalleryItem(gallery, "data"),
-        description: this.getGalleryItem(gallery, "description")
+        ...this.getGalleryItem(gallery)
       });
     }
     return this.galleryImages;

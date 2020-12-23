@@ -116,7 +116,7 @@ export default {
         fileReader.onload = event => {
           const contents = JSON.parse(event.target.result);
           this.updateLanguage({
-            token: this.authentication.userData.token,
+            token: this.authentication.userData.access_token,
             id: contents.id,
             item: contents,
             iso: this.iso

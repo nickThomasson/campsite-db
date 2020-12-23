@@ -25,9 +25,9 @@ const createFilterParameter = (filterQuery: string | boolean) => {
  *
  * @param detailedView
  */
-const createFieldParameter = (detailedView: boolean) => {
-  if (!detailedView) return detailedView;
-  return "&fields=*.*";
+const createFieldParameter = (detailedView: string) => {
+  if (!detailedView) return "&fields[]=*.*";
+  return `&fields[]=${detailedView}`;
 };
 
 /**
@@ -74,7 +74,7 @@ interface Request {
   sortCriteria?: string;
   offset?: number;
   limit?: number;
-  detailedView?: boolean;
+  detailedView: string;
   onlyPublished?: boolean;
 }
 
@@ -100,7 +100,7 @@ export const getRequestUrl = (payload: Request) => {
     createSortParameter(payload.sortCriteria || "id"),
     createOffsetParameter(payload.offset || 0),
     createLimitParameter(payload.limit || -1),
-    createFieldParameter(payload.detailedView || true),
+    createFieldParameter(payload.detailedView),
     createPublishedParameter(payload.onlyPublished || true)
   ];
 

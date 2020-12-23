@@ -22,7 +22,7 @@
       >
         <v-list-item-avatar>
           <img
-            v-if="house.previewImage"
+            v-if="house.previewImage.data"
             :src="house.previewImage.data.thumbnails[2].url"
             alt="John"
           />

@@ -22,7 +22,7 @@
       >
         <v-list-item-avatar>
           <img
-            v-if="campsite.previewImage"
+            v-if="campsite.previewImage.data"
             :src="campsite.previewImage.data.thumbnails[2].url"
             alt="John"
           />

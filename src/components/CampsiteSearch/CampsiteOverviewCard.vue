@@ -2,11 +2,7 @@
   <v-card>
     <v-img
       class="white--text align-end"
-      :src="
-        campsite.previewImage
-          ? campsite.previewImage.data.thumbnails[2].url
-          : placeholderImg
-      "
+      :src="campsite.previewImage ? placeholderImg : placeholderImg"
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
       :alt="campsite.name"
