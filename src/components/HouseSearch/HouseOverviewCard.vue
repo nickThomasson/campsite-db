@@ -2,11 +2,7 @@
   <v-card>
     <v-img
       class="white--text align-end"
-      :src="
-        house.previewImage
-          ? house.previewImage.data.thumbnails[2].url
-          : placeholderImg
-      "
+      :src="previewImage"
       height="200px"
       gradient="to top, rgba(1, 57, 109, 0.8), rgba(0, 0, 0, 0.1)"
       :alt="house.name"
@@ -133,6 +129,7 @@ import ShareLink from "@/components/shared/ShareLink.vue";
 import { mapActions, mapState, mapGetters } from "vuex";
 import { find, isEmpty } from "lodash";
 import placeholder from "@/assets/img/placeholder.png";
+import imageGenerator from "@/helper/imageGenerator";
 
 export default {
   name: "HouseOverviewCard",
@@ -156,6 +153,11 @@ export default {
     },
     placeholderImg() {
       return placeholder;
+    },
+    previewImage() {
+      const img = this.house.previewImage.id;
+      if (!img) return this.placeholderImg;
+      return imageGenerator(img, "img-small");
     }
   },
   methods: {

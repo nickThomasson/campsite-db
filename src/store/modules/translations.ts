@@ -3,7 +3,6 @@ import { Status } from "@/helper/status";
 import campsiteService from "@/services/campsiteService";
 import { getRequestUrl } from "@/helper/requestUrl";
 import { find } from "lodash";
-import { sortObject } from "@/helper/sortObject";
 import { LanguageImport } from "@/interfaces/interfaces";
 import { ERROR } from "@/helper/errorMessages";
 
@@ -35,7 +34,10 @@ export const actions = {
     return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
-          getRequestUrl({ collectionName: "translations" }),
+          getRequestUrl({
+            collectionName: "translations",
+            detailedView: "*"
+          }),
           token
         )
         .then((response: any) => {
@@ -61,8 +63,7 @@ export const actions = {
   setLanguage({ commit }: any, data: LanguageImport) {
     return new Promise<void>(resolve => {
       commit("IMPORT_LANGUAGE", {
-        ...data,
-        dictionary: sortObject(data.dictionary)
+        ...data
       });
       resolve();
     });
@@ -73,7 +74,9 @@ export const actions = {
       const item: any = state.importedLanguage || {};
       if (item.id === payload.id) {
         campsiteService
-          .updateItem(payload.token, "translations", item.id, item)
+          .updateItem(payload.token, "translations", item.id, {
+            dictionary: item.dictionary
+          })
           .then((response: any) => {
             if (response.status === 200) {
               resolve();
@@ -119,7 +122,14 @@ export const actions = {
 
 export const getters = {
   i18n: (state: any, getters: any) => {
-    return getters.currentLanguage.dictionary;
+    const i18n: Element = {};
+    interface Element {
+      [index: string]: string;
+    }
+    getters.currentLanguage.dictionary.forEach((element: any) => {
+      i18n[element.key] = element.value;
+    });
+    return i18n;
   },
   currentLanguage: (state: any) => {
     const currentLang = find(state.languages, {

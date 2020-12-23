@@ -19,9 +19,7 @@
       <v-col cols="12">
         <h1 data-lang-key="APP_ADMIN_TITLE">{{ i18n.APP_ADMIN_TITLE }}</h1>
       </v-col>
-      <v-col cols="12" md="3">
-        <Sidebar />
-      </v-col>
+      <v-col cols="12" md="3"> </v-col>
       <v-col cols="12" md="9">
         <LanguageSettings />
       </v-col>
@@ -33,14 +31,12 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 import LoginForm from "@/components/Administration/partials/LoginForm.vue";
 import LanguageSettings from "@/components/Administration/LanguageSettings/LanguageSettings.vue";
-import Sidebar from "@/components/Administration/partials/Sidebar.vue";
 
 export default {
   name: "Administration",
   components: {
     LoginForm,
-    LanguageSettings,
-    Sidebar
+    LanguageSettings
   },
   computed: {
     ...mapState(["authentication"]),

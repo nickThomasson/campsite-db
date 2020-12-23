@@ -21,7 +21,7 @@ import {
 import { ERROR } from "@/helper/errorMessages";
 
 export const state = {
-  collectionName: "campsite",
+  collectionName: "campsites",
   itemId: "",
   limit: 10,
   offset: 0,
@@ -69,14 +69,17 @@ export const mutations = {
 
 export const actions = {
   fetchCampsites({ state, commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl({ collectionName: "campsite" });
+    const urlstatic = getRequestUrl({
+      collectionName: "campsites",
+      detailedView: "*.*"
+    });
     const urldynamic = getRequestUrl({
-      collectionName: "campsite",
+      collectionName: "campsites",
       filterQuery: getters.combinedFilter,
       sortCriteria: state.sort,
       offset: state.offset,
       limit: state.limit,
-      detailedView: true,
+      detailedView: "*.*",
       onlyPublished: true
     });
     return new Promise<void>((resolve, reject) => {
@@ -109,7 +112,7 @@ export const actions = {
     return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
-          getRequestUrl({ collectionName: "address" }),
+          getRequestUrl({ collectionName: "addresses", detailedView: "*.*" }),
           token
         )
         .then((response: any) => {
@@ -133,14 +136,17 @@ export const actions = {
   },
 
   fetchHouses({ commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl({ collectionName: "house" });
+    const urlstatic = getRequestUrl({
+      collectionName: "houses",
+      detailedView: "*.*"
+    });
     const urldynamic = getRequestUrl({
-      collectionName: "house",
+      collectionName: "houses",
       filterQuery: getters.combinedFilter,
       sortCriteria: state.sort,
       offset: state.offset,
       limit: state.limit,
-      detailedView: true,
+      detailedView: "*.*",
       onlyPublished: true
     });
     return new Promise<void>((resolve, reject) => {
@@ -173,7 +179,10 @@ export const actions = {
     return new Promise<void>((resolve, reject) => {
       campsiteService
         .fetchCollectionItems(
-          getRequestUrl({ collectionName: "campsite_gallery" }),
+          getRequestUrl({
+            collectionName: "campsite_gallery",
+            detailedView: "*.*"
+          }),
           token
         )
         .then((response: any) => {
@@ -231,7 +240,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "persons",
-        operator: "between",
+        operator: "_between",
         value: payload.value.join(",")
       };
       const parameter = {
@@ -250,7 +259,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "price",
-        operator: "between",
+        operator: "_between",
         value: payload.value.join(",")
       };
       const parameter = {
@@ -269,7 +278,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "beds",
-        operator: "between",
+        operator: "_between",
         value: payload.value.join(",")
       };
 
@@ -289,7 +298,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "kitchen",
-        operator: "neq",
+        operator: "_eq",
         value: payload.value
       };
 
@@ -309,7 +318,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "sanitary",
-        operator: "neq",
+        operator: "_eq",
         value: payload.value
       };
 
@@ -329,7 +338,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "wifi",
-        operator: "neq",
+        operator: "_eq",
         value: payload.value
       };
 
@@ -349,7 +358,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "av",
-        operator: "neq",
+        operator: "_eq",
         value: payload.value
       };
 
@@ -369,7 +378,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "recreational_room",
-        operator: "neq",
+        operator: "_eq",
         value: payload.value
       };
 
@@ -389,7 +398,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "id",
-        operator: "in",
+        operator: "_in",
         value: payload.value
       };
 
@@ -409,7 +418,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "id",
-        operator: "in",
+        operator: "_in",
         value: payload.value
       };
 
@@ -429,7 +438,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "id",
-        operator: "in",
+        operator: "_in",
         value: payload.value
       };
 
@@ -449,7 +458,7 @@ export const actions = {
     return new Promise<void>(resolve => {
       const query = {
         field: "id",
-        operator: "in",
+        operator: "_in",
         value: payload.value
       };
 
@@ -595,14 +604,14 @@ export const getters = {
         item.id,
         state.results,
         "houses",
-        "house_id"
+        "houses_id"
       );
 
       const addressIds = new RelatedIds(
         item.id,
         state.results,
         "addresses",
-        "address_id"
+        "addresses_id"
       );
 
       const houses: Array<object> = [];
@@ -618,7 +627,7 @@ export const getters = {
       }
       const addressItems: any = splitAddresses(addresses);
 
-      const gallery = new CreateGallery(item.id, state.gallery, "campsite_id");
+      const gallery = new CreateGallery(item.id, state.gallery, "campsites_id");
 
       combinedCampsites.push({
         ...campsite.get(),
@@ -640,15 +649,15 @@ export const getters = {
       const campsiteIds = new RelatedIds(
         item.id,
         state.houses,
-        "campsite",
-        "campsite_id"
+        "campsites",
+        "campsites_id"
       );
 
       const addressIds = new RelatedIds(
         item.id,
         state.houses,
         "addresses",
-        "address_id"
+        "addresses_id"
       );
 
       const campsites: Array<object> = [];
@@ -664,7 +673,7 @@ export const getters = {
       }
       const addressItems: any = splitAddresses(addresses);
 
-      const gallery = new CreateGallery(item.id, state.gallery, "house_id");
+      const gallery = new CreateGallery(item.id, state.gallery, "houses_id");
 
       combinedHouses.push({
         ...house.get(),

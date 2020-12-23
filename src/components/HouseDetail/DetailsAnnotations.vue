@@ -3,9 +3,7 @@
     <v-card-title>
       {{ i18n.CAMPSITE_DETAIL_HOUSE_INFO }}
     </v-card-title>
-    <v-card-text>
-      {{ page.annotations }}
-    </v-card-text>
+    <v-card-text v-html="page.annotations"> </v-card-text>
   </v-card>
 </template>
 

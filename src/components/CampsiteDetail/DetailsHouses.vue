@@ -22,9 +22,8 @@
       >
         <v-list-item-avatar>
           <img
-            v-if="house.previewImage"
-            :src="house.previewImage.data.thumbnails[2].url"
-            alt="John"
+            v-if="previewImage(house.previewImage.id)"
+            :src="previewImage(house.previewImage.id)"
           />
 
           <v-icon v-else class="grey lighten-1 white--text">home</v-icon>
@@ -110,6 +109,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import imageGenerator from "@/helper/imageGenerator";
 export default {
   name: "DetailsHouses",
   props: {
@@ -124,6 +124,10 @@ export default {
         name: "HouseDetailPage",
         params: { id }
       });
+    },
+    previewImage(id) {
+      if (!id) return undefined;
+      return imageGenerator(id, "img-small");
     }
   }
 };

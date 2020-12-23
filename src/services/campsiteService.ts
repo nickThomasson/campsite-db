@@ -49,5 +49,9 @@ export default {
         Authorization: `bearer ${token}`
       }
     });
+  },
+
+  fetchImage(id: string, key: string) {
+    return apiClient.get(`${ROUTE.ASSETS}/${id}?key=${key}`);
   }
 };
