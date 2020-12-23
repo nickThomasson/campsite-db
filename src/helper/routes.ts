@@ -3,5 +3,6 @@ export enum ROUTE {
   LOGOUT = "/auth/logout",
   REFRESH = "/auth/refresh",
   COLLECTIONS = "/collections",
-  ITEMS = "/items/"
+  ITEMS = "/items/",
+  ASSETS = "/assets"
 }

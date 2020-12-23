@@ -3,7 +3,6 @@ import { Status } from "@/helper/status";
 import campsiteService from "@/services/campsiteService";
 import { getRequestUrl } from "@/helper/requestUrl";
 import { find } from "lodash";
-import { sortObject } from "@/helper/sortObject";
 import { LanguageImport } from "@/interfaces/interfaces";
 import { ERROR } from "@/helper/errorMessages";
 

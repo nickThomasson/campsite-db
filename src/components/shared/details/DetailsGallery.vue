@@ -11,7 +11,7 @@
           <v-carousel-item
             v-for="(item, i) in gallery"
             :key="i"
-            :src="item.thumbnails[4].url"
+            :src="imgGen(item)"
             reverse-transition="fade-transition"
             transition="fade-transition"
           >
@@ -36,12 +36,10 @@
               <v-card>
                 <v-hover v-slot:default="{ hover }">
                   <v-img
-                    :src="item.thumbnails[4].url"
+                    :src="imgGen(item)"
                     lazy-src
                     size="(max-width: 600px) 600w, (min-width: 601px) 601w"
-                    :srcset="
-                      `${item.thumbnails[2].url} 600w, ${item.thumbnails[4].url} 601w`
-                    "
+                    :srcset="`${imgGen(item)} 600w, ${imgGen(item)} 601w`"
                     :alt="detailPage.page.name"
                   >
                     <v-expand-transition v-if="item.description">
@@ -77,6 +75,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import imageGenerator from "@/helper/imageGenerator";
 
 export default {
   name: "DetailsGallery",
@@ -85,6 +84,11 @@ export default {
     ...mapGetters(["i18n"]),
     gallery() {
       return this.detailPage.page.gallery;
+    }
+  },
+  methods: {
+    imgGen(id) {
+      return imageGenerator(id, "img-medium");
     }
   }
 };

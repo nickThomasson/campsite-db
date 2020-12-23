@@ -22,9 +22,8 @@
       >
         <v-list-item-avatar>
           <img
-            v-if="campsite.previewImage.data"
-            :src="campsite.previewImage.data.thumbnails[2].url"
-            alt="John"
+            v-if="previewImage(campsite.previewImage.id)"
+            :src="previewImage(campsite.previewImage.id)"
           />
 
           <v-icon v-else class="grey lighten-1 white--text">home</v-icon>
@@ -77,6 +76,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import imageGenerator from "@/helper/imageGenerator";
 export default {
   name: "DetailsCampsites",
   props: {
@@ -91,6 +91,10 @@ export default {
         name: "CampsiteDetailPage",
         params: { id }
       });
+    },
+    previewImage(id) {
+      if (!id) return undefined;
+      return imageGenerator(id, "img-small");
     }
   }
 };

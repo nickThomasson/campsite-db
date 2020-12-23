@@ -44,11 +44,14 @@ export default {
   },
 
   updateItem(token: string, collection: string, id: number, item: object) {
-    console.log("Update", token, collection, id, item);
     return apiClient.patch(`${ROUTE.ITEMS}${collection}/${id}`, item, {
       headers: {
         Authorization: `bearer ${token}`
       }
     });
+  },
+
+  fetchImage(id: string, key: string) {
+    return apiClient.get(`${ROUTE.ASSETS}/${id}?key=${key}`);
   }
 };
