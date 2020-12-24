@@ -31,8 +31,10 @@ export const state = {
   fields: "*.*",
   activeFilter: [],
   results: [],
+  unfilteredResults: [],
   addresses: [],
   houses: [],
+  unfilteredHouses: [],
   gallery: [],
   ranges: []
 };
@@ -41,11 +43,17 @@ export const mutations = {
   SAVE_RESULTS(state: any, results: Array<object>) {
     state.results = results;
   },
+  SAVE_UNFILTERED_RESULTS(state: any, results: Array<object>) {
+    state.unfilteredResults = results;
+  },
   SAVE_ADDRESSES(state: any, addresses: Array<object>) {
     state.addresses = addresses;
   },
   SAVE_HOUSES(state: any, houses: Array<object>) {
     state.houses = houses;
+  },
+  SAVE_UNFILTERED_HOUSES(state: any, houses: Array<object>) {
+    state.unfilteredHouses = houses;
   },
   SET_PAGE_LIMIT(state: any, count: number) {
     state.limit = count;
@@ -69,11 +77,7 @@ export const mutations = {
 
 export const actions = {
   fetchCampsites({ state, commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl({
-      collectionName: "campsites",
-      detailedView: "*.*"
-    });
-    const urldynamic = getRequestUrl({
+    const dynamicUrl = {
       collectionName: "campsites",
       filterQuery: getters.combinedFilter,
       sortCriteria: state.sort,
@@ -81,16 +85,37 @@ export const actions = {
       limit: state.limit,
       detailedView: "*.*",
       onlyPublished: true
+    };
+
+    const urlstatic = getRequestUrl({
+      collectionName: "campsites",
+      detailedView: "*.*"
     });
+
+    const urldynamic = getRequestUrl(dynamicUrl);
+
+    const urlfilter = getRequestUrl({
+      ...dynamicUrl,
+      limit: -1,
+      offset: 0
+    });
+
+    const requestType = () => {
+      if (payload.dynamic) return urldynamic;
+      if (payload.filterDynamic) return urlfilter;
+      return urlstatic;
+    };
+
     return new Promise<void>((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(
-          payload.dynamic ? urldynamic : urlstatic,
-          payload.token
-        )
+        .fetchCollectionItems(requestType(), payload.token)
         .then((response: any) => {
           if (response.status === 200) {
-            commit("SAVE_RESULTS", response.data.data);
+            if (payload.filterDynamic) {
+              commit("SAVE_UNFILTERED_RESULTS", response.data.data);
+            } else {
+              commit("SAVE_RESULTS", response.data.data);
+            }
             dispatch("deactivateError");
             resolve();
           } else {
@@ -136,11 +161,7 @@ export const actions = {
   },
 
   fetchHouses({ commit, getters, dispatch }: any, payload: any) {
-    const urlstatic = getRequestUrl({
-      collectionName: "houses",
-      detailedView: "*.*"
-    });
-    const urldynamic = getRequestUrl({
+    const dynamicUrl = {
       collectionName: "houses",
       filterQuery: getters.combinedFilter,
       sortCriteria: state.sort,
@@ -148,16 +169,37 @@ export const actions = {
       limit: state.limit,
       detailedView: "*.*",
       onlyPublished: true
+    };
+
+    const urlstatic = getRequestUrl({
+      collectionName: "houses",
+      detailedView: "*.*"
     });
+
+    const urldynamic = getRequestUrl(dynamicUrl);
+
+    const urlfilter = getRequestUrl({
+      ...dynamicUrl,
+      limit: -1,
+      offset: 0
+    });
+
+    const requestType = () => {
+      if (payload.dynamic) return urldynamic;
+      if (payload.filterDynamic) return urlfilter;
+      return urlstatic;
+    };
+
     return new Promise<void>((resolve, reject) => {
       campsiteService
-        .fetchCollectionItems(
-          payload.dynamic ? urldynamic : urlstatic,
-          payload.token
-        )
+        .fetchCollectionItems(requestType(), payload.token)
         .then((response: any) => {
           if (response.status === 200) {
-            commit("SAVE_HOUSES", response.data.data);
+            if (payload.filterDynamic) {
+              commit("SAVE_UNFILTERED_HOUSES", response.data.data);
+            } else {
+              commit("SAVE_HOUSES", response.data.data);
+            }
             dispatch("deactivateError");
             resolve();
           } else {
@@ -481,6 +523,11 @@ export const actions = {
 
     dispatch(filterType(payload.type), payload).then(() => {
       dispatch(payload.dispatchName, { dynamic: true, token: payload.token });
+      dispatch(payload.dispatchName, {
+        dynamic: false,
+        filterDynamic: true,
+        token: payload.token
+      });
     });
 
     commit("CHANGE_RESET_KEY", random(5, true));
@@ -521,8 +568,18 @@ export const actions = {
     return new Promise<void>(resolve => {
       dispatch("fetchTranslations", token).then(() => {
         dispatch("fetchCampsites", { dynamic: false, token }).then(() => {
+          dispatch("fetchCampsites", {
+            dynamic: false,
+            filterDynamic: true,
+            token
+          });
           dispatch("fetchAddresses", token).then(() => {
             dispatch("fetchHouses", { dynamic: false, token }).then(() => {
+              dispatch("fetchHouses", {
+                filterDynamic: true,
+                dynamic: false,
+                token
+              });
               dispatch("fetchGalleries", token).then(() => {
                 resolve();
               });
@@ -558,41 +615,65 @@ export const getters = {
 
   campsiteCountries: (state: any, getters: any) => {
     if (!getters.campsites) return [];
-    return renderAddressItems({ source: getters.campsites, key: "country" });
+    return renderAddressItems({
+      source: getters.unfilteredCampsites,
+      key: "country"
+    });
   },
 
   campsiteStates: (state: any, getters: any) => {
     if (!getters.campsites) return [];
-    return renderAddressItems({ source: getters.campsites, key: "state" });
+    return renderAddressItems({
+      source: getters.unfilteredCampsites,
+      key: "state"
+    });
   },
 
   campsiteCounties: (state: any, getters: any) => {
     if (!getters.campsites) return [];
-    return renderAddressItems({ source: getters.campsites, key: "county" });
+    return renderAddressItems({
+      source: getters.unfilteredCampsites,
+      key: "county"
+    });
   },
 
   campsiteCities: (state: any, getters: any) => {
     if (!getters.campsites) return [];
-    return renderAddressItems({ source: getters.campsites, key: "city" });
+    return renderAddressItems({
+      source: getters.unfilteredCampsites,
+      key: "city"
+    });
   },
 
   houseCountries: (state: any, getters: any) => {
     if (!getters.houses) return [];
-    return renderAddressItems({ source: getters.houses, key: "country" });
+    return renderAddressItems({
+      source: getters.unfilteredHouses,
+      key: "country"
+    });
   },
 
   houseStates: (state: any, getters: any) => {
     if (!getters.houses) return [];
-    return renderAddressItems({ source: getters.houses, key: "state" });
+    return renderAddressItems({
+      source: getters.unfilteredHouses,
+      key: "state"
+    });
   },
 
   houseCounties: (state: any, getters: any) => {
     if (!getters.houses) return [];
-    return renderAddressItems({ source: getters.houses, key: "county" });
+    return renderAddressItems({
+      source: getters.unfilteredHouses,
+      key: "county"
+    });
   },
   houseCities: (state: any, getters: any) => {
     if (!getters.houses) return [];
-    return renderAddressItems({ source: getters.houses, key: "city" });
+    return renderAddressItems({
+      source: getters.unfilteredHouses,
+      key: "city"
+    });
   },
 
   campsites: (state: any) => {
@@ -641,6 +722,55 @@ export const getters = {
     return combinedCampsites;
   },
 
+  unfilteredCampsites: (state: any) => {
+    const combinedCampsites: Array<object> = [];
+
+    for (const item of state.unfilteredResults) {
+      const campsite: any = new CreateCampsite(
+        item.id,
+        state.unfilteredResults
+      );
+      const houseIds = new RelatedIds(
+        item.id,
+        state.unfilteredResults,
+        "houses",
+        "houses_id"
+      );
+
+      const addressIds = new RelatedIds(
+        item.id,
+        state.unfilteredResults,
+        "addresses",
+        "addresses_id"
+      );
+
+      const houses: Array<object> = [];
+      for (const id of houseIds.getIds()) {
+        const house = new CreateHouse(id, state.houses);
+        houses.push(house.get());
+      }
+
+      const addresses: Array<object> = [];
+      for (const id of addressIds.getIds()) {
+        const address = new CreateAddress(id, state.addresses);
+        addresses.push(address.get());
+      }
+      const addressItems: any = splitAddresses(addresses);
+
+      const gallery = new CreateGallery(item.id, state.gallery, "campsites_id");
+
+      combinedCampsites.push({
+        ...campsite.get(),
+        house: houses,
+        address: addressItems.normalAddresses,
+        mainAddress: addressItems.mainAddress,
+        gallery: gallery.get()
+      });
+    }
+
+    return combinedCampsites;
+  },
+
   houses: (state: any) => {
     const combinedHouses: Array<object> = [];
 
@@ -656,6 +786,52 @@ export const getters = {
       const addressIds = new RelatedIds(
         item.id,
         state.houses,
+        "addresses",
+        "addresses_id"
+      );
+
+      const campsites: Array<object> = [];
+      for (const id of campsiteIds.getIds()) {
+        const campsite = new CreateCampsite(id, state.results);
+        campsites.push(campsite.get());
+      }
+
+      const addresses: Array<object> = [];
+      for (const id of addressIds.getIds()) {
+        const address = new CreateAddress(id, state.addresses);
+        addresses.push(address.get());
+      }
+      const addressItems: any = splitAddresses(addresses);
+
+      const gallery = new CreateGallery(item.id, state.gallery, "houses_id");
+
+      combinedHouses.push({
+        ...house.get(),
+        campsites: campsites,
+        address: addressItems.normalAddresses,
+        mainAddress: addressItems.mainAddress,
+        gallery: gallery.get()
+      });
+    }
+
+    return combinedHouses;
+  },
+
+  unfilteredHouses: (state: any) => {
+    const combinedHouses: Array<object> = [];
+
+    for (const item of state.unfilteredHouses) {
+      const house: any = new CreateHouse(item.id, state.unfilteredHouses);
+      const campsiteIds = new RelatedIds(
+        item.id,
+        state.unfilteredHouses,
+        "campsites",
+        "campsites_id"
+      );
+
+      const addressIds = new RelatedIds(
+        item.id,
+        state.unfilteredHouses,
         "addresses",
         "addresses_id"
       );
