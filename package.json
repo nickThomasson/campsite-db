@@ -12,7 +12,7 @@
     "@sentry/integrations": "^5.20.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.5",
     "vue-property-decorator": "^8.4.2",
